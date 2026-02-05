@@ -5,16 +5,16 @@ from tkinter import filedialog
 
 class Breakdown:
     @classmethod
-    def con_mails_manejado_por(self, mails, abogado):
-        return self(mails, abogado)
+    def con_mails_manejado_por(self, mails, abogado, path=None):
+        return self(mails, abogado, path=path)
     
-    def __init__(self, mails, abogado):
+    def __init__(self, mails, abogado, path=None):
         self.workbook = Workbook()
         self.excel = self.workbook.active
-        self.initialize_excel_file(mails, abogado)
+        self.initialize_excel_file(mails, abogado, path=path)
 
 
-    def initialize_excel_file(self, mails, abogado):
+    def initialize_excel_file(self, mails, abogado, path=None):
         self.excel['A1'] = "Date"
         self.excel['B1'] = "Description"
         self.excel['C1'] = "Minutes"
@@ -37,7 +37,8 @@ class Breakdown:
            self.excel[f"C{i+2}"] = 0
            self.excel[f"D{i+2}"] = f"=C{i+2} / 60"
 
-        path = filedialog.asksaveasfilename( defaultextension = ".xlsx", filetypes = [("Excel files", "*.xlsx")], title = "Guardar Breakdown")
+        if path is None:
+            path = filedialog.asksaveasfilename( defaultextension = ".xlsx", filetypes = [("Excel files", "*.xlsx")], title = "Guardar Breakdown")
         self.workbook.save(path)
 
 

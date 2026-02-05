@@ -1,5 +1,10 @@
 from abc import ABC, abstractmethod
 
+def _ymd(fecha):
+        if hasattr(fecha, "year") and hasattr(fecha, "month") and hasattr(fecha, "day"):
+                return (fecha.year, fecha.month, fecha.day)
+        return fecha
+
 class Condicion(ABC):
         @abstractmethod
         def cumple(self,mail):
@@ -36,7 +41,7 @@ class Condicion_de_enviado_antes_de(Condicion):
                 self.fecha_proxima = fecha
 
         def cumple(self, mail):
-            return self.fecha_proxima > mail.date
+            return _ymd(self.fecha_proxima) > _ymd(mail.date)
 
 
 class Condicion_de_enviado_despues_de(Condicion):
@@ -45,4 +50,4 @@ class Condicion_de_enviado_despues_de(Condicion):
                 self.fecha_previa = fecha
 
         def cumple(self, mail):
-            return self.fecha_previa < mail.date
+            return _ymd(self.fecha_previa) < _ymd(mail.date)

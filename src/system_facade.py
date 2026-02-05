@@ -29,9 +29,8 @@ class System_Facade:
 
 
     def agregar_todos_los_mails_encontrados(self):
-        cantidad = len(self.mails_encontrados)
-        for i in range(cantidad):
-            self.agregar_mail_encontrado(i)
+        for mail in list(self.mails_encontrados):
+            self.agregar_mail_encontrado(mail)
     
 
     def ver_mail_encontrado(self, numero):
@@ -81,6 +80,9 @@ class System_Facade:
         self.condiciones.remove(condicion)
 
 
-    def crear_breakdown(self):
-        return Breakdown.con_mails_manejado_por(self.mails_del_breakdown, self.abogado_a_cargo)
+    def limpiar_condiciones(self):
+        self.condiciones = []
 
+
+    def crear_breakdown(self, path=None):
+        return Breakdown.con_mails_manejado_por(self.mails_del_breakdown, self.abogado_a_cargo, path=path)

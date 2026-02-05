@@ -1,4 +1,3 @@
-import pdb
 from functools import partial
 from PyQt6.QtWidgets import QScrollArea, QVBoxLayout, QHBoxLayout, QFrame, QWidget, QLabel, QPushButton
 from PyQt6.QtCore import Qt
@@ -54,7 +53,7 @@ class Mostrador_de_mails_buscados(Mostrador_de_mails):
 
             layout_del_frame = QHBoxLayout(frame)
 
-            layout_del_frame.addWidget(QLabel(parent = frame, text = f"Asunto: {mail.subject}\nDe: {mail.from_}\nFecha: {mail.date.strftime("%d/%m/%y")}"))
+            layout_del_frame.addWidget(QLabel(parent = frame, text = f"Asunto: {mail.subject}\nDe: {mail.from_}\nFecha: {mail.date.strftime('%d/%m/%y')}"))
             self.layout.addWidget(frame)
 
 
@@ -72,29 +71,28 @@ class Mostrador_de_mails_buscados(Mostrador_de_mails):
 class Mostrador_de_mails_del_break(Mostrador_de_mails):
 
 
- def mostrar(self, mails):
+    def mostrar(self, mails):
 
-     self.limpiar_mostrador()
+        self.limpiar_mostrador()
         
-     for mail in mails:
+        for mail in mails:
 
-          frame = QFrame()
-          frame.setFrameShape(QFrame.Shape.Box)
-          frame.setFixedHeight(100)
-          frame.setLineWidth(3)                         
+            frame = QFrame()
+            frame.setFrameShape(QFrame.Shape.Box)
+            frame.setFixedHeight(100)
+            frame.setLineWidth(3)                         
 
-          layout_del_frame = QHBoxLayout(frame)
+            layout_del_frame = QHBoxLayout(frame)
 
-          layout_del_frame.addWidget(QLabel(parent = frame, text = f"Asunto: {mail.subject}\nDe: {mail.from_}\nFecha: {mail.date.strftime("%d/%m/%y")}"))
-          self.layout.addWidget(frame)
+            layout_del_frame.addWidget(QLabel(parent = frame, text = f"Asunto: {mail.subject}\nDe: {mail.from_}\nFecha: {mail.date.strftime('%d/%m/%y')}"))
+            self.layout.addWidget(frame)
 
 
-          boton_de_visualizacion = QPushButton(text = 'Ver', parent = frame)
-          boton_de_visualizacion.clicked.connect(partial(self.user_interface.ver_mail, mail))
-          layout_del_frame.addWidget(boton_de_visualizacion)
+            boton_de_visualizacion = QPushButton(text = 'Ver', parent = frame)
+            boton_de_visualizacion.clicked.connect(partial(self.user_interface.ver_mail, mail))
+            layout_del_frame.addWidget(boton_de_visualizacion)
 
-          boton_de_quitar = QPushButton(text = 'x', parent = frame)
-          boton_de_quitar.clicked.connect(partial(self.user_interface.quitar_mail, mail))
-          layout_del_frame.addWidget(boton_de_quitar)
-
+            boton_de_quitar = QPushButton(text = 'x', parent = frame)
+            boton_de_quitar.clicked.connect(partial(self.user_interface.quitar_mail, mail))
+            layout_del_frame.addWidget(boton_de_quitar)
 
