@@ -51,24 +51,24 @@ class System_Facade:
 
 
     def agregar_condicion_de_cuerpo(self, cuerpo):
-        condicion = Condicion_de_cuerpo(cuerpo)
+        condicion = Condicion_de_cuerpo.con_cuerpo(cuerpo)
         self.condiciones += [condicion]
 
 
     def agregar_condicion_de_emisor(self, emisor):
-        condicion = Condicion_de_emisor(emisor)
+        condicion = Condicion_de_emisor.con_emisor(emisor)
         self.condiciones += [condicion]
 
     def agregar_condicion_de_receptor(self, receptor):
-        condicion = Condicion_de_receptor(receptor)
+        condicion = Condicion_de_receptor.con_receptor(receptor)
         self.condiciones += [condicion]
 
     def agregar_condicion_de_enviado_antes_de(self, fecha):
-        condicion = Condicion_de_enviado_antes_de(fecha)
+        condicion = Condicion_de_enviado_antes_de.enviado_antes_de(fecha)
         self.condiciones += [condicion]
 
     def agregar_condicion_de_enviado_despues_de(self, fecha):
-        condicion = Condicion_de_enviado_despues_de(fecha)
+        condicion = Condicion_de_enviado_despues_de.enviado_despues_de(fecha)
         self.condiciones += [condicion]
 
 
@@ -82,6 +82,11 @@ class System_Facade:
 
     def limpiar_condiciones(self):
         self.condiciones = []
+
+    def establecer_condiciones(self, condiciones):
+        self.limpiar_condiciones()
+        for condicion in condiciones:
+            self.condiciones.append(condicion)
 
 
     def crear_breakdown(self, path=None):

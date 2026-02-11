@@ -1,88 +1,89 @@
-import tkinter as interfaz
-from tkinter import ttk
+from datetime import datetime
+from PyQt6.QtWidgets import QGroupBox, QGridLayout, QLabel, QLineEdit
+from src.condicion import (
+    Condicion_de_cuerpo,
+    Condicion_de_emisor,
+    Condicion_de_receptor,
+    Condicion_de_enviado_antes_de,
+    Condicion_de_enviado_despues_de,
+)
+
+
+
 
 class Mostrador_de_condiciones:
 
-    def __init__(self, altura, anchura, x, y, maestro):
 
-        self.frame = interfaz.Frame(width = anchura, height= altura, master= maestro.ventana)
-        self.frame.place(x = x,y = y)
-        self.maestro= maestro
-
-        self.inicializar_contenidos_del_frame()
+    @classmethod
+    def en(self, master, anchura, altura, x, y):
+        return self(master, anchura, altura, x, y)
 
 
 
-    def inicializar_contenidos_del_frame(self):
-
-        self.frame.rowconfigure(0, weight = 1)
-        self.frame.rowconfigure(1, weight = 1)
-        self.frame.rowconfigure(2, weight = 1)
-        self.frame.rowconfigure(3, weight = 1)
-        self.frame.rowconfigure(4, weight = 1)
-
-        self.frame.columnconfigure(0, weight = 5)
-        self.frame.columnconfigure(1, weight = 5)
-
-        titulo_de_enviado_por = ttk.Label(self.frame, text= "Enviado por:")
-        titulo_de_enviado_por.grid(row = 0, column = 0)
-
-        titulo_de_enviado_a = ttk.Label(self.frame, text= "Enviado a:")
-        titulo_de_enviado_a.grid(row = 1, column = 0)
-
-        titulo_de_enviado_antes_de = ttk.Label(self.frame, text= "Enviado antes de:")
-        titulo_de_enviado_antes_de.grid(row = 2, column = 0)
-
-        titulo_de_enviado_despues_de = ttk.Label(self.frame, text= "Enviado despues de:")
-        titulo_de_enviado_despues_de.grid(row = 3, column = 0)
-
-        titulo_de_texto_en_el_cuerpo = ttk.Label(self.frame, text= "Conteniendo:")
-        titulo_de_texto_en_el_cuerpo.grid(row = 4, column = 0)
-  
-
-        
-        self.barra_de_enviado_por = ttk.Entry(self.frame, width = 60)
-        self.barra_de_enviado_por.grid(row = 0, column = 1, padx = 3)
- 
-        self.barra_de_enviado_a = ttk.Entry(self.frame, width = 60)
-        self.barra_de_enviado_a.grid(row = 1, column = 1, padx = 3)
-
-        contenedor_de_enviado_antes_de = ttk.Frame(self.frame)
-        contenedor_de_enviado_antes_de.grid(row = 2, column = 1, padx = 3)
-
-        self.fecha_de_enviado_antes_de = Entry_de_fecha(contenedor_de_enviado_antes_de)
-
-
-        contenedor_de_enviado_despues_de = ttk.Frame(self.frame)
-        contenedor_de_enviado_despues_de.grid(row = 3, column = 1, padx = 3)
-
-        self.fecha_de_enviado_despues_de = Entry_de_fecha(contenedor_de_enviado_despues_de)
-
- 
-        self.barra_de_conteniendo = ttk.Entry(self.frame, width = 60)
-        self.barra_de_conteniendo.grid(row = 4, column = 1, padx = 3)
- 
+    def __init__(self, master, anchura, altura, x, y):
+        self.caja_filtros = QGroupBox("Filtros", master)
+        self.caja_filtros.setGeometry(x, y, anchura, altura)
+        self.inicializar_contenidos()
 
 
 
+    def inicializar_contenidos(self):
+        layout = QGridLayout(self.caja_filtros)
+        layout.setContentsMargins(10, 20, 10, 10)
 
-class Entry_de_fecha:
+        layout.addWidget(QLabel("Enviado por:"), 0, 0)
+        self.barra_de_emisor = QLineEdit()
+        layout.addWidget(self.barra_de_emisor, 0, 1)
 
-    def __init__(self, maestro):
-        self.barra_de_dia = ttk.Entry(maestro, width = 5)
-        self.barra_de_dia.pack(side = interfaz.LEFT)
+        layout.addWidget(QLabel("Enviado a:"), 0, 2)
+        self.barra_de_receptor = QLineEdit()
+        layout.addWidget(self.barra_de_receptor, 0, 3)
 
-        barra_entre_dia_y_mes = interfaz.Label(maestro, text= '/')
-        barra_entre_dia_y_mes.pack(side = interfaz.LEFT)
+        layout.addWidget(QLabel("Enviado antes de:"), 1, 0)
+        self.barra_de_antes = QLineEdit()
+        self.barra_de_antes.setInputMask("00/00/0000")
+        self.barra_de_antes.setPlaceholderText("DD/MM/AAAA")
+        layout.addWidget(self.barra_de_antes, 1, 1)
+
+        layout.addWidget(QLabel("Enviado despues de:"), 1, 2)
+        self.barra_de_despues = QLineEdit()
+        self.barra_de_despues.setInputMask("00/00/0000")
+        self.barra_de_despues.setPlaceholderText("DD/MM/AAAA")
+        layout.addWidget(self.barra_de_despues, 1, 3)
+
+        layout.addWidget(QLabel("Conteniendo:"), 2, 0)
+        self.barra_de_cuerpo = QLineEdit()
+        layout.addWidget(self.barra_de_cuerpo, 2, 1, 1, 3)
 
 
-        self.barra_de_mes = ttk.Entry(maestro, width = 5)
-        self.barra_de_mes.pack(side = interfaz.LEFT)
 
-        barra_entre_mes_y_año = interfaz.Label(maestro, text= '/')
-        barra_entre_mes_y_año.pack(side = interfaz.LEFT)
- 
-        self.barra_de_año = ttk.Entry(maestro, width = 5)
-        self.barra_de_año.pack(side = interfaz.LEFT)
+    def parse_fecha(self, texto):
+        texto = texto.strip()
+        if not texto or "_" in texto:
+            return None
+        partes = texto.split("/")
+        if len(partes) != 3:
+            return None
+        try:
+            dia, mes, anio = [int(p) for p in partes]
+            return datetime(anio, mes, dia)
+        except ValueError:
+            return None
 
-       
+
+
+    def obtener_condiciones(self):
+
+        emisor = self.barra_de_emisor.text().strip()
+        receptor = self.barra_de_receptor.text().strip()
+        cuerpo = self.barra_de_cuerpo.text().strip()
+        fecha_antes = self.parse_fecha(self.barra_de_antes.text())
+        fecha_despues = self.parse_fecha(self.barra_de_despues.text())
+
+        return [
+            Condicion_de_emisor.con_emisor(emisor),
+            Condicion_de_receptor.con_receptor(receptor),
+            Condicion_de_cuerpo.con_cuerpo(cuerpo),
+            Condicion_de_enviado_antes_de.enviado_antes_de(fecha_antes),
+            Condicion_de_enviado_despues_de.enviado_despues_de(fecha_despues),
+        ]
