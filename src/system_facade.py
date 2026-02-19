@@ -15,13 +15,15 @@ class System_Facade:
         self.buscador = Buscador_adapter.login(user, password)
         self.condiciones = []
 
-    def buscar(self, asunto):
-        self.limpiar_encontrados()
-        self.mails_encontrados =  self.buscador.encontrar(asunto, self.condiciones)
+    def buscar_de_a_partes(self, asunto):
+        return self.buscador.encontrar_de_a_partes(asunto, self.condiciones)
 
     def agregar_mail_encontrado(self, mail):
         self.mails_del_breakdown.append(mail)
         self.mails_encontrados.remove(mail)
+
+    def agregar_mails_encontrados(self, mails):
+        self.mails_encontrados.extend(mails)
     
 
     def limpiar_encontrados(self):
@@ -76,18 +78,9 @@ class System_Facade:
         return self.condiciones[numero]
 
 
-    def quitar_condicion(self, condicion):
-        self.condiciones.remove(condicion)
-
-
     def limpiar_condiciones(self):
         self.condiciones = []
 
-    def establecer_condiciones(self, condiciones):
-        self.limpiar_condiciones()
-        for condicion in condiciones:
-            self.condiciones.append(condicion)
 
-
-    def crear_breakdown(self, path=None):
+    def crear_breakdown(self, path):
         return Breakdown.con_mails_manejado_por(self.mails_del_breakdown, self.abogado_a_cargo, path=path)

@@ -1,6 +1,5 @@
 from functools import partial
 from PyQt6.QtWidgets import QScrollArea, QVBoxLayout, QHBoxLayout, QFrame, QWidget, QLabel, QPushButton
-from PyQt6.QtCore import Qt
 
 
 class Mostrador_de_mails():
@@ -35,35 +34,56 @@ class Mostrador_de_mails():
             
             if widget:  
                 widget.deleteLater()
+        self.mails = []
+
+    def ordenar_por_mas_recientes(self, mails):
+        return sorted(mails, key=lambda mail: mail.date, reverse=True)
 
 
 
 class Mostrador_de_mails_buscados(Mostrador_de_mails):
 
 
-    def mostrar(self, mails):
-        
-        self.limpiar_mostrador()
+    def agregar_mail(self, mail):
+        frame = QFrame()
+        frame.setFrameShape(QFrame.Shape.Box)
+        frame.setFixedHeight(100)
+        frame.setLineWidth(3)
+
+        layout_del_frame = QHBoxLayout(frame)
+        layout_del_frame.addWidget(
+            QLabel(
+                parent=frame,
+                text=f"Asunto: {mail.subject}\nDe: {mail.from_}\nFecha: {mail.date.strftime('%d/%m/%y')}",
+            )
+        )
+        self.layout.addWidget(frame)
+
+        boton_de_visualizacion = QPushButton(text="Ver", parent=frame)
+        boton_de_visualizacion.clicked.connect(partial(self.user_interface.ver_mail, mail))
+        layout_del_frame.addWidget(boton_de_visualizacion)
+
+        boton_de_agregar = QPushButton(text="+", parent=frame)
+        boton_de_agregar.clicked.connect(partial(self.user_interface.agregar_mail, mail))
+        layout_del_frame.addWidget(boton_de_agregar)
+
+    def agregar_mails(self, mails):
         for mail in mails:
+            if mail not in self.mails:
+                self.mails.append(mail)
 
-            frame = QFrame()
-            frame.setFrameShape(QFrame.Shape.Box)
-            frame.setFixedHeight(100)
-            frame.setLineWidth(3)                         
+        mails_ordenados = self.ordenar_por_mas_recientes(self.mails)
+        self.limpiar_mostrador()
+        self.mails = list(mails_ordenados)
+        for mail in self.mails:
+            self.agregar_mail(mail)
 
-            layout_del_frame = QHBoxLayout(frame)
-
-            layout_del_frame.addWidget(QLabel(parent = frame, text = f"Asunto: {mail.subject}\nDe: {mail.from_}\nFecha: {mail.date.strftime('%d/%m/%y')}"))
-            self.layout.addWidget(frame)
-
-
-            boton_de_visualizacion = QPushButton(text = 'Ver', parent = frame)
-            boton_de_visualizacion.clicked.connect(partial(self.user_interface.ver_mail, mail))
-            layout_del_frame.addWidget(boton_de_visualizacion)
-
-            boton_de_agregar = QPushButton(text = '+', parent = frame)
-            boton_de_agregar.clicked.connect(partial(self.user_interface.agregar_mail, mail))
-            layout_del_frame.addWidget(boton_de_agregar)
+    def mostrar(self, mails):
+        mails_ordenados = self.ordenar_por_mas_recientes(mails)
+        self.limpiar_mostrador()
+        self.mails = list(mails_ordenados)
+        for mail in self.mails:
+            self.agregar_mail(mail)
 
 
 
@@ -72,10 +92,10 @@ class Mostrador_de_mails_del_break(Mostrador_de_mails):
 
 
     def mostrar(self, mails):
-
+        mails_ordenados = self.ordenar_por_mas_recientes(mails)
         self.limpiar_mostrador()
-        
-        for mail in mails:
+        self.mails = list(mails_ordenados)
+        for mail in self.mails:
 
             frame = QFrame()
             frame.setFrameShape(QFrame.Shape.Box)
@@ -95,4 +115,3 @@ class Mostrador_de_mails_del_break(Mostrador_de_mails):
             boton_de_quitar = QPushButton(text = 'x', parent = frame)
             boton_de_quitar.clicked.connect(partial(self.user_interface.quitar_mail, mail))
             layout_del_frame.addWidget(boton_de_quitar)
-

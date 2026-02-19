@@ -1,20 +1,18 @@
 from openpyxl import Workbook
 from openpyxl.styles import Font
-import os
-from tkinter import filedialog
 
 class Breakdown:
     @classmethod
-    def con_mails_manejado_por(self, mails, abogado, path=None):
+    def con_mails_manejado_por(self, mails, abogado, path):
         return self(mails, abogado, path=path)
     
-    def __init__(self, mails, abogado, path=None):
+    def __init__(self, mails, abogado, path):
         self.workbook = Workbook()
         self.excel = self.workbook.active
         self.initialize_excel_file(mails, abogado, path=path)
 
 
-    def initialize_excel_file(self, mails, abogado, path=None):
+    def initialize_excel_file(self, mails, abogado, path):
         self.excel['A1'] = "Date"
         self.excel['B1'] = "Description"
         self.excel['C1'] = "Minutes"
@@ -37,8 +35,6 @@ class Breakdown:
            self.excel[f"C{i+2}"] = 0
            self.excel[f"D{i+2}"] = f"=C{i+2} / 60"
 
-        if path is None:
-            path = filedialog.asksaveasfilename( defaultextension = ".xlsx", filetypes = [("Excel files", "*.xlsx")], title = "Guardar Breakdown")
         self.workbook.save(path)
 
 

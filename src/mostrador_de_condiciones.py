@@ -1,12 +1,26 @@
 from datetime import datetime
+from PyQt6.QtGui import QFont
 from PyQt6.QtWidgets import QGroupBox, QGridLayout, QLabel, QLineEdit
-from src.condicion import (
-    Condicion_de_cuerpo,
-    Condicion_de_emisor,
-    Condicion_de_receptor,
-    Condicion_de_enviado_antes_de,
-    Condicion_de_enviado_despues_de,
-)
+
+
+class Barra_de_fecha(QLineEdit):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        font = self.font()
+        font.setLetterSpacing(QFont.SpacingType.AbsoluteSpacing, 2.0)
+        self.setFont(font)
+
+    def mousePressEvent(self, event):
+        super().mousePressEvent(event)
+        posicion = self.cursorPositionAt(event.position().toPoint())
+        self.setCursorPosition(self.inicio_de_seccion(posicion))
+
+    def inicio_de_seccion(self, posicion):
+        if posicion < 2:
+            return 0
+        if posicion < 5:
+            return 3
+        return 6
 
 
 
@@ -40,16 +54,16 @@ class Mostrador_de_condiciones:
         layout.addWidget(self.barra_de_receptor, 0, 3)
 
         layout.addWidget(QLabel("Enviado antes de:"), 1, 0)
-        self.barra_de_antes = QLineEdit()
-        self.barra_de_antes.setInputMask("00/00/0000")
-        self.barra_de_antes.setPlaceholderText("DD/MM/AAAA")
-        layout.addWidget(self.barra_de_antes, 1, 1)
+        self.barra_de_enviado_antes_de = Barra_de_fecha()
+        self.barra_de_enviado_antes_de.setInputMask("00/00/0000")
+        self.barra_de_enviado_antes_de.setPlaceholderText("DD/MM/AAAA")
+        layout.addWidget(self.barra_de_enviado_antes_de, 1, 1)
 
         layout.addWidget(QLabel("Enviado despues de:"), 1, 2)
-        self.barra_de_despues = QLineEdit()
-        self.barra_de_despues.setInputMask("00/00/0000")
-        self.barra_de_despues.setPlaceholderText("DD/MM/AAAA")
-        layout.addWidget(self.barra_de_despues, 1, 3)
+        self.barra_de_enviado_despues_de = Barra_de_fecha()
+        self.barra_de_enviado_despues_de.setInputMask("00/00/0000")
+        self.barra_de_enviado_despues_de.setPlaceholderText("DD/MM/AAAA")
+        layout.addWidget(self.barra_de_enviado_despues_de, 1, 3)
 
         layout.addWidget(QLabel("Conteniendo:"), 2, 0)
         self.barra_de_cuerpo = QLineEdit()
@@ -72,18 +86,16 @@ class Mostrador_de_condiciones:
 
 
 
-    def obtener_condiciones(self):
-
+    def aplicar_condiciones_a(self, sistema):
         emisor = self.barra_de_emisor.text().strip()
         receptor = self.barra_de_receptor.text().strip()
         cuerpo = self.barra_de_cuerpo.text().strip()
-        fecha_antes = self.parse_fecha(self.barra_de_antes.text())
-        fecha_despues = self.parse_fecha(self.barra_de_despues.text())
+        fecha_antes = self.parse_fecha(self.barra_de_enviado_antes_de.text())
+        fecha_despues = self.parse_fecha(self.barra_de_enviado_despues_de.text())
 
-        return [
-            Condicion_de_emisor.con_emisor(emisor),
-            Condicion_de_receptor.con_receptor(receptor),
-            Condicion_de_cuerpo.con_cuerpo(cuerpo),
-            Condicion_de_enviado_antes_de.enviado_antes_de(fecha_antes),
-            Condicion_de_enviado_despues_de.enviado_despues_de(fecha_despues),
-        ]
+        sistema.limpiar_condiciones()
+        sistema.agregar_condicion_de_emisor(emisor)
+        sistema.agregar_condicion_de_receptor(receptor)
+        sistema.agregar_condicion_de_cuerpo(cuerpo)
+        sistema.agregar_condicion_de_enviado_antes_de(fecha_antes)
+        sistema.agregar_condicion_de_enviado_despues_de(fecha_despues)

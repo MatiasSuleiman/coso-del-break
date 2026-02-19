@@ -1,66 +1,150 @@
-from PyQt6.QtWidgets import QMainWindow, QLabel, QVBoxLayout, QPushButton, QTextBrowser, QDialog, QLineEdit, QFileDialog
-from src.system_facade import System_Facade
-from src.mostrador_de_mails import Mostrador_de_mails_buscados, Mostrador_de_mails_del_break
+from PyQt6.QtCore import QObject, QThread, Qt, pyqtSignal
+from PyQt6.QtWidgets import (
+    QDialog,
+    QFileDialog,
+    QLabel,
+    QLineEdit,
+    QMainWindow,
+    QMessageBox,
+    QPushButton,
+    QTextBrowser,
+    QVBoxLayout,
+)
+
 from src.mostrador_de_condiciones import Mostrador_de_condiciones
+from src.mostrador_de_mails import Mostrador_de_mails_buscados, Mostrador_de_mails_del_break
+
+
+class Senales_de_busqueda(QObject):
+    lote_listo = pyqtSignal(list)
+    error = pyqtSignal(str)
+    finalizado = pyqtSignal()
+
+
+class Batcher_de_busqueda:
+    def __init__(self, sistema, asunto, tamanio_de_lote=50):
+        self.sistema = sistema
+        self.asunto = asunto
+        self.tamanio_de_lote = tamanio_de_lote
+        self.senales = Senales_de_busqueda()
+
+    def ejecutar(self):
+        lote = []
+        try:
+            for mail in self.sistema.buscar_de_a_partes(self.asunto):
+                lote.append(mail)
+                if len(lote) >= self.tamanio_de_lote:
+                    self.senales.lote_listo.emit(lote)
+                    lote = []
+            if lote:
+                self.senales.lote_listo.emit(lote)
+        except Exception as error:
+            self.senales.error.emit(str(error))
+        finally:
+            self.senales.finalizado.emit()
+
+
+class Hilo_de_busqueda(QThread):
+    def __init__(self, batcher):
+        super().__init__()
+        self.batcher = batcher
+
+    def run(self):
+        self.batcher.ejecutar()
 
 
 class Gui:
+    def __init__(self, sistema):
+        self.sistema = sistema
+        self.busqueda_en_curso = False
 
-    def __init__(self):
+        self.ventana = QMainWindow()
+        self.ventana.setWindowTitle("Build n' Breakdown")
+        self.ventana.setGeometry(100, 100, 1600, 900)
 
-       self.sistema = System_Facade.login("testinatordelbuscador@gmail.com",'rqxk ugvt yvxg kwjw')
-       self.ventana = QMainWindow()
-       self.ventana.setWindowTitle("Build n' Breakdown")
-       self.ventana.setGeometry(100,100,1600,900)
+        texto_de_bienvenida = QLabel(
+            "Bienvenido a Breaking Down,\n elija los mails para comenzar", self.ventana
+        )
+        texto_de_bienvenida.setGeometry(720, 10, 280, 30)
 
-       texto_de_bienvenida =  QLabel("Bienvenido a Breaking Down,\n elija los mails para comenzar", self.ventana)
-       texto_de_bienvenida.setGeometry(720, 10, 280, 30)
+        self.mostrador_de_condiciones = Mostrador_de_condiciones.en(self.ventana, 700, 120, 20, 10)
+        self.mostrador_de_mails_del_break = Mostrador_de_mails_del_break.en(
+            self.ventana, 700, 650, 20, 140, self
+        )
+        self.mostrador_de_mails_encontrados = Mostrador_de_mails_buscados.en(
+            self.ventana, 700, 650, 880, 140, self
+        )
 
-       self.mostrador_de_condiciones = Mostrador_de_condiciones.en(self.ventana, 700, 120, 20, 10)
+        self.boton_de_busqueda = QPushButton("Buscar", self.ventana)
+        self.boton_de_busqueda.clicked.connect(self.buscar)
+        self.boton_de_busqueda.setGeometry(880, 50, 50, 30)
 
-       self.mostrador_de_mails_del_break = Mostrador_de_mails_del_break.en(self.ventana, 700, 650, 20, 140, self)
+        self.barra_de_busqueda = QLineEdit(self.ventana)
+        self.barra_de_busqueda.setPlaceholderText("Buscar por asunto")
+        self.barra_de_busqueda.returnPressed.connect(self.buscar)
+        self.barra_de_busqueda.setGeometry(970, 50, 500, 30)
 
-       self.mostrador_de_mails_encontrados = Mostrador_de_mails_buscados.en(self.ventana, 700, 650, 880, 140, self)
+        self.boton_de_crear_break = QPushButton("Crear Breakdown", self.ventana)
+        self.boton_de_crear_break.clicked.connect(self.crear_breakdown)
+        self.boton_de_crear_break.setGeometry(520, 830, 200, 30)
 
-       self.boton_de_busqueda = QPushButton("Buscar", self.ventana)
-       self.boton_de_busqueda.clicked.connect(self.buscar)
-       self.boton_de_busqueda.setGeometry(880, 50, 50, 30)
-
-       self.barra_de_busqueda = QLineEdit(self.ventana)
-       self.barra_de_busqueda.setPlaceholderText("Buscar por asunto")
-       self.barra_de_busqueda.returnPressed.connect(self.buscar)
-       self.barra_de_busqueda.setGeometry(970, 50, 500, 30)
-
-       self.boton_de_crear_break = QPushButton("Crear Breakdown", self.ventana)
-       self.boton_de_crear_break.clicked.connect(self.crear_breakdown)
-       self.boton_de_crear_break.setGeometry(520, 830, 200, 30)
-
-
-
-       self.ventana.show()
-
-
+        self.ventana.show()
 
     def buscar(self):
+        if self.busqueda_en_curso:
+            return
 
         self.limpiar_buscados()
-        self.sistema.establecer_condiciones(self.mostrador_de_condiciones.obtener_condiciones())
+        self.mostrador_de_condiciones.aplicar_condiciones_a(self.sistema)
+        self.sistema.limpiar_encontrados()
         asunto = self.barra_de_busqueda.text()
-        self.sistema.buscar(asunto)
-        mails = self.sistema.ver_todos_los_mails_encontrados()
-        self.mostrador_de_mails_encontrados.mostrar(mails)
 
+        self.busqueda_en_curso = True
+        self.boton_de_busqueda.setEnabled(False)
+        self.barra_de_busqueda.setEnabled(False)
+
+        self.batcher_de_busqueda = Batcher_de_busqueda(self.sistema, asunto, tamanio_de_lote=50)
+        self.hilo_de_busqueda = Hilo_de_busqueda(self.batcher_de_busqueda)
+
+        self.batcher_de_busqueda.senales.lote_listo.connect(
+            self.al_recibir_lote, Qt.ConnectionType.QueuedConnection
+        )
+        self.batcher_de_busqueda.senales.error.connect(
+            self.al_error_en_busqueda, Qt.ConnectionType.QueuedConnection
+        )
+        self.batcher_de_busqueda.senales.finalizado.connect(
+            self.al_finalizar_busqueda, Qt.ConnectionType.QueuedConnection
+        )
+        self.hilo_de_busqueda.finished.connect(self.limpiar_estado_de_busqueda)
+        self.hilo_de_busqueda.start()
+
+    def al_recibir_lote(self, mails):
+        self.sistema.agregar_mails_encontrados(mails)
+        self.mostrador_de_mails_encontrados.agregar_mails(mails)
+
+    def al_error_en_busqueda(self, mensaje):
+        QMessageBox.critical(self.ventana, "Error de busqueda", mensaje)
+
+    def al_finalizar_busqueda(self):
+        self.busqueda_en_curso = False
+        self.boton_de_busqueda.setEnabled(True)
+        self.barra_de_busqueda.setEnabled(True)
+
+    def limpiar_estado_de_busqueda(self):
+        if hasattr(self, "hilo_de_busqueda"):
+            del self.hilo_de_busqueda
+        if hasattr(self, "batcher_de_busqueda"):
+            del self.batcher_de_busqueda
 
     def ver_mail(self, mail):
-
         ventana_del_mail = QDialog(self.ventana)
         ventana_del_mail.setWindowTitle(mail.subject)
-        ventana_del_mail.setGeometry(100,100,600,400)
+        ventana_del_mail.setGeometry(100, 100, 600, 400)
 
         layout = QVBoxLayout()
 
         caja_de_texto = QTextBrowser(ventana_del_mail)
-        caja_de_texto.setPlainText( f"{mail.subject}\n\t{mail.text}")
+        caja_de_texto.setPlainText(f"{mail.subject}\n\t{mail.text}")
         layout.addWidget(caja_de_texto)
 
         ventana_del_mail.setLayout(layout)
@@ -68,29 +152,23 @@ class Gui:
         ventana_del_mail.raise_()
         ventana_del_mail.activateWindow()
 
-
-
-    def agregar_mail(self,mail):
-       
+    def agregar_mail(self, mail):
         self.sistema.agregar_mail_encontrado(mail)
-
         self.mostrador_de_mails_del_break.mostrar(self.sistema.mails_del_breakdown)
         self.mostrador_de_mails_encontrados.mostrar(self.sistema.ver_todos_los_mails_encontrados())
-
 
     def quitar_mail(self, mail):
         self.sistema.quitar_mail_del_breakdown(mail)
-
         self.mostrador_de_mails_del_break.mostrar(self.sistema.mails_del_breakdown)
         self.mostrador_de_mails_encontrados.mostrar(self.sistema.ver_todos_los_mails_encontrados())
 
- 
     def limpiar_buscados(self):
         self.mostrador_de_mails_encontrados.limpiar_mostrador()
 
-
     def crear_breakdown(self):
-        path, _ = QFileDialog.getSaveFileName(self.ventana, "Guardar Breakdown", "", "Excel files (*.xlsx)")
+        path, _ = QFileDialog.getSaveFileName(
+            self.ventana, "Guardar Breakdown", "", "Excel files (*.xlsx)"
+        )
         if not path:
             return
         if not path.lower().endswith(".xlsx"):
