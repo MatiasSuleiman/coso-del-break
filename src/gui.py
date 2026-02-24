@@ -67,7 +67,9 @@ class Gui:
         )
         texto_de_bienvenida.setGeometry(720, 10, 280, 30)
 
-        self.mostrador_de_condiciones = Mostrador_de_condiciones.en(self.ventana, 700, 120, 20, 10)
+        self.mostrador_de_condiciones = Mostrador_de_condiciones.en(
+            self.ventana, 700, 120, 20, 10, self.sistema
+        )
         self.mostrador_de_mails_del_break = Mostrador_de_mails_del_break.en(
             self.ventana, 700, 650, 20, 140, self
         )
@@ -151,6 +153,12 @@ class Gui:
         ventana_del_mail.show()
         ventana_del_mail.raise_()
         ventana_del_mail.activateWindow()
+
+    def cambiar_resumen_de(self, mail, resumen):
+        self.sistema.cambiar_resumen_de(mail, resumen)
+
+    def ver_resumen_de(self, mail):
+        return self.sistema.ver_resumen_de(mail)
 
     def agregar_mail(self, mail):
         self.sistema.agregar_mail_encontrado(mail)

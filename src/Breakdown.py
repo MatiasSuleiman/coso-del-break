@@ -3,25 +3,27 @@ from openpyxl.styles import Font
 
 class Breakdown:
     @classmethod
-    def con_mails_manejado_por(self, mails, abogado, path):
-        return self(mails, abogado, path=path)
+    def con_mails_manejado_por(self, mails, abogado, path, sistema):
+        return self(mails, abogado, path=path, sistema=sistema)
     
-    def __init__(self, mails, abogado, path):
+    def __init__(self, mails, abogado, path, sistema):
         self.workbook = Workbook()
         self.excel = self.workbook.active
-        self.initialize_excel_file(mails, abogado, path=path)
+        self.initialize_excel_file(mails, abogado, path=path, sistema=sistema)
 
 
-    def initialize_excel_file(self, mails, abogado, path):
+    def initialize_excel_file(self, mails, abogado, path, sistema):
         self.excel['A1'] = "Date"
         self.excel['B1'] = "Description"
         self.excel['C1'] = "Minutes"
         self.excel['D1'] = "Hours"
+        self.excel['E1'] = "Summary"
 
         self.excel['A1'].font = Font(size=14)
         self.excel['B1'].font = Font(size=14)
         self.excel['C1'].font = Font(size=14)
         self.excel['D1'].font = Font(size=14)
+        self.excel['E1'].font = Font(size=14)
 
         for i in range(len(mails)):
             mail = mails[i]
@@ -32,8 +34,10 @@ class Breakdown:
                 self.excel[f"B{i+2}"] = "Recieved mail from " + mail.from_
 
         for i in range(len(mails)):
+           mail = mails[i]
            self.excel[f"C{i+2}"] = 0
            self.excel[f"D{i+2}"] = f"=C{i+2} / 60"
+           self.excel[f"E{i+2}"] = sistema.ver_resumen_de(mail)
 
         self.workbook.save(path)
 
