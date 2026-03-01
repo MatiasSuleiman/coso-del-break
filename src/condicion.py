@@ -35,6 +35,20 @@ class Condicion_de_cuerpo(Condicion):
             return self.body in mail.text
 
 
+class Condicion_de_asunto(Condicion):
+        @classmethod
+        def con_asunto(cls, asunto):
+                if _esta_vacio(asunto):
+                        return No_condicion()
+                return cls(asunto)
+
+        def __init__(self, asunto):
+                self.asunto = asunto
+
+        def cumple(self, mail):
+                return self.asunto in (mail.subject or "")
+
+
 class Condicion_de_emisor(Condicion):
         @classmethod
         def con_emisor(cls, emisor):

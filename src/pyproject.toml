@@ -1,0 +1,75 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "breakingdown"
+version = "0.1.0"
+description = "Desktop app for Gmail search and breakdown spreadsheet export."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "PyQt6>=6.6",
+    "imap-tools>=1.5",
+    "openpyxl>=3.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "briefcase>=0.3.19",
+    "pytest>=8.0",
+]
+
+[project.scripts]
+breakingdown = "breakingdown.app:main"
+
+[tool.setuptools]
+py-modules = [
+    "Breakdown",
+    "buscador_adapter",
+    "condicion",
+    "errores",
+    "gui",
+    "main",
+    "mostrador_de_condiciones",
+    "mostrador_de_mails",
+    "system_facade",
+    "ventana_de_login",
+]
+packages = ["breakingdown"]
+
+[tool.briefcase]
+project_name = "BreakingDown"
+bundle = "com.breakingdown"
+version = "0.1.0"
+url = "https://example.com/breakingdown"
+license = { text = "Proprietary" }
+author = "BreakingDown"
+author_email = "dev@breakingdown.local"
+
+[tool.briefcase.app.breakingdown]
+formal_name = "Build n' Breakdown"
+description = "Search Gmail mails and export breakdown Excel sheets."
+long_description = """Search Gmail, apply filters, and generate a breakdown spreadsheet for legal/operational reporting."""
+sources = [
+    "breakingdown",
+    "__init__.py",
+    "Breakdown.py",
+    "buscador_adapter.py",
+    "condicion.py",
+    "errores.py",
+    "gui.py",
+    "main.py",
+    "mostrador_de_condiciones.py",
+    "mostrador_de_mails.py",
+    "system_facade.py",
+    "ventana_de_login.py",
+]
+requires = [
+    "PyQt6>=6.6",
+    "imap-tools>=1.5",
+    "openpyxl>=3.1",
+]
+
+[tool.briefcase.app.breakingdown.macOS]
+universal_build = true

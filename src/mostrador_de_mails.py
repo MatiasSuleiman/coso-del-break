@@ -85,25 +85,30 @@ class Mostrador_de_mails_buscados(Mostrador_de_mails):
     def agregar_mail(self, mail):
         frame = QFrame()
         frame.setFrameShape(QFrame.Shape.Box)
-        frame.setFixedHeight(100)
+        frame.setMinimumHeight(110)
         frame.setLineWidth(3)
 
-        layout_del_frame = QHBoxLayout(frame)
-        layout_del_frame.addWidget(
-            QLabel(
-                parent=frame,
-                text=f"Asunto: {mail.subject}\nDe: {mail.from_}\nFecha: {mail.date.strftime('%d/%m/%y')}",
-            )
+        layout_del_frame = QVBoxLayout(frame)
+        texto_del_mail = QLabel(
+            parent=frame,
+            text=f"Asunto: {mail.subject}\nDe: {mail.from_}\nFecha: {mail.date.strftime('%d/%m/%y')}",
         )
-        self.layout.addWidget(frame)
+        texto_del_mail.setWordWrap(True)
+        layout_del_frame.addWidget(texto_del_mail)
+
+        layout_de_botones = QHBoxLayout()
 
         boton_de_visualizacion = QPushButton(text="Ver", parent=frame)
         boton_de_visualizacion.clicked.connect(partial(self.user_interface.ver_mail, mail))
-        layout_del_frame.addWidget(boton_de_visualizacion)
+        layout_de_botones.addWidget(boton_de_visualizacion)
 
         boton_de_agregar = QPushButton(text="+", parent=frame)
         boton_de_agregar.clicked.connect(partial(self.user_interface.agregar_mail, mail))
-        layout_del_frame.addWidget(boton_de_agregar)
+        layout_de_botones.addWidget(boton_de_agregar)
+        layout_de_botones.addStretch()
+        layout_del_frame.addLayout(layout_de_botones)
+
+        self.layout.addWidget(frame)
 
     def agregar_mails(self, mails):
         for mail in mails:

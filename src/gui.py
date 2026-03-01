@@ -11,8 +11,12 @@ from PyQt6.QtWidgets import (
     QVBoxLayout,
 )
 
-from src.mostrador_de_condiciones import Mostrador_de_condiciones
-from src.mostrador_de_mails import Mostrador_de_mails_buscados, Mostrador_de_mails_del_break
+try:
+    from src.mostrador_de_condiciones import Mostrador_de_condiciones
+    from src.mostrador_de_mails import Mostrador_de_mails_buscados, Mostrador_de_mails_del_break
+except ModuleNotFoundError:
+    from mostrador_de_condiciones import Mostrador_de_condiciones
+    from mostrador_de_mails import Mostrador_de_mails_buscados, Mostrador_de_mails_del_break
 
 
 class Senales_de_busqueda(QObject):
@@ -22,21 +26,27 @@ class Senales_de_busqueda(QObject):
 
 
 class Batcher_de_busqueda:
-    def __init__(self, sistema, asunto, tamanio_de_lote=50):
+    def __init__(self, sistema, asunto, tamanio_de_lote=5):
         self.sistema = sistema
         self.asunto = asunto
         self.tamanio_de_lote = tamanio_de_lote
         self.senales = Senales_de_busqueda()
+        self.cancelada = False
+
+    def cancelar(self):
+        self.cancelada = True
 
     def ejecutar(self):
         lote = []
         try:
             for mail in self.sistema.buscar_de_a_partes(self.asunto):
+                if self.cancelada:
+                    break
                 lote.append(mail)
                 if len(lote) >= self.tamanio_de_lote:
                     self.senales.lote_listo.emit(lote)
                     lote = []
-            if lote:
+            if lote and not self.cancelada:
                 self.senales.lote_listo.emit(lote)
         except Exception as error:
             self.senales.error.emit(str(error))
@@ -94,18 +104,18 @@ class Gui:
 
     def buscar(self):
         if self.busqueda_en_curso:
+            self.cancelar_busqueda()
             return
 
         self.limpiar_buscados()
+        asunto = self.barra_de_busqueda.text().strip()
         self.mostrador_de_condiciones.aplicar_condiciones_a(self.sistema)
+        self.sistema.agregar_condicion_de_asunto(asunto)
         self.sistema.limpiar_encontrados()
-        asunto = self.barra_de_busqueda.text()
 
         self.busqueda_en_curso = True
-        self.boton_de_busqueda.setEnabled(False)
-        self.barra_de_busqueda.setEnabled(False)
 
-        self.batcher_de_busqueda = Batcher_de_busqueda(self.sistema, asunto, tamanio_de_lote=50)
+        self.batcher_de_busqueda = Batcher_de_busqueda(self.sistema, asunto, tamanio_de_lote=5)
         self.hilo_de_busqueda = Hilo_de_busqueda(self.batcher_de_busqueda)
 
         self.batcher_de_busqueda.senales.lote_listo.connect(
@@ -129,8 +139,11 @@ class Gui:
 
     def al_finalizar_busqueda(self):
         self.busqueda_en_curso = False
-        self.boton_de_busqueda.setEnabled(True)
-        self.barra_de_busqueda.setEnabled(True)
+
+    def cancelar_busqueda(self):
+        if not self.busqueda_en_curso:
+            return
+        self.batcher_de_busqueda.cancelar()
 
     def limpiar_estado_de_busqueda(self):
         if hasattr(self, "hilo_de_busqueda"):

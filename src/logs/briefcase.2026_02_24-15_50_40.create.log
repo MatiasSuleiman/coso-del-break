@@ -1,0 +1,535 @@
+Date/Time:       2026-02-24 15:50:40 
+Command line:    /home/matias/bees/lib/python3.13/site-packages/briefcase/__main__.py create
+
+OS Release:      Linux 6.12.73+deb13-amd64
+OS Version:      #1 SMP PREEMPT_DYNAMIC Debian 6.12.73-1 (2026-02-17)
+Architecture:    x86_64
+Platform:        Linux-6.12.73+deb13-amd64-x86_64-with-glibc2.41
+
+Python exe:      /home/matias/bees/bin/python
+Python version:  3.13.5 (main, Jun 25 2025, 18:55:22) [GCC 14.2.0]
+Virtual env:     True
+Conda env:       False
+
+Briefcase:       0.3.26
+Target platform: linux
+Target format:   system
+
+Environment Variables:
+	CODEX_CI=1
+	CODEX_MANAGED_BY_NPM=1
+	CODEX_SANDBOX_NETWORK_DISABLED=1
+	CODEX_THREAD_ID=019c90e2-a89a-7de0-aba1-d06095956fbb
+	COLORTERM=truecolor
+	DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+	DESKTOP_SESSION=gnome
+	DISPLAY=:0
+	GDMSESSION=gnome
+	GDM_LANG=en_US.UTF-8
+	GH_PAGER=cat
+	GIT_PAGER=cat
+	GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+	GNOME_KEYRING_CONTROL=********************
+	GNOME_SETUP_DISPLAY=:1
+	GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/19c811cb_2c45_4ddc_a655_dd8f527c050e
+	GNOME_TERMINAL_SERVICE=:1.169
+	GPG_AGENT_INFO=/run/user/1000/gnupg/S.gpg-agent:0:1
+	GTK_MODULES=gail:atk-bridge
+	HOME=/home/matias
+	IM_CONFIG_CHECK_ENV=1
+	IM_CONFIG_PHASE=1
+	LANG=en_US.UTF-8
+	LANGUAGE=en_US:en
+	LC_ALL=C.UTF-8
+	LC_CTYPE=C.UTF-8
+	LOGNAME=matias
+	LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.7z=01;31:*.ace=01;31:*.alz=01;31:*.apk=01;31:*.arc=01;31:*.arj=01;31:*.bz=01;31:*.bz2=01;31:*.cab=01;31:*.cpio=01;31:*.crate=01;31:*.deb=01;31:*.drpm=01;31:*.dwm=01;31:*.dz=01;31:*.ear=01;31:*.egg=01;31:*.esd=01;31:*.gz=01;31:*.jar=01;31:*.lha=01;31:*.lrz=01;31:*.lz=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.lzo=01;31:*.pyz=01;31:*.rar=01;31:*.rpm=01;31:*.rz=01;31:*.sar=01;31:*.swm=01;31:*.t7z=01;31:*.tar=01;31:*.taz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tgz=01;31:*.tlz=01;31:*.txz=01;31:*.tz=01;31:*.tzo=01;31:*.tzst=01;31:*.udeb=01;31:*.war=01;31:*.whl=01;31:*.wim=01;31:*.xz=01;31:*.z=01;31:*.zip=01;31:*.zoo=01;31:*.zst=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.jxl=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:
+	MEMORY_PRESSURE_WATCH=/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/session.slice/org.gnome.SettingsDaemon.MediaKeys.service/memory.pressure
+	MEMORY_PRESSURE_WRITE=c29tZSAyMDAwMDAgMjAwMDAwMAA=
+	NO_COLOR=1
+	OLDPWD=/home/matias/BreakingDown
+	PAGER=cat
+	PATH=/home/matias/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+	PWD=/home/matias/BreakingDown/src
+	QT_ACCESSIBILITY=1
+	QT_IM_MODULE=ibus
+	SESSION_MANAGER=local/Matias:@/tmp/.ICE-unix/1782,unix/Matias:/tmp/.ICE-unix/1782
+	SHELL=/bin/bash
+	SHLVL=2
+	SSH_AUTH_SOCK=/run/user/1000/keyring/ssh
+	SYSTEMD_EXEC_PID=1976
+	TERM=xterm-256color
+	USER=matias
+	USERNAME=matias
+	VTE_VERSION=8001
+	WAYLAND_DISPLAY=wayland-0
+	XAUTHORITY=/run/user/1000/.mutter-Xwaylandauth.RM05K3
+	XDG_CURRENT_DESKTOP=GNOME
+	XDG_DATA_DIRS=/usr/share/gnome:/home/matias/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/
+	XDG_MENU_PREFIX=gnome-
+	XDG_RUNTIME_DIR=/run/user/1000
+	XDG_SESSION_CLASS=user
+	XDG_SESSION_DESKTOP=gnome
+	XDG_SESSION_TYPE=wayland
+	XMODIFIERS=@im=ibus
+	_=/home/matias/bees/bin/python
+
+pyproject.toml:
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "breakingdown"
+version = "0.1.0"
+description = "Desktop app for Gmail search and breakdown spreadsheet export."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "PyQt6>=6.6",
+    "imap-tools>=1.5",
+    "openpyxl>=3.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "briefcase>=0.3.19",
+    "pytest>=8.0",
+]
+
+[project.scripts]
+breakingdown = "breakingdown.app:main"
+
+[tool.setuptools]
+py-modules = [
+    "Breakdown",
+    "buscador_adapter",
+    "condicion",
+    "errores",
+    "gui",
+    "main",
+    "mostrador_de_condiciones",
+    "mostrador_de_mails",
+    "system_facade",
+    "ventana_de_login",
+]
+packages = ["breakingdown"]
+
+[tool.briefcase]
+project_name = "BreakingDown"
+bundle = "com.breakingdown"
+version = "0.1.0"
+url = "https://example.com/breakingdown"
+license = { text = "Proprietary" }
+author = "BreakingDown"
+author_email = "dev@breakingdown.local"
+
+[tool.briefcase.app.breakingdown]
+formal_name = "Build n' Breakdown"
+description = "Search Gmail mails and export breakdown Excel sheets."
+long_description = """Search Gmail, apply filters, and generate a breakdown spreadsheet for legal/operational reporting."""
+sources = [
+    "breakingdown",
+    "__init__.py",
+    "Breakdown.py",
+    "buscador_adapter.py",
+    "condicion.py",
+    "errores.py",
+    "gui.py",
+    "main.py",
+    "mostrador_de_condiciones.py",
+    "mostrador_de_mails.py",
+    "system_facade.py",
+    "ventana_de_login.py",
+]
+requires = [
+    "PyQt6>=6.6",
+    "imap-tools>=1.5",
+    "openpyxl>=3.1",
+]
+
+[tool.briefcase.app.breakingdown.macOS]
+universal_build = true
+
+Briefcase Log:
+[15:50:40]                                                                                                                                                             system.py:138
+           [breakingdown] Finalizing application configuration...                                                                                                      system.py:138
+           Targeting debian:trixie (Vendor base debian)                                                                                                                system.py:150
+           Determining glibc version... started                                                                                                                        system.py:214
+           Determining glibc version... done                                                                                                                           system.py:214
+           Targeting glibc 2.41                                                                                                                                        system.py:216
+           Targeting Python3.13                                                                                                                                        system.py:220
+                                                                                                                                                                       create.py:930
+           The directory build/breakingdown/debian/trixie already exists; overwrite [y/N]?                                                                            console.py:769
+           User input: y                                                                                                                                              console.py:769
+                                                                                                                                                                       create.py:942
+           [breakingdown] Removing old application template...                                                                                                         create.py:942
+                                                                                                                                                                       create.py:947
+           [breakingdown] Generating application template...                                                                                                           create.py:947
+           Using app template: https://github.com/beeware/briefcase-linux-system-template.git, branch v0.3.26                                                           base.py:1320
+                                                                                                                                                                      __main__.py:42
+           Unable to check out template branch.                                                                                                                       __main__.py:43
+                                                                                                                                                                      __main__.py:43
+           This may be because your computer is offline, or because the template repository is in a weird state. If you have a stable network connection, try         __main__.py:43
+           deleting:                                                                                                                                                                
+                                                                                                                                                                      __main__.py:43
+               /home/matias/.cache/briefcase/templates/briefcase-linux-system-template                                                                                __main__.py:43
+                                                                                                                                                                      __main__.py:43
+           and retrying your command.                                                                                                                                 __main__.py:43
+           Saving log... started                                                                                                                                      console.py:443
+
+Main thread traceback:
+╭─────────────────────────────────────────────────────────────────────── Traceback (most recent call last) ────────────────────────────────────────────────────────────────────────╮
+│ /home/matias/bees/lib/python3.13/site-packages/briefcase/commands/base.py:1194 in update_cookiecutter_cache                                                                      │
+│                                                                                                                                                                                  │
+│   1191 │   │   │   │   # Ensure the existing repo's origin URL points to the location                                                                                            │
+│   1192 │   │   │   │   # being requested. A difference can occur, for instance, if a                                                                                             │
+│   1193 │   │   │   │   # fork of the template is used.                                                                                                                           │
+│ ❱ 1194 │   │   │   │   remote.set_url(new_url=template)                                                                                                                          │
+│   1195 │   │   │   │   try:                                                                                                                                                      │
+│   1196 │   │   │   │   │   # Attempt to update the repository                                                                                                                    │
+│   1197 │   │   │   │   │   remote.fetch()                                                                                                                                        │
+│                                                                                                                                                                                  │
+│ ╭─────────────────────────────────────────────────────── locals ────────────────────────────────────────────────────────╮                                                        │
+│ │          branch = 'v0.3.26'                                                                                           │                                                        │
+│ │ cached_template = PosixPath('/home/matias/.cache/briefcase/templates/briefcase-linux-system-template')                │                                                        │
+│ │          remote = <git.Remote "origin">                                                                               │                                                        │
+│ │            repo = <git.repo.base.Repo '/home/matias/.cache/briefcase/templates/briefcase-linux-system-template/.git'> │                                                        │
+│ │            self = <briefcase.platforms.linux.system.LinuxSystemCreateCommand object at 0x7fb3be39c050>                │                                                        │
+│ │        template = 'https://github.com/beeware/briefcase-linux-system-template.git'                                    │                                                        │
+│ ╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯                                                        │
+│                                                                                                                                                                                  │
+│ /home/matias/bees/lib/python3.13/site-packages/git/remote.py:664 in set_url                                                                                                      │
+│                                                                                                                                                                                  │
+│    661 │   │   if old_url:                                                                                                                                                       │
+│    662 │   │   │   self.repo.git.remote(scmd, "--", self.name, new_url, old_url, **kwargs)                                                                                       │
+│    663 │   │   else:                                                                                                                                                             │
+│ ❱  664 │   │   │   self.repo.git.remote(scmd, "--", self.name, new_url, **kwargs)                                                                                                │
+│    665 │   │   return self                                                                                                                                                       │
+│    666 │                                                                                                                                                                         │
+│    667 │   def add_url(self, url: str, allow_unsafe_protocols: bool = False, **kwargs: Any) ->                                                                                   │
+│                                                                                                                                                                                  │
+│ ╭───────────────────────────────────────── locals ──────────────────────────────────────────╮                                                                                    │
+│ │ allow_unsafe_protocols = False                                                            │                                                                                    │
+│ │                 kwargs = {'insert_kwargs_after': 'set-url'}                               │                                                                                    │
+│ │                new_url = 'https://github.com/beeware/briefcase-linux-system-template.git' │                                                                                    │
+│ │                old_url = None                                                             │                                                                                    │
+│ │                   scmd = 'set-url'                                                        │                                                                                    │
+│ │                   self = <git.Remote "origin">                                            │                                                                                    │
+│ ╰───────────────────────────────────────────────────────────────────────────────────────────╯                                                                                    │
+│                                                                                                                                                                                  │
+│ /home/matias/bees/lib/python3.13/site-packages/git/cmd.py:1003 in <lambda>                                                                                                       │
+│                                                                                                                                                                                  │
+│   1000 │   │   """                                                                                                                                                               │
+│   1001 │   │   if name.startswith("_"):                                                                                                                                          │
+│   1002 │   │   │   return super().__getattribute__(name)                                                                                                                         │
+│ ❱ 1003 │   │   return lambda *args, **kwargs: self._call_process(name, *args, **kwargs)                                                                                          │
+│   1004 │                                                                                                                                                                         │
+│   1005 │   def set_persistent_git_options(self, **kwargs: Any) -> None:                                                                                                          │
+│   1006 │   │   """Specify command line options to the git executable for subsequent                                                                                              │
+│                                                                                                                                                                                  │
+│ ╭──────────────────────────────────────────────── locals ────────────────────────────────────────────────╮                                                                       │
+│ │   args = ('set-url', '--', 'origin', 'https://github.com/beeware/briefcase-linux-system-template.git') │                                                                       │
+│ │ kwargs = {'insert_kwargs_after': 'set-url'}                                                            │                                                                       │
+│ │   name = 'remote'                                                                                      │                                                                       │
+│ │   self = <git.cmd.Git object at 0x7fb3be15eda0>                                                        │                                                                       │
+│ ╰────────────────────────────────────────────────────────────────────────────────────────────────────────╯                                                                       │
+│                                                                                                                                                                                  │
+│ /home/matias/bees/lib/python3.13/site-packages/git/cmd.py:1616 in _call_process                                                                                                  │
+│                                                                                                                                                                                  │
+│   1613 │   │   call.append(dashify(method))                                                                                                                                      │
+│   1614 │   │   call.extend(args_list)                                                                                                                                            │
+│   1615 │   │                                                                                                                                                                     │
+│ ❱ 1616 │   │   return self.execute(call, **exec_kwargs)                                                                                                                          │
+│   1617 │                                                                                                                                                                         │
+│   1618 │   def _parse_object_header(self, header_line: str) -> Tuple[str, str, int]:                                                                                             │
+│   1619 │   │   """                                                                                                                                                               │
+│                                                                                                                                                                                  │
+│ ╭──────────────────────────────────────────────────────────────── locals ────────────────────────────────────────────────────────────────╮                                       │
+│ │                  args = ('set-url', '--', 'origin', 'https://github.com/beeware/briefcase-linux-system-template.git')                  │                                       │
+│ │             args_list = ['set-url', '--', 'origin', 'https://github.com/beeware/briefcase-linux-system-template.git']                  │                                       │
+│ │                  call = ['git', 'remote', 'set-url', '--', 'origin', 'https://github.com/beeware/briefcase-linux-system-template.git'] │                                       │
+│ │           exec_kwargs = {}                                                                                                             │                                       │
+│ │              ext_args = ['set-url', '--', 'origin', 'https://github.com/beeware/briefcase-linux-system-template.git']                  │                                       │
+│ │                 index = 0                                                                                                              │                                       │
+│ │ insert_after_this_arg = 'set-url'                                                                                                      │                                       │
+│ │                kwargs = {'insert_kwargs_after': 'set-url'}                                                                             │                                       │
+│ │                method = 'remote'                                                                                                       │                                       │
+│ │              opt_args = []                                                                                                             │                                       │
+│ │           opts_kwargs = {}                                                                                                             │                                       │
+│ │                  self = <git.cmd.Git object at 0x7fb3be15eda0>                                                                         │                                       │
+│ ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯                                       │
+│                                                                                                                                                                                  │
+│ /home/matias/bees/lib/python3.13/site-packages/git/cmd.py:1406 in execute                                                                                                        │
+│                                                                                                                                                                                  │
+│   1403 │   │   # END handle debug printing                                                                                                                                       │
+│   1404 │   │                                                                                                                                                                     │
+│   1405 │   │   if with_exceptions and status != 0:                                                                                                                               │
+│ ❱ 1406 │   │   │   raise GitCommandError(redacted_command, status, stderr_value, stdout_value)                                                                                   │
+│   1407 │   │                                                                                                                                                                     │
+│   1408 │   │   if isinstance(stdout_value, bytes) and stdout_as_string:  # Could also be output                                                                                  │
+│   1409 │   │   │   stdout_value = safe_decode(stdout_value)                                                                                                                      │
+│                                                                                                                                                                                  │
+│ ╭──────────────────────────────────────────────────────────────────── locals ────────────────────────────────────────────────────────────────────╮                               │
+│ │              as_process = False                                                                                                                │                               │
+│ │                 command = ['git', 'remote', 'set-url', '--', 'origin', 'https://github.com/beeware/briefcase-linux-system-template.git']       │                               │
+│ │             communicate = <bound method Popen.communicate of <Popen: returncode: 128 args: ['git', 'remote', 'set-url', '--', 'origin', '...>> │                               │
+│ │                     cwd = '/home/matias/.cache/briefcase/templates/briefcase-linux-system-template'                                            │                               │
+│ │                     env = {                                                                                                                    │                               │
+│ │                           │   'SHELL': '/bin/bash',                                                                                            │                               │
+│ │                           │   'SESSION_MANAGER': 'local/Matias:@/tmp/.ICE-unix/1782,unix/Matias:/tmp/.ICE-unix/1782',                          │                               │
+│ │                           │   'QT_ACCESSIBILITY': '1',                                                                                         │                               │
+│ │                           │   'COLORTERM': 'truecolor',                                                                                        │                               │
+│ │                           │   'XDG_MENU_PREFIX': 'gnome-',                                                                                     │                               │
+│ │                           │   'GNOME_DESKTOP_SESSION_ID': 'this-is-deprecated',                                                                │                               │
+│ │                           │   'GNOME_KEYRING_CONTROL': '/run/user/1000/keyring',                                                               │                               │
+│ │                           │   'LANGUAGE': 'C',                                                                                                 │                               │
+│ │                           │   'SSH_AUTH_SOCK': '/run/user/1000/keyring/ssh',                                                                   │                               │
+│ │                           │   'MEMORY_PRESSURE_WRITE': 'c29tZSAyMDAwMDAgMjAwMDAwMAA=',                                                         │                               │
+│ │                           │   ... +47                                                                                                          │                               │
+│ │                           }                                                                                                                    │                               │
+│ │              inline_env = None                                                                                                                 │                               │
+│ │                 istream = None                                                                                                                 │                               │
+│ │      kill_after_timeout = None                                                                                                                 │                               │
+│ │          max_chunk_size = 8192                                                                                                                 │                               │
+│ │                 newline = b'\n'                                                                                                                │                               │
+│ │           output_stream = None                                                                                                                 │                               │
+│ │                    proc = <Popen: returncode: 128 args: ['git', 'remote', 'set-url', '--', 'origin', '...>                                     │                               │
+│ │        redacted_command = ['git', 'remote', 'set-url', '--', 'origin', 'https://github.com/beeware/briefcase-linux-system-template.git']       │                               │
+│ │                    self = <git.cmd.Git object at 0x7fb3be15eda0>                                                                               │                               │
+│ │                   shell = False                                                                                                                │                               │
+│ │                  status = 128                                                                                                                  │                               │
+│ │            stderr_value = b'error: could not lock config file .git/config: Permission denied\nfatal: could no'+93                              │                               │
+│ │        stdout_as_string = True                                                                                                                 │                               │
+│ │             stdout_sink = -1                                                                                                                   │                               │
+│ │            stdout_value = b''                                                                                                                  │                               │
+│ │ strip_newline_in_stdout = True                                                                                                                 │                               │
+│ │       subprocess_kwargs = {}                                                                                                                   │                               │
+│ │      universal_newlines = False                                                                                                                │                               │
+│ │         with_exceptions = True                                                                                                                 │                               │
+│ │    with_extended_output = False                                                                                                                │                               │
+│ │             with_stdout = True                                                                                                                 │                               │
+│ ╰────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯                               │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+GitCommandError: Cmd('git') failed due to: exit code(128)
+  cmdline: git remote set-url -- origin https://github.com/beeware/briefcase-linux-system-template.git
+  stderr: 'error: could not lock config file .git/config: Permission denied
+fatal: could not set 'remote.origin.url' to 'https://github.com/beeware/briefcase-linux-system-template.git''
+
+The above exception was the direct cause of the following exception:
+
+╭─────────────────────────────────────────────────────────────────────── Traceback (most recent call last) ────────────────────────────────────────────────────────────────────────╮
+│ /home/matias/bees/lib/python3.13/site-packages/briefcase/__main__.py:27 in main                                                                                                  │
+│                                                                                                                                                                                  │
+│   24 │   │   │   Path.cwd() / "pyproject.toml",                                                                                                                                  │
+│   25 │   │   │   overrides=overrides,                                                                                                                                            │
+│   26 │   │   )                                                                                                                                                                   │
+│ ❱ 27 │   │   command(**options)                                                                                                                                                  │
+│   28 │   except HelpText as e:                                                                                                                                                   │
+│   29 │   │   console.info()                                                                                                                                                      │
+│   30 │   │   console.info(str(e))                                                                                                                                                │
+│                                                                                                                                                                                  │
+│ ╭─────────────────────────────────────────────────────────────────────────────────── locals ───────────────────────────────────────────────────────────────────────────────────╮ │
+│ │       command = <briefcase.platforms.linux.system.LinuxSystemCreateCommand object at 0x7fb3be39c050>                                                                         │ │
+│ │       console = <briefcase.console.Console object at 0x7fb3bfda3230>                                                                                                         │ │
+│ │             e = BriefcaseCommandError('Unable to check out template branch.\n\nThis may be because your computer is offline, or because the template repository is in a      │ │
+│ │                 weird state. If you have a stable network connection, try deleting:\n\n    /home/matias/.cache/briefcase/templates/briefcase-linux-system-template\n\nand    │ │
+│ │                 retrying your command.')                                                                                                                                     │ │
+│ │ extra_cmdline = []                                                                                                                                                           │ │
+│ │       options = {}                                                                                                                                                           │ │
+│ │     overrides = {}                                                                                                                                                           │ │
+│ │        result = 200                                                                                                                                                          │ │
+│ ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯ │
+│                                                                                                                                                                                  │
+│ /home/matias/bees/lib/python3.13/site-packages/briefcase/commands/create.py:1043 in __call__                                                                                     │
+│                                                                                                                                                                                  │
+│   1040 │   │                                                                                                                                                                     │
+│   1041 │   │   state = None                                                                                                                                                      │
+│   1042 │   │   for _, app_obj in sorted(apps_to_create.items()):                                                                                                                 │
+│ ❱ 1043 │   │   │   state = self.create_app(                                                                                                                                      │
+│   1044 │   │   │   │   app_obj,                                                                                                                                                  │
+│   1045 │   │   │   │   **full_options(state, options),                                                                                                                           │
+│   1046 │   │   │   )                                                                                                                                                             │
+│                                                                                                                                                                                  │
+│ ╭─────────────────────────────────────────────── locals ────────────────────────────────────────────────╮                                                                        │
+│ │              _ = 'breakingdown'                                                                       │                                                                        │
+│ │            app = None                                                                                 │                                                                        │
+│ │       app_name = None                                                                                 │                                                                        │
+│ │        app_obj = <com.breakingdown.breakingdown v0.1.0 AppConfig>                                     │                                                                        │
+│ │ apps_to_create = {'breakingdown': <com.breakingdown.breakingdown v0.1.0 AppConfig>}                   │                                                                        │
+│ │        options = {}                                                                                   │                                                                        │
+│ │           self = <briefcase.platforms.linux.system.LinuxSystemCreateCommand object at 0x7fb3be39c050> │                                                                        │
+│ │          state = None                                                                                 │                                                                        │
+│ ╰───────────────────────────────────────────────────────────────────────────────────────────────────────╯                                                                        │
+│                                                                                                                                                                                  │
+│ /home/matias/bees/lib/python3.13/site-packages/briefcase/commands/create.py:948 in create_app                                                                                    │
+│                                                                                                                                                                                  │
+│    945 │   │   │   self.tools.shutil.rmtree(bundle_path)                                                                                                                         │
+│    946 │   │                                                                                                                                                                     │
+│    947 │   │   self.console.info("Generating application template...", prefix=app.app_name)                                                                                      │
+│ ❱  948 │   │   self.generate_app_template(app=app)                                                                                                                               │
+│    949 │   │                                                                                                                                                                     │
+│    950 │   │   # External apps (apps that define 'external_package_path') need the packaging                                                                                     │
+│    951 │   │   # metadata from the template, but not the app content, dependencies, support                                                                                      │
+│                                                                                                                                                                                  │
+│ ╭────────────────────────────────────────────── locals ──────────────────────────────────────────────╮                                                                           │
+│ │         app = <com.breakingdown.breakingdown v0.1.0 AppConfig>                                     │                                                                           │
+│ │ bundle_path = PosixPath('/home/matias/BreakingDown/src/build/breakingdown/debian/trixie')          │                                                                           │
+│ │     confirm = True                                                                                 │                                                                           │
+│ │     options = {}                                                                                   │                                                                           │
+│ │        self = <briefcase.platforms.linux.system.LinuxSystemCreateCommand object at 0x7fb3be39c050> │                                                                           │
+│ ╰────────────────────────────────────────────────────────────────────────────────────────────────────╯                                                                           │
+│                                                                                                                                                                                  │
+│ /home/matias/bees/lib/python3.13/site-packages/briefcase/commands/create.py:273 in generate_app_template                                                                         │
+│                                                                                                                                                                                  │
+│    270 │   │   output_path = self.bundle_path(app).parent                                                                                                                        │
+│    271 │   │   output_path.mkdir(parents=True, exist_ok=True)                                                                                                                    │
+│    272 │   │                                                                                                                                                                     │
+│ ❱  273 │   │   self.generate_template(                                                                                                                                           │
+│    274 │   │   │   template=app.template if app.template else self.app_template_url,                                                                                             │
+│    275 │   │   │   branch=app.template_branch,                                                                                                                                   │
+│    276 │   │   │   output_path=output_path,                                                                                                                                      │
+│                                                                                                                                                                                  │
+│ ╭─────────────────────────────────────────────── locals ───────────────────────────────────────────────╮                                                                         │
+│ │           app = <com.breakingdown.breakingdown v0.1.0 AppConfig>                                     │                                                                         │
+│ │ extra_context = {                                                                                    │                                                                         │
+│ │                 │   'project_name': 'BreakingDown',                                                  │                                                                         │
+│ │                 │   'requires_python': '>=3.11',                                                     │                                                                         │
+│ │                 │   'app_name': 'breakingdown',                                                      │                                                                         │
+│ │                 │   'version': '0.1.0',                                                              │                                                                         │
+│ │                 │   'bundle': 'com.breakingdown',                                                    │                                                                         │
+│ │                 │   'description': 'Search Gmail mails and export breakdown Excel sheets.',          │                                                                         │
+│ │                 │   'sources': [                                                                     │                                                                         │
+│ │                 │   │   'breakingdown',                                                              │                                                                         │
+│ │                 │   │   '__init__.py',                                                               │                                                                         │
+│ │                 │   │   'Breakdown.py',                                                              │                                                                         │
+│ │                 │   │   'buscador_adapter.py',                                                       │                                                                         │
+│ │                 │   │   'condicion.py',                                                              │                                                                         │
+│ │                 │   │   'errores.py',                                                                │                                                                         │
+│ │                 │   │   'gui.py',                                                                    │                                                                         │
+│ │                 │   │   'main.py',                                                                   │                                                                         │
+│ │                 │   │   'mostrador_de_condiciones.py',                                               │                                                                         │
+│ │                 │   │   'mostrador_de_mails.py',                                                     │                                                                         │
+│ │                 │   │   ... +2                                                                       │                                                                         │
+│ │                 │   ],                                                                               │                                                                         │
+│ │                 │   'formal_name': "Build n' Breakdown",                                             │                                                                         │
+│ │                 │   'url': 'https://example.com/breakingdown',                                       │                                                                         │
+│ │                 │   'author': 'BreakingDown',                                                        │                                                                         │
+│ │                 │   ... +37                                                                          │                                                                         │
+│ │                 }                                                                                    │                                                                         │
+│ │   output_path = PosixPath('/home/matias/BreakingDown/src/build/breakingdown/debian')                 │                                                                         │
+│ │          self = <briefcase.platforms.linux.system.LinuxSystemCreateCommand object at 0x7fb3be39c050> │                                                                         │
+│ ╰──────────────────────────────────────────────────────────────────────────────────────────────────────╯                                                                         │
+│                                                                                                                                                                                  │
+│ /home/matias/bees/lib/python3.13/site-packages/briefcase/commands/base.py:1324 in generate_template                                                                              │
+│                                                                                                                                                                                  │
+│   1321 │   │   │   │   f"Using app template: {template}, branch {template_branch}"                                                                                               │
+│   1322 │   │   │   )                                                                                                                                                             │
+│   1323 │   │   │   # Unroll the new app template                                                                                                                                 │
+│ ❱ 1324 │   │   │   self._generate_template(                                                                                                                                      │
+│   1325 │   │   │   │   template=template,                                                                                                                                        │
+│   1326 │   │   │   │   branch=template_branch,                                                                                                                                   │
+│   1327 │   │   │   │   output_path=output_path,                                                                                                                                  │
+│                                                                                                                                                                                  │
+│ ╭──────────────────────────────────────────────── locals ────────────────────────────────────────────────╮                                                                       │
+│ │          branch = None                                                                                 │                                                                       │
+│ │   extra_context = {                                                                                    │                                                                       │
+│ │                   │   'project_name': 'BreakingDown',                                                  │                                                                       │
+│ │                   │   'requires_python': '>=3.11',                                                     │                                                                       │
+│ │                   │   'app_name': 'breakingdown',                                                      │                                                                       │
+│ │                   │   'version': '0.1.0',                                                              │                                                                       │
+│ │                   │   'bundle': 'com.breakingdown',                                                    │                                                                       │
+│ │                   │   'description': 'Search Gmail mails and export breakdown Excel sheets.',          │                                                                       │
+│ │                   │   'sources': [                                                                     │                                                                       │
+│ │                   │   │   'breakingdown',                                                              │                                                                       │
+│ │                   │   │   '__init__.py',                                                               │                                                                       │
+│ │                   │   │   'Breakdown.py',                                                              │                                                                       │
+│ │                   │   │   'buscador_adapter.py',                                                       │                                                                       │
+│ │                   │   │   'condicion.py',                                                              │                                                                       │
+│ │                   │   │   'errores.py',                                                                │                                                                       │
+│ │                   │   │   'gui.py',                                                                    │                                                                       │
+│ │                   │   │   'main.py',                                                                   │                                                                       │
+│ │                   │   │   'mostrador_de_condiciones.py',                                               │                                                                       │
+│ │                   │   │   'mostrador_de_mails.py',                                                     │                                                                       │
+│ │                   │   │   ... +2                                                                       │                                                                       │
+│ │                   │   ],                                                                               │                                                                       │
+│ │                   │   'formal_name': "Build n' Breakdown",                                             │                                                                       │
+│ │                   │   'url': 'https://example.com/breakingdown',                                       │                                                                       │
+│ │                   │   'author': 'BreakingDown',                                                        │                                                                       │
+│ │                   │   ... +40                                                                          │                                                                       │
+│ │                   }                                                                                    │                                                                       │
+│ │     output_path = PosixPath('/home/matias/BreakingDown/src/build/breakingdown/debian')                 │                                                                       │
+│ │            self = <briefcase.platforms.linux.system.LinuxSystemCreateCommand object at 0x7fb3be39c050> │                                                                       │
+│ │        template = 'https://github.com/beeware/briefcase-linux-system-template.git'                     │                                                                       │
+│ │ template_branch = 'v0.3.26'                                                                            │                                                                       │
+│ │         version = <Version('0.3.26')>                                                                  │                                                                       │
+│ ╰────────────────────────────────────────────────────────────────────────────────────────────────────────╯                                                                       │
+│                                                                                                                                                                                  │
+│ /home/matias/bees/lib/python3.13/site-packages/briefcase/commands/base.py:1258 in _generate_template                                                                             │
+│                                                                                                                                                                                  │
+│   1255 │   │   """                                                                                                                                                               │
+│   1256 │   │   # Make sure we have an updated cookiecutter template,                                                                                                             │
+│   1257 │   │   # checked out to the right branch                                                                                                                                 │
+│ ❱ 1258 │   │   cached_template = self.update_cookiecutter_cache(                                                                                                                 │
+│   1259 │   │   │   template=template,                                                                                                                                            │
+│   1260 │   │   │   branch=branch,                                                                                                                                                │
+│   1261 │   │   )                                                                                                                                                                 │
+│                                                                                                                                                                                  │
+│ ╭─────────────────────────────────────────────── locals ───────────────────────────────────────────────╮                                                                         │
+│ │        branch = 'v0.3.26'                                                                            │                                                                         │
+│ │ extra_context = {                                                                                    │                                                                         │
+│ │                 │   'project_name': 'BreakingDown',                                                  │                                                                         │
+│ │                 │   'requires_python': '>=3.11',                                                     │                                                                         │
+│ │                 │   'app_name': 'breakingdown',                                                      │                                                                         │
+│ │                 │   'version': '0.1.0',                                                              │                                                                         │
+│ │                 │   'bundle': 'com.breakingdown',                                                    │                                                                         │
+│ │                 │   'description': 'Search Gmail mails and export breakdown Excel sheets.',          │                                                                         │
+│ │                 │   'sources': [                                                                     │                                                                         │
+│ │                 │   │   'breakingdown',                                                              │                                                                         │
+│ │                 │   │   '__init__.py',                                                               │                                                                         │
+│ │                 │   │   'Breakdown.py',                                                              │                                                                         │
+│ │                 │   │   'buscador_adapter.py',                                                       │                                                                         │
+│ │                 │   │   'condicion.py',                                                              │                                                                         │
+│ │                 │   │   'errores.py',                                                                │                                                                         │
+│ │                 │   │   'gui.py',                                                                    │                                                                         │
+│ │                 │   │   'main.py',                                                                   │                                                                         │
+│ │                 │   │   'mostrador_de_condiciones.py',                                               │                                                                         │
+│ │                 │   │   'mostrador_de_mails.py',                                                     │                                                                         │
+│ │                 │   │   ... +2                                                                       │                                                                         │
+│ │                 │   ],                                                                               │                                                                         │
+│ │                 │   'formal_name': "Build n' Breakdown",                                             │                                                                         │
+│ │                 │   'url': 'https://example.com/breakingdown',                                       │                                                                         │
+│ │                 │   'author': 'BreakingDown',                                                        │                                                                         │
+│ │                 │   ... +40                                                                          │                                                                         │
+│ │                 }                                                                                    │                                                                         │
+│ │   output_path = PosixPath('/home/matias/BreakingDown/src/build/breakingdown/debian')                 │                                                                         │
+│ │          self = <briefcase.platforms.linux.system.LinuxSystemCreateCommand object at 0x7fb3be39c050> │                                                                         │
+│ │      template = 'https://github.com/beeware/briefcase-linux-system-template.git'                     │                                                                         │
+│ ╰──────────────────────────────────────────────────────────────────────────────────────────────────────╯                                                                         │
+│                                                                                                                                                                                  │
+│ /home/matias/bees/lib/python3.13/site-packages/briefcase/commands/base.py:1230 in update_cookiecutter_cache                                                                      │
+│                                                                                                                                                                                  │
+│   1227 │   │   │   │   │   # No branch exists for the requested version.                                                                                                         │
+│   1228 │   │   │   │   │   raise InvalidTemplateBranch(template, branch) from e                                                                                                  │
+│   1229 │   │   │   except (ValueError, self.tools.git.exc.GitError) as e:                                                                                                        │
+│ ❱ 1230 │   │   │   │   raise BriefcaseCommandError(                                                                                                                              │
+│   1231 │   │   │   │   │   "Unable to check out template branch.\n"                                                                                                              │
+│   1232 │   │   │   │   │   "\n"                                                                                                                                                  │
+│   1233 │   │   │   │   │   "This may be because your computer is offline, or because the "                                                                                       │
+│                                                                                                                                                                                  │
+│ ╭─────────────────────────────────────────────────────── locals ────────────────────────────────────────────────────────╮                                                        │
+│ │          branch = 'v0.3.26'                                                                                           │                                                        │
+│ │ cached_template = PosixPath('/home/matias/.cache/briefcase/templates/briefcase-linux-system-template')                │                                                        │
+│ │          remote = <git.Remote "origin">                                                                               │                                                        │
+│ │            repo = <git.repo.base.Repo '/home/matias/.cache/briefcase/templates/briefcase-linux-system-template/.git'> │                                                        │
+│ │            self = <briefcase.platforms.linux.system.LinuxSystemCreateCommand object at 0x7fb3be39c050>                │                                                        │
+│ │        template = 'https://github.com/beeware/briefcase-linux-system-template.git'                                    │                                                        │
+│ ╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯                                                        │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+BriefcaseCommandError: Unable to check out template branch.
+
+This may be because your computer is offline, or because the template repository is in a weird state. If you have a stable network connection, try deleting:
+
+    /home/matias/.cache/briefcase/templates/briefcase-linux-system-template
+
+and retrying your command.

@@ -1,0 +1,2 @@
+[console_scripts]
+breakingdown = breakingdown.app:main

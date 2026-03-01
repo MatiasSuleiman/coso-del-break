@@ -1,7 +1,12 @@
 import sys
 from PyQt6.QtWidgets import QApplication
-from src.gui import Gui
-from src.ventana_de_login import Ventana_de_login
+
+try:
+    from src.gui import Gui
+    from src.ventana_de_login import Ventana_de_login
+except ModuleNotFoundError:
+    from gui import Gui
+    from ventana_de_login import Ventana_de_login
 
 
 class Controlador_de_aplicacion:

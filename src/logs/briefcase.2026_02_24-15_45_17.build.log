@@ -1,0 +1,499 @@
+Date/Time:       2026-02-24 15:45:17 
+Command line:    /home/matias/bees/lib/python3.13/site-packages/briefcase/__main__.py build
+
+OS Release:      Linux 6.12.73+deb13-amd64
+OS Version:      #1 SMP PREEMPT_DYNAMIC Debian 6.12.73-1 (2026-02-17)
+Architecture:    x86_64
+Platform:        Linux-6.12.73+deb13-amd64-x86_64-with-glibc2.41
+
+Python exe:      /home/matias/bees/bin/python3
+Python version:  3.13.5 (main, Jun 25 2025, 18:55:22) [GCC 14.2.0]
+Virtual env:     True
+Conda env:       False
+
+Briefcase:       0.3.26
+Target platform: linux
+Target format:   system
+
+Environment Variables:
+	COLORTERM=truecolor
+	DBUS_SESSION_BUS_ADDRESS=unix:path=/run/user/1000/bus
+	DESKTOP_SESSION=gnome
+	DISPLAY=:0
+	GDMSESSION=gnome
+	GDM_LANG=en_US.UTF-8
+	GNOME_DESKTOP_SESSION_ID=this-is-deprecated
+	GNOME_KEYRING_CONTROL=********************
+	GNOME_SETUP_DISPLAY=:1
+	GNOME_TERMINAL_SCREEN=/org/gnome/Terminal/screen/74d6df59_5c1a_4e13_a1b4_4dafa19a3ea6
+	GNOME_TERMINAL_SERVICE=:1.169
+	GPG_AGENT_INFO=/run/user/1000/gnupg/S.gpg-agent:0:1
+	GTK_MODULES=gail:atk-bridge
+	HOME=/home/matias
+	IM_CONFIG_PHASE=1
+	LANG=en_US.UTF-8
+	LANGUAGE=en_US:en
+	LOGNAME=matias
+	LS_COLORS=rs=0:di=01;34:ln=01;36:mh=00:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:mi=00:su=37;41:sg=30;43:ca=00:tw=30;42:ow=34;42:st=37;44:ex=01;32:*.7z=01;31:*.ace=01;31:*.alz=01;31:*.apk=01;31:*.arc=01;31:*.arj=01;31:*.bz=01;31:*.bz2=01;31:*.cab=01;31:*.cpio=01;31:*.crate=01;31:*.deb=01;31:*.drpm=01;31:*.dwm=01;31:*.dz=01;31:*.ear=01;31:*.egg=01;31:*.esd=01;31:*.gz=01;31:*.jar=01;31:*.lha=01;31:*.lrz=01;31:*.lz=01;31:*.lz4=01;31:*.lzh=01;31:*.lzma=01;31:*.lzo=01;31:*.pyz=01;31:*.rar=01;31:*.rpm=01;31:*.rz=01;31:*.sar=01;31:*.swm=01;31:*.t7z=01;31:*.tar=01;31:*.taz=01;31:*.tbz=01;31:*.tbz2=01;31:*.tgz=01;31:*.tlz=01;31:*.txz=01;31:*.tz=01;31:*.tzo=01;31:*.tzst=01;31:*.udeb=01;31:*.war=01;31:*.whl=01;31:*.wim=01;31:*.xz=01;31:*.z=01;31:*.zip=01;31:*.zoo=01;31:*.zst=01;31:*.avif=01;35:*.jpg=01;35:*.jpeg=01;35:*.jxl=01;35:*.mjpg=01;35:*.mjpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.svg=01;35:*.svgz=01;35:*.mng=01;35:*.pcx=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.m2v=01;35:*.mkv=01;35:*.webm=01;35:*.webp=01;35:*.ogm=01;35:*.mp4=01;35:*.m4v=01;35:*.mp4v=01;35:*.vob=01;35:*.qt=01;35:*.nuv=01;35:*.wmv=01;35:*.asf=01;35:*.rm=01;35:*.rmvb=01;35:*.flc=01;35:*.avi=01;35:*.fli=01;35:*.flv=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.yuv=01;35:*.cgm=01;35:*.emf=01;35:*.ogv=01;35:*.ogx=01;35:*.aac=00;36:*.au=00;36:*.flac=00;36:*.m4a=00;36:*.mid=00;36:*.midi=00;36:*.mka=00;36:*.mp3=00;36:*.mpc=00;36:*.ogg=00;36:*.ra=00;36:*.wav=00;36:*.oga=00;36:*.opus=00;36:*.spx=00;36:*.xspf=00;36:*~=00;90:*#=00;90:*.bak=00;90:*.crdownload=00;90:*.dpkg-dist=00;90:*.dpkg-new=00;90:*.dpkg-old=00;90:*.dpkg-tmp=00;90:*.old=00;90:*.orig=00;90:*.part=00;90:*.rej=00;90:*.rpmnew=00;90:*.rpmorig=00;90:*.rpmsave=00;90:*.swp=00;90:*.tmp=00;90:*.ucf-dist=00;90:*.ucf-new=00;90:*.ucf-old=00;90:
+	MEMORY_PRESSURE_WATCH=/sys/fs/cgroup/user.slice/user-1000.slice/user@1000.service/session.slice/org.gnome.SettingsDaemon.MediaKeys.service/memory.pressure
+	MEMORY_PRESSURE_WRITE=c29tZSAyMDAwMDAgMjAwMDAwMAA=
+	OLDPWD=/home/matias/BreakingDown
+	PATH=/home/matias/bees/bin:/home/matias/.cargo/bin:/usr/local/bin:/usr/bin:/bin:/usr/local/games:/usr/games
+	PS1=(bees) \[\e]0;\u@\h: \w\a\]${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ 
+	PWD=/home/matias/BreakingDown/src
+	QT_ACCESSIBILITY=1
+	QT_IM_MODULE=ibus
+	SESSION_MANAGER=local/Matias:@/tmp/.ICE-unix/1782,unix/Matias:/tmp/.ICE-unix/1782
+	SHELL=/bin/bash
+	SHLVL=1
+	SSH_AUTH_SOCK=/run/user/1000/keyring/ssh
+	SYSTEMD_EXEC_PID=1976
+	TERM=xterm-256color
+	USER=matias
+	USERNAME=matias
+	VIRTUAL_ENV=/home/matias/bees
+	VIRTUAL_ENV_PROMPT=bees
+	VTE_VERSION=8001
+	WAYLAND_DISPLAY=wayland-0
+	XAUTHORITY=/run/user/1000/.mutter-Xwaylandauth.RM05K3
+	XDG_CURRENT_DESKTOP=GNOME
+	XDG_DATA_DIRS=/usr/share/gnome:/home/matias/.local/share/flatpak/exports/share:/var/lib/flatpak/exports/share:/usr/local/share/:/usr/share/
+	XDG_MENU_PREFIX=gnome-
+	XDG_RUNTIME_DIR=/run/user/1000
+	XDG_SESSION_CLASS=user
+	XDG_SESSION_DESKTOP=gnome
+	XDG_SESSION_TYPE=wayland
+	XMODIFIERS=@im=ibus
+	_=/home/matias/bees/bin/python3
+
+pyproject.toml:
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "breakingdown"
+version = "0.1.0"
+description = "Desktop app for Gmail search and breakdown spreadsheet export."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "PyQt6>=6.6",
+    "imap-tools>=1.5",
+    "openpyxl>=3.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "briefcase>=0.3.19",
+    "pytest>=8.0",
+]
+
+[project.scripts]
+breakingdown = "breakingdown.app:main"
+
+[tool.setuptools]
+py-modules = [
+    "Breakdown",
+    "buscador_adapter",
+    "condicion",
+    "errores",
+    "gui",
+    "main",
+    "mostrador_de_condiciones",
+    "mostrador_de_mails",
+    "system_facade",
+    "ventana_de_login",
+]
+packages = ["breakingdown"]
+
+[tool.briefcase]
+project_name = "BreakingDown"
+bundle = "com.breakingdown"
+version = "0.1.0"
+url = "https://example.com/breakingdown"
+license = { text = "Proprietary" }
+author = "BreakingDown"
+author_email = "dev@breakingdown.local"
+
+[tool.briefcase.app.breakingdown]
+formal_name = "Build n' Breakdown"
+description = "Search Gmail mails and export breakdown Excel sheets."
+long_description = """Search Gmail, apply filters, and generate a breakdown spreadsheet for legal/operational reporting."""
+sources = [
+    "breakingdown",
+    ".",
+]
+requires = [
+    "PyQt6>=6.6",
+    "imap-tools>=1.5",
+    "openpyxl>=3.1",
+]
+
+[tool.briefcase.app.breakingdown.macOS]
+universal_build = true
+
+Briefcase Log:
+[15:45:17]                                                                                                                                                             system.py:138
+           [breakingdown] Finalizing application configuration...                                                                                                      system.py:138
+           Targeting debian:trixie (Vendor base debian)                                                                                                                system.py:150
+           Determining glibc version... started                                                                                                                        system.py:214
+           Determining glibc version... done                                                                                                                           system.py:214
+           Targeting glibc 2.41                                                                                                                                        system.py:216
+           Targeting Python3.13                                                                                                                                        system.py:220
+                                                                                                                                                                   subprocess.py:839
+           >>> Running Command:                                                                                                                                    subprocess.py:839
+           >>>     /usr/bin/python3 -c 'import sys; print(sys.version)'                                                                                            subprocess.py:839
+           >>> Working Directory:                                                                                                                                  subprocess.py:839
+           >>>     /home/matias/BreakingDown/src                                                                                                                   subprocess.py:839
+           >>> Command Output:                                                                                                                                     subprocess.py:839
+           >>>     3.13.5 (main, Jun 25 2025, 18:55:22) [GCC 14.2.0]                                                                                               subprocess.py:839
+           >>> Return code: 0                                                                                                                                      subprocess.py:839
+                                                                                                                                                                   subprocess.py:839
+                                                                                                                                                                   subprocess.py:839
+           >>> Running Command:                                                                                                                                    subprocess.py:839
+           >>>     dpkg -s python3-dev                                                                                                                             subprocess.py:839
+           >>> Working Directory:                                                                                                                                  subprocess.py:839
+           >>>     /home/matias/BreakingDown/src                                                                                                                   subprocess.py:839
+           >>> Command Output:                                                                                                                                     subprocess.py:839
+           >>>     Package: python3-dev                                                                                                                            subprocess.py:839
+           >>>     Status: install ok installed                                                                                                                    subprocess.py:839
+           >>>     Priority: optional                                                                                                                              subprocess.py:839
+           >>>     Section: python                                                                                                                                 subprocess.py:839
+           >>>     Installed-Size: 150                                                                                                                             subprocess.py:839
+           >>>     Maintainer: Matthias Klose <doko@debian.org>                                                                                                    subprocess.py:839
+           >>>     Architecture: amd64                                                                                                                             subprocess.py:839
+           >>>     Multi-Arch: allowed                                                                                                                             subprocess.py:839
+           >>>     Source: python3-defaults                                                                                                                        subprocess.py:839
+           >>>     Version: 3.13.5-1                                                                                                                               subprocess.py:839
+           >>>     Replaces: python3 (<< 3.9.2-1~), python3.1 (<< 3.1.2+20100706-3)                                                                                subprocess.py:839
+           >>>     Depends: python3 (= 3.13.5-1), libpython3-dev (= 3.13.5-1), python3.13-dev (>= 3.13.5-1~), libjs-sphinxdoc (>= 8.1)                             subprocess.py:839
+           >>>     Breaks: python3 (<< 3.9.2-1~)                                                                                                                   subprocess.py:839
+           >>>     Description: header files and a static library for Python (default)                                                                             subprocess.py:839
+           >>>      Header files, a static library and development tools for building                                                                              subprocess.py:839
+           >>>      Python modules, extending the Python interpreter or embedding Python                                                                           subprocess.py:839
+           >>>      in applications.                                                                                                                               subprocess.py:839
+           >>>      .                                                                                                                                              subprocess.py:839
+           >>>      This package is a dependency package, which depends on Debian's default                                                                        subprocess.py:839
+           >>>      Python 3 version's headers (currently v3.13).                                                                                                  subprocess.py:839
+           >>>     Built-Using: sphinx (= 8.1.3-5)                                                                                                                 subprocess.py:839
+           >>>     Homepage: https://www.python.org/                                                                                                               subprocess.py:839
+           >>> Return code: 0                                                                                                                                      subprocess.py:839
+                                                                                                                                                                   subprocess.py:839
+                                                                                                                                                                   subprocess.py:839
+           >>> Running Command:                                                                                                                                    subprocess.py:839
+           >>>     dpkg -s dpkg-dev                                                                                                                                subprocess.py:839
+           >>> Working Directory:                                                                                                                                  subprocess.py:839
+           >>>     /home/matias/BreakingDown/src                                                                                                                   subprocess.py:839
+           >>> Command Output:                                                                                                                                     subprocess.py:839
+           >>>     Package: dpkg-dev                                                                                                                               subprocess.py:839
+           >>>     Status: install ok installed                                                                                                                    subprocess.py:839
+           >>>     Priority: optional                                                                                                                              subprocess.py:839
+           >>>     Section: utils                                                                                                                                  subprocess.py:839
+           >>>     Installed-Size: 1726                                                                                                                            subprocess.py:839
+           >>>     Maintainer: Dpkg Developers <debian-dpkg@lists.debian.org>                                                                                      subprocess.py:839
+           >>>     Architecture: all                                                                                                                               subprocess.py:839
+           >>>     Multi-Arch: foreign                                                                                                                             subprocess.py:839
+           >>>     Source: dpkg                                                                                                                                    subprocess.py:839
+           >>>     Version: 1.22.21                                                                                                                                subprocess.py:839
+           >>>     Provides: dpkg-build-api (= 0), dpkg-build-api (= 1)                                                                                            subprocess.py:839
+           >>>     Depends: perl:any, libdpkg-perl (= 1.22.21), tar (>= 1.28-1), bzip2, xz-utils (>= 5.4.0), patch (>= 2.7), make, binutils                        subprocess.py:839
+           >>>     Recommends: build-essential, gcc | c-compiler, fakeroot, sq | sqop | rsop | gosop | pgpainless-cli | gpg-sq | gnupg, sqv | sqopv | rsopv | sopv subprocess.py:839
+           | gosop | pgpainless-cli | gpgv-sq | gpgv, libalgorithm-merge-perl                                                                                                       
+           >>>     Suggests: debian-keyring, debian-tag2upload-keyring                                                                                             subprocess.py:839
+           >>>     Breaks: debhelper (<< 10.10.1~), gosop (<< 1.1.0~), libsop-java-java (<< 4.0.7~), pgpainless-cli (<< 1.3.13~), rsop (<< 0.4.0~), sq (<<         subprocess.py:839
+           0.40.0~), sqop (<< 0.27.2~), sqv (<< 1.3.0~)                                                                                                                             
+           >>>     Conffiles:                                                                                                                                      subprocess.py:839
+           >>>      /etc/dpkg/shlibs.default 1a2b9d0a869e2aa885ae3621c557fb95                                                                                      subprocess.py:839
+           >>>      /etc/dpkg/shlibs.override 84b1e69080569cc5c613a50887af5200                                                                                     subprocess.py:839
+           >>>     Description: Debian package development tools                                                                                                   subprocess.py:839
+           >>>      This package provides the development tools (including dpkg-source)                                                                            subprocess.py:839
+           >>>      required to unpack, build and upload Debian source packages.                                                                                   subprocess.py:839
+           >>>      .                                                                                                                                              subprocess.py:839
+           >>>      Most Debian source packages will require additional tools to build;                                                                            subprocess.py:839
+           >>>      for example, most packages need make and the C compiler gcc.                                                                                   subprocess.py:839
+           >>>     Homepage: https://wiki.debian.org/Teams/Dpkg                                                                                                    subprocess.py:839
+           >>> Return code: 0                                                                                                                                      subprocess.py:839
+                                                                                                                                                                   subprocess.py:839
+                                                                                                                                                                   subprocess.py:839
+           >>> Running Command:                                                                                                                                    subprocess.py:839
+           >>>     dpkg -s g++                                                                                                                                     subprocess.py:839
+           >>> Working Directory:                                                                                                                                  subprocess.py:839
+           >>>     /home/matias/BreakingDown/src                                                                                                                   subprocess.py:839
+           >>> Command Output:                                                                                                                                     subprocess.py:839
+           >>>     Package: g++                                                                                                                                    subprocess.py:839
+           >>>     Status: install ok installed                                                                                                                    subprocess.py:839
+           >>>     Priority: optional                                                                                                                              subprocess.py:839
+           >>>     Section: devel                                                                                                                                  subprocess.py:839
+           >>>     Installed-Size: 13                                                                                                                              subprocess.py:839
+           >>>     Maintainer: Debian GCC Maintainers <debian-gcc@lists.debian.org>                                                                                subprocess.py:839
+           >>>     Architecture: amd64                                                                                                                             subprocess.py:839
+           >>>     Source: gcc-defaults (1.220)                                                                                                                    subprocess.py:839
+           >>>     Version: 4:14.2.0-1                                                                                                                             subprocess.py:839
+           >>>     Provides: c++-compiler                                                                                                                          subprocess.py:839
+           >>>     Depends: cpp (= 4:14.2.0-1), cpp-x86-64-linux-gnu (= 4:14.2.0-1), gcc (= 4:14.2.0-1), g++-14 (>= 14.2.0-6~), g++-x86-64-linux-gnu (=            subprocess.py:839
+           4:14.2.0-1), gcc-14 (>= 14.2.0-6~)                                                                                                                                       
+           >>>     Suggests: g++-multilib                                                                                                                          subprocess.py:839
+           >>>     Description: GNU C++ compiler                                                                                                                   subprocess.py:839
+           >>>      This is the GNU C++ compiler, a fairly portable optimizing compiler for C++.                                                                   subprocess.py:839
+           >>>      .                                                                                                                                              subprocess.py:839
+           >>>      This is a dependency package providing the default GNU C++ compiler.                                                                           subprocess.py:839
+           >>> Return code: 0                                                                                                                                      subprocess.py:839
+                                                                                                                                                                   subprocess.py:839
+                                                                                                                                                                   subprocess.py:839
+           >>> Running Command:                                                                                                                                    subprocess.py:839
+           >>>     dpkg -s gcc                                                                                                                                     subprocess.py:839
+           >>> Working Directory:                                                                                                                                  subprocess.py:839
+           >>>     /home/matias/BreakingDown/src                                                                                                                   subprocess.py:839
+           >>> Command Output:                                                                                                                                     subprocess.py:839
+           >>>     Package: gcc                                                                                                                                    subprocess.py:839
+           >>>     Status: install ok installed                                                                                                                    subprocess.py:839
+           >>>     Priority: optional                                                                                                                              subprocess.py:839
+           >>>     Section: devel                                                                                                                                  subprocess.py:839
+           >>>     Installed-Size: 36                                                                                                                              subprocess.py:839
+           >>>     Maintainer: Debian GCC Maintainers <debian-gcc@lists.debian.org>                                                                                subprocess.py:839
+           >>>     Architecture: amd64                                                                                                                             subprocess.py:839
+           >>>     Source: gcc-defaults (1.220)                                                                                                                    subprocess.py:839
+           >>>     Version: 4:14.2.0-1                                                                                                                             subprocess.py:839
+           >>>     Provides: c-compiler                                                                                                                            subprocess.py:839
+           >>>     Depends: cpp (= 4:14.2.0-1), cpp-x86-64-linux-gnu (= 4:14.2.0-1), gcc-14 (>= 14.2.0-6~), gcc-x86-64-linux-gnu (= 4:14.2.0-1)                    subprocess.py:839
+           >>>     Recommends: libc6-dev | libc-dev                                                                                                                subprocess.py:839
+           >>>     Suggests: gcc-multilib, make, manpages-dev, autoconf, automake, libtool, flex, bison, gdb, gcc-doc                                              subprocess.py:839
+           >>>     Conflicts: gcc-doc (<< 1:2.95.3)                                                                                                                subprocess.py:839
+           >>>     Description: GNU C compiler                                                                                                                     subprocess.py:839
+           >>>      This is the GNU C compiler, a fairly portable optimizing compiler for C.                                                                       subprocess.py:839
+           >>>      .                                                                                                                                              subprocess.py:839
+           >>>      This is a dependency package providing the default GNU C compiler.                                                                             subprocess.py:839
+           >>> Return code: 0                                                                                                                                      subprocess.py:839
+                                                                                                                                                                   subprocess.py:839
+                                                                                                                                                                   subprocess.py:839
+           >>> Running Command:                                                                                                                                    subprocess.py:839
+           >>>     dpkg -s libc6-dev                                                                                                                               subprocess.py:839
+           >>> Working Directory:                                                                                                                                  subprocess.py:839
+           >>>     /home/matias/BreakingDown/src                                                                                                                   subprocess.py:839
+           >>> Command Output:                                                                                                                                     subprocess.py:839
+           >>>     Package: libc6-dev                                                                                                                              subprocess.py:839
+           >>>     Status: install ok installed                                                                                                                    subprocess.py:839
+           >>>     Priority: optional                                                                                                                              subprocess.py:839
+           >>>     Section: libdevel                                                                                                                               subprocess.py:839
+           >>>     Installed-Size: 12542                                                                                                                           subprocess.py:839
+           >>>     Maintainer: GNU Libc Maintainers <debian-glibc@lists.debian.org>                                                                                subprocess.py:839
+           >>>     Architecture: amd64                                                                                                                             subprocess.py:839
+           >>>     Multi-Arch: same                                                                                                                                subprocess.py:839
+           >>>     Source: glibc                                                                                                                                   subprocess.py:839
+           >>>     Version: 2.41-12+deb13u1                                                                                                                        subprocess.py:839
+           >>>     Replaces: libc6 (<= 2.32-1)                                                                                                                     subprocess.py:839
+           >>>     Provides: libc-dev (= 2.41-12+deb13u1)                                                                                                          subprocess.py:839
+           >>>     Depends: libc6 (= 2.41-12+deb13u1), libc-dev-bin (= 2.41-12+deb13u1), linux-libc-dev, libcrypt-dev, rpcsvc-proto                                subprocess.py:839
+           >>>     Suggests: glibc-doc, manpages-dev                                                                                                               subprocess.py:839
+           >>>     Breaks: binutils (<< 2.38), catch (<< 1.12.2-0.1), heimdal-multidev (<= 7.7.0+dfsg-4), igblast (<= 1.19.0-1), libassimp-dev (<= 5.2.4~ds0-1),   subprocess.py:839
+           libasyncns-dev (<= 0.8-6+b2), libatm1-dev (<= 1:2.5.1-4), libaws20-dev (<= 20.2-2+b1), libboinc-app-dev (<= 7.20.2+dfsg-1), libbson-dev (<= 1.22.0-1),                   
+           libc6-dev-amd64-cross (<< 2.41~), libcups2-dev (<= 2.4.2-1), libdeal.ii-dev (<= 9.4.0-1), libdkim-dev (<= 1:1.0.21-4+b2), libdolfin-dev-common (<=                       
+           2019.2.0~git20220407.d29e24d-5), libeckit-dev (<= 1.20.0-1), libfclib-dev (<= 3.1.0+dfsg-2), libfltk1.3-dev (<= 1.3.8-4+b1), libghc-resolv-dev (<=                       
+           0.1.2.0-3), libghc-resolv-prof (<= 0.1.2.0-3), libglib2.0-dev (<= 2.72.3-1), libgloox-dev (<= 1.0.24-2+b1), libhesiod-dev (<= 3.2.1-3.1+b1),                             
+           libinfinity-0.7-dev (<= 0.7.2-1+b1), libinsighttoolkit4-dev (<= 4.13.3withdata-dfsg2-3+b1), libinsighttoolkit5-dev (<= 5.2.1-5+b1), libismrmrd-dev (<=                   
+           1.8.0-2), libldap-dev (<= 2.5.12+dfsg-2), liblog4cplus-dev (<= 2.0.7-1), libloudmouth1-dev (<= 1.5.4-1), libmgl-dev (<= 8.0.1-2), libmimalloc2.0 (<=                     
+           2.0.6+ds-1), libminc-dev (<= 2.4.03-5), libmongoc-dev (<= 1.22.1-1), libmrpt-ros1bridge-dev (<= 1:2.4.9+ds-4+b2), libmysqlclient-dev (<= 8.0.29-1),                      
+           libnetcdf-dev (<= 1:4.9.0-3), libnetcdf-mpi-dev (<= 1:4.9.0-1), libnetcdf-pnetcdf-dev (<= 1:4.9.0-1), libnfsidmap-dev (<= 1:2.6.1-2), libns3-dev (<=                     
+           3.36.1+dfsg-4), libola-dev (<= 0.10.8.nojsmin-2), libopenafs-dev (<= 1.8.8.1-3), libopendkim-dev (<= 2.11.0~beta2-7), libopendmarc-dev (<= 1.4.2-1),                     
+           libopenms-dev (<= 2.6.0+cleaned1-3+b1), libopenzwave1.6-dev (<= 1.6.1914+ds-1), libpg-query-dev (<= 13-2.1.2-2), librbl-dev (<= 2.11.0~beta2-7),                         
+           libre-dev (<= 1.1.0-1+b1), libshishi-dev (<= 1.0.2-11), libslurm-dev (<= 21.08.8.2-1), libsocksd0-dev (<= 1.4.2+dfsg-7+b4), libspf2-dev (<=                              
+           1.2.10-7.1+b1), libstrophe-dev (<= 0.12.1-2), libtaningia-dev (<= 0.2.2-2+b1), libtrilinos-amesos-dev (<= 13.2.0-3), libtrilinos-amesos2-dev (<=                         
+           13.2.0-3), libtrilinos-anasazi-dev (<= 13.2.0-3), libtrilinos-aztecoo-dev (<= 13.2.0-3), libtrilinos-belos-dev (<= 13.2.0-3), libtrilinos-epetra-dev                     
+           (<= 13.2.0-3), libtrilinos-epetraext-dev (<= 13.2.0-3), libtrilinos-galeri-dev (<= 13.2.0-3), libtrilinos-ifpack-dev (<= 13.2.0-3),                                      
+           libtrilinos-ifpack2-dev (<= 13.2.0-3), libtrilinos-intrepid-dev (<= 13.2.0-3), libtrilinos-intrepid2-dev (<= 13.2.0-3), libtrilinos-isorropia-dev (<=                    
+           13.2.0-3), libtrilinos-kokkos-dev (<= 13.2.0-3), libtrilinos-kokkos-kernels-dev (<= 13.2.0-3), libtrilinos-komplex-dev (<= 13.2.0-3),                                    
+           libtrilinos-ml-dev (<= 13.2.0-3), libtrilinos-moertel-dev (<= 13.2.0-3), libtrilinos-muelu-dev (<= 13.2.0-3), libtrilinos-nox-dev (<= 13.2.0-3),                         
+           libtrilinos-phalanx-dev (<= 13.2.0-3), libtrilinos-pike-dev (<= 13.2.0-3), libtrilinos-piro-dev (<= 13.2.0-3), libtrilinos-pliris-dev (<= 13.2.0-3),                     
+           libtrilinos-rol-dev (<= 13.2.0-3), libtrilinos-rtop-dev (<= 13.2.0-3), libtrilinos-rythmos-dev (<= 13.2.0-3), libtrilinos-sacado-dev (<= 13.2.0-3),                      
+           libtrilinos-shylu-dev (<= 13.2.0-3), libtrilinos-stokhos-dev (<= 13.2.0-3), libtrilinos-stratimikos-dev (<= 13.2.0-3), libtrilinos-teko-dev (<=                          
+           13.2.0-3), libtrilinos-teuchos-dev (<= 13.2.0-3), libtrilinos-thyra-dev (<= 13.2.0-3), libtrilinos-tpetra-dev (<= 13.2.0-3),                                             
+           libtrilinos-trilinoscouplings-dev (<= 13.2.0-3), libtrilinos-triutils-dev (<= 13.2.0-3), libtrilinos-xpetra-dev (<= 13.2.0-3), libtrilinos-zoltan2-dev                   
+           (<= 13.2.0-3), libvbr-dev (<= 2.11.0~beta2-7), libvisp-dev (<= 3.5.0-2+b1), libvotca-dev (<= 2022-3), libvtk6-dev (<= 6.3.0+dfsg2-8.1+b1), libvtk7-dev                   
+           (<= 7.1.1+dfsg2-10.2), open-vm-tools-dev (<= 2:12.0.5-2), pidgin-librvp (<= 0.9.7cvs-3), proftpd-dev (<= 1.3.7d+dfsg-2), slurm-wlm-basic-plugins-dev                     
+           (<= 21.08.8.2-1)                                                                                                                                                         
+           >>>     Conflicts: libc0.3-dev, libc6.1-dev                                                                                                             subprocess.py:839
+           >>>     Description: GNU C Library: Development Libraries and Header Files                                                                              subprocess.py:839
+           >>>      Contains the symlinks, headers, and object files needed to compile                                                                             subprocess.py:839
+           >>>      and link programs which use the standard C library.                                                                                            subprocess.py:839
+           >>>     Homepage: https://www.gnu.org/software/libc/libc.html                                                                                           subprocess.py:839
+           >>> Return code: 0                                                                                                                                      subprocess.py:839
+                                                                                                                                                                   subprocess.py:839
+                                                                                                                                                                   subprocess.py:839
+           >>> Running Command:                                                                                                                                    subprocess.py:839
+           >>>     dpkg -s make                                                                                                                                    subprocess.py:839
+           >>> Working Directory:                                                                                                                                  subprocess.py:839
+           >>>     /home/matias/BreakingDown/src                                                                                                                   subprocess.py:839
+           >>> Command Output:                                                                                                                                     subprocess.py:839
+           >>>     Package: make                                                                                                                                   subprocess.py:839
+           >>>     Status: install ok installed                                                                                                                    subprocess.py:839
+           >>>     Priority: optional                                                                                                                              subprocess.py:839
+           >>>     Section: devel                                                                                                                                  subprocess.py:839
+           >>>     Installed-Size: 1766                                                                                                                            subprocess.py:839
+           >>>     Maintainer: Stephen Kitt <skitt@debian.org>                                                                                                     subprocess.py:839
+           >>>     Architecture: amd64                                                                                                                             subprocess.py:839
+           >>>     Multi-Arch: allowed                                                                                                                             subprocess.py:839
+           >>>     Source: make-dfsg                                                                                                                               subprocess.py:839
+           >>>     Version: 4.4.1-2                                                                                                                                subprocess.py:839
+           >>>     Replaces: make-guile                                                                                                                            subprocess.py:839
+           >>>     Depends: libc6 (>= 2.38)                                                                                                                        subprocess.py:839
+           >>>     Suggests: make-doc                                                                                                                              subprocess.py:839
+           >>>     Conflicts: make-guile                                                                                                                           subprocess.py:839
+           >>>     Description: utility for directing compilation                                                                                                  subprocess.py:839
+           >>>      GNU Make is a utility which controls the generation of executables                                                                             subprocess.py:839
+           >>>      and other target files of a program from the program's source                                                                                  subprocess.py:839
+           >>>      files. It determines automatically which pieces of a large program                                                                             subprocess.py:839
+           >>>      need to be (re)created, and issues the commands to (re)create                                                                                  subprocess.py:839
+           >>>      them. Make can be used to organize any task in which targets (files)                                                                           subprocess.py:839
+           >>>      are to be automatically updated based on input files whenever the                                                                              subprocess.py:839
+           >>>      corresponding input is newer --- it is not limited to building                                                                                 subprocess.py:839
+           >>>      computer programs. Indeed, Make is a general purpose dependency                                                                                subprocess.py:839
+           >>>      solver.                                                                                                                                        subprocess.py:839
+           >>>     Homepage: https://www.gnu.org/software/make/                                                                                                    subprocess.py:839
+           >>> Return code: 0                                                                                                                                      subprocess.py:839
+                                                                                                                                                                   subprocess.py:839
+                                                                                                                                                                       system.py:715
+           [breakingdown] Building application...                                                                                                                      system.py:715
+           Build bootstrap binary...                                                                                                                                   system.py:717
+           Building bootstrap binary... started                                                                                                                        system.py:718
+                                                                                                                                                                   subprocess.py:839
+           >>> Running Command:                                                                                                                                    subprocess.py:839
+           >>>     make -C bootstrap install                                                                                                                       subprocess.py:839
+           >>> Working Directory:                                                                                                                                  subprocess.py:839
+           >>>     /home/matias/BreakingDown/src/build/breakingdown/debian/trixie                                                                                  subprocess.py:839
+           make: Entering directory '/home/matias/BreakingDown/src/build/breakingdown/debian/trixie/bootstrap'                                                     subprocess.py:196
+           python3.13 -c "import sys; print(f'#define PY_TAG \"{sys.version_info.major}.{sys.version_info.minor}\"')" > pyversion.h                                subprocess.py:196
+           gcc -o breakingdown main.c pyversion.h -I/usr/include/python3.13 -I/usr/include/python3.13  -fno-strict-overflow -Wsign-compare  -DNDEBUG -g -O2 -Wall  subprocess.py:196
+           -L/usr/lib/python3.13/config-3.13-x86_64-linux-gnu -L/usr/lib/x86_64-linux-gnu -lpython3.13 -ldl  -lm  -fPIE                                                             
+           mkdir -p ../breakingdown-0.1.0/usr/bin                                                                                                                  subprocess.py:196
+           cp breakingdown ../breakingdown-0.1.0/usr/bin                                                                                                           subprocess.py:196
+           make: Leaving directory '/home/matias/BreakingDown/src/build/breakingdown/debian/trixie/bootstrap'                                                      subprocess.py:196
+           >>> Return code: 0                                                                                                                                      subprocess.py:839
+                                                                                                                                                                   subprocess.py:839
+           Building bootstrap binary... done                                                                                                                           system.py:718
+           Installing license... started                                                                                                                               system.py:747
+                                                                                                                                                                       system.py:766
+           Your app specifies a license using `license.text`, but the value doesn't appear to be a                                                                     system.py:766
+           full license. Briefcase will generate a `copyright` file for your project; you should                                                                       system.py:766
+           ensure that the contents of this file is adequate.                                                                                                          system.py:766
+           Installing license... done                                                                                                                                  system.py:747
+           Installing changelog... started                                                                                                                             system.py:784
+           Installing changelog... errored                                                                                                                             system.py:784
+                                                                                                                                                                      __main__.py:42
+           Your project does not contain a changelog file with a known file name. You                                                                                 __main__.py:43
+           must provide a changelog file in the same directory as your `pyproject.toml`,                                                                              __main__.py:43
+           with a known changelog file name (one of 'CHANGELOG', 'HISTORY', 'NEWS' or                                                                                 __main__.py:43
+           'RELEASES'; the file may have an extension of '.md', '.rst', or '.txt', or have                                                                            __main__.py:43
+           no extension).                                                                                                                                             __main__.py:43
+           Saving log... started                                                                                                                                      console.py:443
+
+Main thread traceback:
+╭─────────────────────────────────────────────────────────────────────── Traceback (most recent call last) ────────────────────────────────────────────────────────────────────────╮
+│ /home/matias/bees/lib/python3.13/site-packages/briefcase/__main__.py:27 in main                                                                                                  │
+│                                                                                                                                                                                  │
+│   24 │   │   │   Path.cwd() / "pyproject.toml",                                                                                                                                  │
+│   25 │   │   │   overrides=overrides,                                                                                                                                            │
+│   26 │   │   )                                                                                                                                                                   │
+│ ❱ 27 │   │   command(**options)                                                                                                                                                  │
+│   28 │   except HelpText as e:                                                                                                                                                   │
+│   29 │   │   console.info()                                                                                                                                                      │
+│   30 │   │   console.info(str(e))                                                                                                                                                │
+│                                                                                                                                                                                  │
+│ ╭─────────────────────────────────────────────────────────────────────────────────── locals ───────────────────────────────────────────────────────────────────────────────────╮ │
+│ │       command = <briefcase.platforms.linux.system.LinuxSystemBuildCommand object at 0x7f22a1ae8050>                                                                          │ │
+│ │       console = <briefcase.console.Console object at 0x7f22a36af230>                                                                                                         │ │
+│ │             e = BriefcaseCommandError("Your project does not contain a changelog file with a known file name. You\nmust provide a changelog file in the same directory as    │ │
+│ │                 your `pyproject.toml`,\nwith a known changelog file name (one of 'CHANGELOG', 'HISTORY', 'NEWS' or\n'RELEASES'; the file may have an extension of '.md',     │ │
+│ │                 '.rst', or '.txt', or have\nno extension).\n")                                                                                                               │ │
+│ │ extra_cmdline = []                                                                                                                                                           │ │
+│ │       options = {                                                                                                                                                            │ │
+│ │                 │   'update': False,                                                                                                                                         │ │
+│ │                 │   'update_requirements': False,                                                                                                                            │ │
+│ │                 │   'update_support': False,                                                                                                                                 │ │
+│ │                 │   'update_stub': False,                                                                                                                                    │ │
+│ │                 │   'update_resources': False,                                                                                                                               │ │
+│ │                 │   'no_update': False,                                                                                                                                      │ │
+│ │                 │   'test_mode': False                                                                                                                                       │ │
+│ │                 }                                                                                                                                                            │ │
+│ │     overrides = {}                                                                                                                                                           │ │
+│ │        result = 200                                                                                                                                                          │ │
+│ ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯ │
+│                                                                                                                                                                                  │
+│ /home/matias/bees/lib/python3.13/site-packages/briefcase/commands/build.py:159 in __call__                                                                                       │
+│                                                                                                                                                                                  │
+│   156 │   │                                                                                                                                                                      │
+│   157 │   │   state = None                                                                                                                                                       │
+│   158 │   │   for _, app_obj in sorted(apps_to_build.items()):                                                                                                                   │
+│ ❱ 159 │   │   │   state = self._build_app(                                                                                                                                       │
+│   160 │   │   │   │   app_obj,                                                                                                                                                   │
+│   161 │   │   │   │   update=update,                                                                                                                                             │
+│   162 │   │   │   │   update_requirements=update_requirements,                                                                                                                   │
+│                                                                                                                                                                                  │
+│ ╭───────────────────────────────────────────────── locals ──────────────────────────────────────────────────╮                                                                    │
+│ │                   _ = 'breakingdown'                                                                      │                                                                    │
+│ │                 app = None                                                                                │                                                                    │
+│ │            app_name = None                                                                                │                                                                    │
+│ │             app_obj = <com.breakingdown.breakingdown v0.1.0 AppConfig>                                    │                                                                    │
+│ │       apps_to_build = {'breakingdown': <com.breakingdown.breakingdown v0.1.0 AppConfig>}                  │                                                                    │
+│ │            debugger = None                                                                                │                                                                    │
+│ │           no_update = False                                                                               │                                                                    │
+│ │             options = {}                                                                                  │                                                                    │
+│ │                self = <briefcase.platforms.linux.system.LinuxSystemBuildCommand object at 0x7f22a1ae8050> │                                                                    │
+│ │               state = None                                                                                │                                                                    │
+│ │           test_mode = False                                                                               │                                                                    │
+│ │              update = False                                                                               │                                                                    │
+│ │ update_requirements = False                                                                               │                                                                    │
+│ │    update_resources = False                                                                               │                                                                    │
+│ │         update_stub = False                                                                               │                                                                    │
+│ │      update_support = False                                                                               │                                                                    │
+│ ╰───────────────────────────────────────────────────────────────────────────────────────────────────────────╯                                                                    │
+│                                                                                                                                                                                  │
+│ /home/matias/bees/lib/python3.13/site-packages/briefcase/commands/build.py:92 in _build_app                                                                                      │
+│                                                                                                                                                                                  │
+│    89 │   │                                                                                                                                                                      │
+│    90 │   │   self.verify_app(app)                                                                                                                                               │
+│    91 │   │                                                                                                                                                                      │
+│ ❱  92 │   │   state = self.build_app(app, **full_options(state, options))                                                                                                        │
+│    93 │   │                                                                                                                                                                      │
+│    94 │   │   qualifier = " (test mode)" if app.test_mode else ""                                                                                                                │
+│    95 │   │   qualifier += " (debug mode)" if app.debugger else ""                                                                                                               │
+│                                                                                                                                                                                  │
+│ ╭───────────────────────────────────────────────── locals ──────────────────────────────────────────────────╮                                                                    │
+│ │                 app = <com.breakingdown.breakingdown v0.1.0 AppConfig>                                    │                                                                    │
+│ │           no_update = False                                                                               │                                                                    │
+│ │             options = {}                                                                                  │                                                                    │
+│ │                self = <briefcase.platforms.linux.system.LinuxSystemBuildCommand object at 0x7f22a1ae8050> │                                                                    │
+│ │               state = None                                                                                │                                                                    │
+│ │              update = False                                                                               │                                                                    │
+│ │ update_requirements = False                                                                               │                                                                    │
+│ │    update_resources = False                                                                               │                                                                    │
+│ │         update_stub = False                                                                               │                                                                    │
+│ │      update_support = False                                                                               │                                                                    │
+│ ╰───────────────────────────────────────────────────────────────────────────────────────────────────────────╯                                                                    │
+│                                                                                                                                                                                  │
+│ /home/matias/bees/lib/python3.13/site-packages/briefcase/platforms/linux/system.py:788 in build_app                                                                              │
+│                                                                                                                                                                                  │
+│    785 │   │   │   changelog = find_changelog_filename(self.base_path)                                                                                                           │
+│    786 │   │   │                                                                                                                                                                 │
+│    787 │   │   │   if changelog is None:                                                                                                                                         │
+│ ❱  788 │   │   │   │   raise BriefcaseCommandError(                                                                                                                              │
+│    789 │   │   │   │   │   """\                                                                                                                                                  │
+│    790 Your project does not contain a changelog file with a known file name. You                                                                                                │
+│    791 must provide a changelog file in the same directory as your `pyproject.toml`,                                                                                             │
+│                                                                                                                                                                                  │
+│ ╭───────────────────────────────────────────────────────────────── locals ─────────────────────────────────────────────────────────────────╮                                     │
+│ │          app = <com.breakingdown.breakingdown v0.1.0 AppConfig>                                                                          │                                     │
+│ │    changelog = None                                                                                                                      │                                     │
+│ │   doc_folder = PosixPath('/home/matias/BreakingDown/src/build/breakingdown/debian/trixie/breakingdown-0.1.0/usr/share/doc/breakingdown') │                                     │
+│ │       kwargs = {}                                                                                                                        │                                     │
+│ │ license_file = None                                                                                                                      │                                     │
+│ │ license_text = 'Proprietary'                                                                                                             │                                     │
+│ │         self = <briefcase.platforms.linux.system.LinuxSystemBuildCommand object at 0x7f22a1ae8050>                                       │                                     │
+│ ╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯                                     │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+BriefcaseCommandError: Your project does not contain a changelog file with a known file name. You
+must provide a changelog file in the same directory as your `pyproject.toml`,
+with a known changelog file name (one of 'CHANGELOG', 'HISTORY', 'NEWS' or
+'RELEASES'; the file may have an extension of '.md', '.rst', or '.txt', or have
+no extension).
+

@@ -6,7 +6,10 @@ from functools import reduce
 from imap_tools import MailBox, AND
 from imap_tools.errors import UnexpectedCommandStatusError
 
-from src.errores import CredencialesInvalidasError
+try:
+    from src.errores import CredencialesInvalidasError
+except ModuleNotFoundError:
+    from errores import CredencialesInvalidasError
 
 
 def cumple_todo(mail, condiciones):
@@ -70,7 +73,8 @@ class Buscador_adapter:
 
     def encontrar_de_a_partes(self, asunto, condiciones):
         self.seleccionar_carpeta_de_busqueda()
-        asunto = asunto or ""
-        for mail in self.mailbox.fetch(AND(subject=asunto), bulk=50, reverse=True):
+        asunto = asunto.strip()
+        criterio = AND(subject=asunto)
+        for mail in self.mailbox.fetch(criterio, bulk=50, reverse=True):
             if cumple_todo(mail, condiciones):
                 yield mail

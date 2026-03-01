@@ -1,6 +1,25 @@
-from src.buscador_adapter import Buscador_adapter
-from src.Breakdown import Breakdown
-from src.condicion import Condicion_de_cuerpo, Condicion_de_emisor, Condicion_de_receptor, Condicion_de_enviado_antes_de, Condicion_de_enviado_despues_de
+try:
+    from src.buscador_adapter import Buscador_adapter
+    from src.Breakdown import Breakdown
+    from src.condicion import (
+        Condicion_de_asunto,
+        Condicion_de_cuerpo,
+        Condicion_de_emisor,
+        Condicion_de_receptor,
+        Condicion_de_enviado_antes_de,
+        Condicion_de_enviado_despues_de,
+    )
+except ModuleNotFoundError:
+    from buscador_adapter import Buscador_adapter
+    from Breakdown import Breakdown
+    from condicion import (
+        Condicion_de_asunto,
+        Condicion_de_cuerpo,
+        Condicion_de_emisor,
+        Condicion_de_receptor,
+        Condicion_de_enviado_antes_de,
+        Condicion_de_enviado_despues_de,
+    )
 
 class System_Facade:
 
@@ -53,6 +72,11 @@ class System_Facade:
 
     def ver_mail_en_breakdown(self, numero):
         return self.mails_del_breakdown[numero]
+
+
+    def agregar_condicion_de_asunto(self, asunto):
+        condicion = Condicion_de_asunto.con_asunto(asunto)
+        self.condiciones += [condicion]
 
 
     def agregar_condicion_de_cuerpo(self, cuerpo):

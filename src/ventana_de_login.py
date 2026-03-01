@@ -1,7 +1,12 @@
 from PyQt6.QtCore import QObject, pyqtSignal
 from PyQt6.QtWidgets import QMainWindow, QLabel, QLineEdit, QPushButton, QMessageBox
-from src.errores import CredencialesInvalidasError
-from src.system_facade import System_Facade
+
+try:
+    from src.errores import CredencialesInvalidasError
+    from src.system_facade import System_Facade
+except ModuleNotFoundError:
+    from errores import CredencialesInvalidasError
+    from system_facade import System_Facade
 
 
 class Ventana_de_login(QObject):
