@@ -1,7 +1,10 @@
 .briefcase/
 build/
 dist/
+*.swp
 google_client_secret.json
 client_secret_*.json
 google_oauth_token.json
-app_config/*.json
+app_config/google_client_secret.json
+app_config/client_secret_*.json
+app_config/google_oauth_token.json

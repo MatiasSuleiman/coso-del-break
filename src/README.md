@@ -26,6 +26,10 @@ It is pinned to:
 - Python `3.12`
 - Briefcase `0.3.25`
 
+Before running the workflow, create a GitHub Actions secret named
+`GOOGLE_CLIENT_SECRET_JSON_B64` with the base64-encoded contents of your Google
+OAuth client secret JSON.
+
 Run it from the GitHub Actions tab with `workflow_dispatch`, then download the
 artifact named `breakingdown-macos`.
 
