@@ -8,8 +8,10 @@ from PyQt6.QtWidgets import (
     QMainWindow,
     QMessageBox,
     QPushButton,
+    QScrollArea,
     QTextBrowser,
     QVBoxLayout,
+    QWidget,
 )
 
 try:
@@ -74,55 +76,65 @@ class Gui:
         self.ventana.setWindowTitle("BreakingDown")
         self.ventana.setGeometry(100, 100, 1600, 900)
 
+        self.area_de_contenido = QWidget()
+        self.area_de_contenido.setMinimumSize(1600, 900)
+
+        self.area_de_scroll = QScrollArea(self.ventana)
+        self.area_de_scroll.setWidgetResizable(True)
+        self.area_de_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        self.area_de_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
+        self.area_de_scroll.setWidget(self.area_de_contenido)
+        self.ventana.setCentralWidget(self.area_de_scroll)
+
         texto_de_bienvenida = QLabel(
-            "Bienvenido a BreakingDown,\n elija los mails para comenzar", self.ventana
+            "Bienvenido a BreakingDown,\n elija los mails para comenzar", self.area_de_contenido
         )
         texto_de_bienvenida.setGeometry(720, 10, 280, 30)
 
         self.mostrador_de_condiciones = Mostrador_de_condiciones.en(
-            self.ventana, 700, 120, 20, 10, self.sistema
+            self.area_de_contenido, 700, 120, 20, 10, self.sistema
         )
         self.mostrador_de_mails_del_break = Mostrador_de_mails_del_break.en(
-            self.ventana, 700, 610, 20, 180, self
+            self.area_de_contenido, 700, 610, 20, 180, self
         )
         self.mostrador_de_mails_encontrados = Mostrador_de_mails_buscados.en(
-            self.ventana, 700, 610, 880, 180, self
+            self.area_de_contenido, 700, 610, 880, 180, self
         )
 
-        self.boton_de_busqueda = QPushButton("Buscar", self.ventana)
+        self.boton_de_busqueda = QPushButton("Buscar", self.area_de_contenido)
         self.boton_de_busqueda.clicked.connect(self.buscar)
         self.boton_de_busqueda.setGeometry(880, 50, 50, 30)
 
-        self.barra_de_busqueda = QLineEdit(self.ventana)
+        self.barra_de_busqueda = QLineEdit(self.area_de_contenido)
         self.barra_de_busqueda.setPlaceholderText("Buscar por asunto")
         self.barra_de_busqueda.returnPressed.connect(self.buscar)
         self.barra_de_busqueda.setGeometry(970, 50, 500, 30)
 
-        self.grupo_de_modo_de_busqueda = QButtonGroup(self.ventana)
+        self.grupo_de_modo_de_busqueda = QButtonGroup(self.area_de_contenido)
         self.grupo_de_modo_de_busqueda.setExclusive(True)
 
-        self.boton_de_recibidos = QPushButton("Recibidos", self.ventana)
+        self.boton_de_recibidos = QPushButton("Recibidos", self.area_de_contenido)
         self.boton_de_recibidos.setCheckable(True)
         self.boton_de_recibidos.setChecked(True)
         self.boton_de_recibidos.setGeometry(970, 90, 120, 30)
         self.grupo_de_modo_de_busqueda.addButton(self.boton_de_recibidos)
         self.boton_de_recibidos.clicked.connect(self.seleccionar_recibidos)
 
-        self.boton_de_enviados = QPushButton("Enviados", self.ventana)
+        self.boton_de_enviados = QPushButton("Enviados", self.area_de_contenido)
         self.boton_de_enviados.setCheckable(True)
         self.boton_de_enviados.setGeometry(1110, 90, 120, 30)
         self.grupo_de_modo_de_busqueda.addButton(self.boton_de_enviados)
         self.boton_de_enviados.clicked.connect(self.seleccionar_enviados)
 
-        self.indicador_de_busqueda = QLabel("", self.ventana)
+        self.indicador_de_busqueda = QLabel("", self.area_de_contenido)
         self.indicador_de_busqueda.setGeometry(970, 125, 260, 20)
         self.indicador_de_busqueda.hide()
 
-        self.boton_de_crear_break = QPushButton("Crear Breakdown", self.ventana)
+        self.boton_de_crear_break = QPushButton("Crear Breakdown", self.area_de_contenido)
         self.boton_de_crear_break.clicked.connect(self.crear_breakdown)
         self.boton_de_crear_break.setGeometry(520, 830, 200, 30)
 
-        self.boton_de_volver_al_login = QPushButton("Volver al login", self.ventana)
+        self.boton_de_volver_al_login = QPushButton("Volver al login", self.area_de_contenido)
         self.boton_de_volver_al_login.clicked.connect(self.volver_al_login)
         self.boton_de_volver_al_login.setGeometry(20, 830, 150, 30)
 
