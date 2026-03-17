@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "breakingdown"
-version = "0.1.1"
+version = "1.1.0"
 description = "Desktop app for Gmail search and breakdown spreadsheet export."
 readme = "README.md"
 requires-python = ">=3.11"
