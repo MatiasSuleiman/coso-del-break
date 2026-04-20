@@ -346,7 +346,7 @@ def flujo_local_desde_client_secret(client_secret_path, prompt=None):
 
     flow = InstalledAppFlow.from_client_secrets_file(str(client_secret_path), SCOPES)
     credentials = flow.run_local_server(
-        host="127.0.0.1",
+        host="localhost",
         port=0,
         authorization_prompt_message="Abriendo Google en el navegador para iniciar sesion...",
         success_message="La autenticacion termino. Ya puede volver a BreakingDown.",

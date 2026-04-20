@@ -37,6 +37,7 @@ py-modules = [
     "mostrador_de_condiciones",
     "mostrador_de_mails",
     "system_facade",
+    "ui_theme",
     "ventana_de_login",
 ]
 packages = ["breakingdown"]
@@ -68,6 +69,7 @@ sources = [
     "mostrador_de_condiciones.py",
     "mostrador_de_mails.py",
     "system_facade.py",
+    "ui_theme.py",
     "ventana_de_login.py",
 ]
 requires = [

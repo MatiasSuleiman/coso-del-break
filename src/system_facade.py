@@ -37,6 +37,7 @@ class System_Facade:
         self.mails_encontrados = []
         self.mails_del_breakdown = []
         self.descripcion_por_mail = {}
+        self.minutos_por_mail = {}
         self.buscador = buscador
         self.condiciones = []
 
@@ -47,6 +48,7 @@ class System_Facade:
         self.mails_del_breakdown.append(mail)
         self.mails_encontrados.remove(mail)
         self.descripcion_por_mail[mail] = ""
+        self.minutos_por_mail[mail] = 0
 
     def agregar_mails_encontrados(self, mails):
         self.mails_encontrados.extend(mails)
@@ -73,6 +75,7 @@ class System_Facade:
         self.mails_del_breakdown.remove(mail)
         self.mails_encontrados.append(mail)
         self.descripcion_por_mail.pop(mail, None)
+        self.minutos_por_mail.pop(mail, None)
 
 
     def ver_mail_en_breakdown(self, numero):
@@ -112,6 +115,12 @@ class System_Facade:
 
     def ver_descripcion_de(self, mail):
         return self.descripcion_por_mail.get(mail, "")
+
+    def cambiar_minutos_de(self, mail, minutos):
+        self.minutos_por_mail[mail] = minutos
+
+    def ver_minutos_de(self, mail):
+        return self.minutos_por_mail.get(mail, 0)
 
     def crear_breakdown(self, path):
         return Breakdown.con_mails_manejado_por(

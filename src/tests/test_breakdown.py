@@ -16,11 +16,15 @@ class FakeMail:
 
 
 class FakeSistema:
-    def __init__(self, descripcion_por_mail):
+    def __init__(self, descripcion_por_mail, minutos_por_mail=None):
         self.descripcion_por_mail = descripcion_por_mail
+        self.minutos_por_mail = minutos_por_mail or {}
 
     def ver_descripcion_de(self, mail):
         return self.descripcion_por_mail.get(mail, "")
+
+    def ver_minutos_de(self, mail):
+        return self.minutos_por_mail.get(mail, 0)
 
 
 def make_mail(date=None):
@@ -29,7 +33,7 @@ def make_mail(date=None):
 
 def test_breakdown_usa_description_y_no_crea_columna_summary():
     mail = make_mail()
-    sistema = FakeSistema({mail: "Call with client"})
+    sistema = FakeSistema({mail: "Call with client"}, {mail: 45})
 
     with NamedTemporaryFile(suffix=".xlsx") as archivo:
         breakdown = Breakdown.con_mails_manejado_por(
@@ -44,6 +48,8 @@ def test_breakdown_usa_description_y_no_crea_columna_summary():
     assert breakdown.tiene_en("C1", "Minutes")
     assert breakdown.tiene_en("D1", "Hours")
     assert breakdown.tiene_en("B2", "Call with client")
+    assert breakdown.tiene_en("C2", 45)
+    assert breakdown.tiene_en("D2", "=C2 / 60")
     assert breakdown.excel["E1"].value is None
 
 
@@ -74,7 +80,7 @@ def test_breakdown_ordena_los_mails_por_fecha():
 def test_breakdown_autoajusta_el_ancho_de_description():
     mail = make_mail()
     descripcion = "Description wider than the header"
-    sistema = FakeSistema({mail: descripcion})
+    sistema = FakeSistema({mail: descripcion}, {mail: 15})
 
     with NamedTemporaryFile(suffix=".xlsx") as archivo:
         breakdown = Breakdown.con_mails_manejado_por(
@@ -85,3 +91,18 @@ def test_breakdown_autoajusta_el_ancho_de_description():
         )
 
     assert breakdown.excel.column_dimensions["B"].width == len(descripcion) + 2
+
+
+def test_breakdown_usa_cero_minutos_si_no_hay_valor_cargado():
+    mail = make_mail()
+    sistema = FakeSistema({mail: "Call with client"})
+
+    with NamedTemporaryFile(suffix=".xlsx") as archivo:
+        breakdown = Breakdown.con_mails_manejado_por(
+            [mail],
+            "lawyer@example.com",
+            path=archivo.name,
+            sistema=sistema,
+        )
+
+    assert breakdown.tiene_en("C2", 0)

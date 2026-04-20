@@ -1,0 +1,104 @@
+import os
+from datetime import datetime
+from pathlib import Path
+import sys
+
+os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+
+from PyQt6.QtGui import QIntValidator
+from PyQt6.QtWidgets import QApplication, QLabel, QLineEdit, QWidget
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
+from mostrador_de_mails import Mostrador_de_mails_buscados, Mostrador_de_mails_del_break
+
+
+class FakeUi:
+    def __init__(self):
+        self.minutos_por_mail = {}
+
+    def ver_mail(self, _mail):
+        pass
+
+    def agregar_mail(self, _mail):
+        pass
+
+    def quitar_mail(self, _mail):
+        pass
+
+    def cambiar_descripcion_de(self, _mail, _descripcion):
+        pass
+
+    def ver_descripcion_de(self, _mail):
+        return ""
+
+    def cambiar_minutos_de(self, mail, minutos):
+        self.minutos_por_mail[mail] = minutos
+
+    def ver_minutos_de(self, mail):
+        return self.minutos_por_mail.get(mail, 0)
+
+
+class FakeMail:
+    def __init__(self):
+        self.subject = "Invoice"
+        self.from_ = "lawyer@example.com"
+        self.date = datetime(2026, 3, 6, 12, 0, 0)
+        self.text = "body"
+
+
+def make_mail():
+    return FakeMail()
+
+
+def get_app():
+    return QApplication.instance() or QApplication([])
+
+
+def test_mostrador_del_break_muestra_barra_de_minutos():
+    app = get_app()
+    master = QWidget()
+    ui = FakeUi()
+    mail = make_mail()
+    mostrador = Mostrador_de_mails_del_break.en(master, 700, 610, 20, 180, ui)
+
+    mostrador.mostrar([mail])
+
+    barras = mostrador.contenedor_de_mails.findChildren(QLineEdit)
+    etiquetas = [label.text() for label in mostrador.contenedor_de_mails.findChildren(QLabel)]
+
+    assert len(barras) == 1
+    assert barras[0].text() == "0"
+    assert barras[0].maxLength() == 4
+    assert isinstance(barras[0].validator(), QIntValidator)
+    assert "Minutes:" in etiquetas
+    app.quit()
+
+
+def test_mostrador_de_encontrados_no_muestra_barra_de_minutos():
+    app = get_app()
+    master = QWidget()
+    ui = FakeUi()
+    mail = make_mail()
+    mostrador = Mostrador_de_mails_buscados.en(master, 700, 610, 20, 180, ui)
+
+    mostrador.mostrar([mail])
+
+    assert mostrador.contenedor_de_mails.findChildren(QLineEdit) == []
+    app.quit()
+
+
+def test_barra_de_minutos_actualiza_el_valor_del_mail():
+    app = get_app()
+    master = QWidget()
+    ui = FakeUi()
+    mail = make_mail()
+    mostrador = Mostrador_de_mails_del_break.en(master, 700, 610, 20, 180, ui)
+
+    mostrador.mostrar([mail])
+    barra = mostrador.contenedor_de_mails.findChildren(QLineEdit)[0]
+    barra.setText("1234")
+
+    assert ui.ver_minutos_de(mail) == 1234
+    assert barra.maxLength() == 4
+    app.quit()

@@ -2,6 +2,11 @@ from openpyxl import Workbook
 from openpyxl.styles import Font
 from openpyxl.utils import get_column_letter
 
+try:
+    from src.buscador_adapter import normalizar_datetime_naive
+except ModuleNotFoundError:
+    from buscador_adapter import normalizar_datetime_naive
+
 class Breakdown:
     @classmethod
     def con_mails_manejado_por(self, mails, abogado, path, sistema):
@@ -13,7 +18,7 @@ class Breakdown:
         self.initialize_excel_file(self.ordenar_por_fecha(mails), abogado, path=path, sistema=sistema)
 
     def ordenar_por_fecha(self, mails):
-        return sorted(mails, key=lambda mail: mail.date)
+        return sorted(mails, key=lambda mail: normalizar_datetime_naive(mail.date))
 
     def autoajustar_columnas(self):
         for indice, columna in enumerate(self.excel.iter_cols(), start=1):
@@ -41,7 +46,7 @@ class Breakdown:
 
         for i in range(len(mails)):
            mail = mails[i]
-           self.excel[f"C{i+2}"] = 0
+           self.excel[f"C{i+2}"] = sistema.ver_minutos_de(mail)
            self.excel[f"D{i+2}"] = f"=C{i+2} / 60"
 
         self.autoajustar_columnas()

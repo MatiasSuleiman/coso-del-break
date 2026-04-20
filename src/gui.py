@@ -17,9 +17,11 @@ from PyQt6.QtWidgets import (
 try:
     from src.mostrador_de_condiciones import Mostrador_de_condiciones
     from src.mostrador_de_mails import Mostrador_de_mails_buscados, Mostrador_de_mails_del_break
+    from src.ui_theme import aplicar_rol_de_boton, aplicar_tema_compartido
 except ModuleNotFoundError:
     from mostrador_de_condiciones import Mostrador_de_condiciones
     from mostrador_de_mails import Mostrador_de_mails_buscados, Mostrador_de_mails_del_break
+    from ui_theme import aplicar_rol_de_boton, aplicar_tema_compartido
 
 
 class Senales_de_busqueda(QObject):
@@ -72,24 +74,24 @@ class Gui:
         self.al_volver_al_login = al_volver_al_login
         self.busqueda_en_curso = False
 
+        aplicar_tema_compartido()
+
         self.ventana = QMainWindow()
+        self.ventana.setObjectName("mainWindow")
         self.ventana.setWindowTitle("BreakingDown")
         self.ventana.setGeometry(100, 100, 1600, 900)
 
         self.area_de_contenido = QWidget()
+        self.area_de_contenido.setObjectName("mainContent")
         self.area_de_contenido.setMinimumSize(1600, 900)
 
         self.area_de_scroll = QScrollArea(self.ventana)
+        self.area_de_scroll.setObjectName("mainScrollArea")
         self.area_de_scroll.setWidgetResizable(True)
         self.area_de_scroll.setVerticalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         self.area_de_scroll.setHorizontalScrollBarPolicy(Qt.ScrollBarPolicy.ScrollBarAsNeeded)
         self.area_de_scroll.setWidget(self.area_de_contenido)
         self.ventana.setCentralWidget(self.area_de_scroll)
-
-        texto_de_bienvenida = QLabel(
-            "Bienvenido a BreakingDown,\n elija los mails para comenzar", self.area_de_contenido
-        )
-        texto_de_bienvenida.setGeometry(720, 10, 280, 30)
 
         self.mostrador_de_condiciones = Mostrador_de_condiciones.en(
             self.area_de_contenido, 700, 120, 20, 10, self.sistema
@@ -102,8 +104,9 @@ class Gui:
         )
 
         self.boton_de_busqueda = QPushButton("Buscar", self.area_de_contenido)
+        aplicar_rol_de_boton(self.boton_de_busqueda, "primary")
         self.boton_de_busqueda.clicked.connect(self.buscar)
-        self.boton_de_busqueda.setGeometry(880, 50, 50, 30)
+        self.boton_de_busqueda.setGeometry(880, 50, 80, 30)
 
         self.barra_de_busqueda = QLineEdit(self.area_de_contenido)
         self.barra_de_busqueda.setPlaceholderText("Buscar por asunto")
@@ -114,6 +117,7 @@ class Gui:
         self.grupo_de_modo_de_busqueda.setExclusive(True)
 
         self.boton_de_recibidos = QPushButton("Recibidos", self.area_de_contenido)
+        aplicar_rol_de_boton(self.boton_de_recibidos, "toggle")
         self.boton_de_recibidos.setCheckable(True)
         self.boton_de_recibidos.setChecked(True)
         self.boton_de_recibidos.setGeometry(970, 90, 120, 30)
@@ -121,12 +125,14 @@ class Gui:
         self.boton_de_recibidos.clicked.connect(self.seleccionar_recibidos)
 
         self.boton_de_enviados = QPushButton("Enviados", self.area_de_contenido)
+        aplicar_rol_de_boton(self.boton_de_enviados, "toggle")
         self.boton_de_enviados.setCheckable(True)
         self.boton_de_enviados.setGeometry(1110, 90, 120, 30)
         self.grupo_de_modo_de_busqueda.addButton(self.boton_de_enviados)
         self.boton_de_enviados.clicked.connect(self.seleccionar_enviados)
 
         self.boton_de_todos = QPushButton("Todos", self.area_de_contenido)
+        aplicar_rol_de_boton(self.boton_de_todos, "toggle")
         self.boton_de_todos.setCheckable(True)
         self.boton_de_todos.setGeometry(1250, 90, 120, 30)
         self.grupo_de_modo_de_busqueda.addButton(self.boton_de_todos)
@@ -134,19 +140,23 @@ class Gui:
 
 
         self.indicador_de_busqueda = QLabel("", self.area_de_contenido)
+        self.indicador_de_busqueda.setObjectName("statusLabel")
         self.indicador_de_busqueda.setGeometry(970, 125, 260, 20)
         self.indicador_de_busqueda.hide()
         
         self.cantidad_de_encontrados = QLabel("", self.area_de_contenido)
+        self.cantidad_de_encontrados.setObjectName("resultCountLabel")
         self.cantidad_de_encontrados.setGeometry(970, 145, 260, 20)
         self.cantidad_de_encontrados.hide()
 
 
         self.boton_de_crear_break = QPushButton("Crear Breakdown", self.area_de_contenido)
+        aplicar_rol_de_boton(self.boton_de_crear_break, "primary")
         self.boton_de_crear_break.clicked.connect(self.crear_breakdown)
         self.boton_de_crear_break.setGeometry(520, 830, 200, 30)
 
         self.boton_de_volver_al_login = QPushButton("Volver al login", self.area_de_contenido)
+        aplicar_rol_de_boton(self.boton_de_volver_al_login, "secondary")
         self.boton_de_volver_al_login.clicked.connect(self.volver_al_login)
         self.boton_de_volver_al_login.setGeometry(20, 830, 150, 30)
 
@@ -252,12 +262,14 @@ class Gui:
 
     def ver_mail(self, mail):
         ventana_del_mail = QDialog(self.ventana)
+        ventana_del_mail.setObjectName("mailDialog")
         ventana_del_mail.setWindowTitle(mail.subject)
         ventana_del_mail.setGeometry(100, 100, 600, 400)
 
         layout = QVBoxLayout()
 
         caja_de_texto = QTextBrowser(ventana_del_mail)
+        caja_de_texto.setObjectName("mailViewer")
         caja_de_texto.setPlainText(f"{mail.subject}\n\t{mail.text}")
         layout.addWidget(caja_de_texto)
 
@@ -271,6 +283,12 @@ class Gui:
 
     def ver_descripcion_de(self, mail):
         return self.sistema.ver_descripcion_de(mail)
+
+    def cambiar_minutos_de(self, mail, minutos):
+        self.sistema.cambiar_minutos_de(mail, minutos)
+
+    def ver_minutos_de(self, mail):
+        return self.sistema.ver_minutos_de(mail)
 
     def agregar_mail(self, mail):
         self.sistema.agregar_mail_encontrado(mail)

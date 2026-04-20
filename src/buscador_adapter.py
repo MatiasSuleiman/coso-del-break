@@ -16,6 +16,21 @@ def cumple_todo(mail, condiciones):
     return reduce(lambda x, y: x and y.cumple(mail), condiciones, True)
 
 
+def normalizar_datetime_naive(fecha):
+    try:
+        if fecha.tzinfo is None:
+            return fecha
+        return fecha.replace(tzinfo=None)
+    except Exception:
+        return fecha
+
+
+def normalizar_fecha_del_mail(mail):
+    if hasattr(mail, "date"):
+        mail.date = normalizar_datetime_naive(mail.date)
+    return mail
+
+
 def concatenacion_de_todos_los_elementos_de(data):
     partes = []
     for item in data:
@@ -141,5 +156,6 @@ class Buscador_adapter:
         asunto = asunto.strip()
         criterio = OR(subject=asunto, text=asunto)
         for mail in self.mailbox.fetch(criterio, bulk=10, reverse=True):
+            normalizar_fecha_del_mail(mail)
             if cumple_todo(mail, condiciones):
                 yield mail

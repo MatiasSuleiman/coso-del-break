@@ -7,12 +7,14 @@ try:
     from src.google_oauth import iniciar_sesion as iniciar_sesion_google
     from src.system_facade import System_Facade
     from src.buscador_adapter import Buscador_adapter
+    from src.ui_theme import aplicar_rol_de_boton, aplicar_tema_compartido
 except ModuleNotFoundError:
     from errores import CredencialesInvalidasError
     from google_oauth import cargar_sesion_guardada as cargar_sesion_google_guardada
     from google_oauth import iniciar_sesion as iniciar_sesion_google
     from system_facade import System_Facade
     from buscador_adapter import Buscador_adapter
+    from ui_theme import aplicar_rol_de_boton, aplicar_tema_compartido
 
 
 class Trabajador_de_google(QObject):
@@ -38,11 +40,14 @@ class Ventana_de_login(QObject):
 
     def __init__(self):
         super().__init__()
+        aplicar_tema_compartido()
         self.ventana = QMainWindow()
+        self.ventana.setObjectName("loginWindow")
         self.ventana.setWindowTitle("Login - BreakingDown")
         self.ventana.setGeometry(500, 250, 520, 260)
 
         etiqueta_de_bienvenida = QLabel("Iniciar sesion de Gmail", self.ventana)
+        etiqueta_de_bienvenida.setObjectName("screenTitle")
         etiqueta_de_bienvenida.setGeometry(170, 20, 220, 30)
 
         etiqueta_de_correo = QLabel("Correo:", self.ventana)
@@ -60,14 +65,17 @@ class Ventana_de_login(QObject):
         self.barra_de_contrasena.setGeometry(140, 110, 300, 30)
 
         self.boton_de_login = QPushButton("Entrar", self.ventana)
+        aplicar_rol_de_boton(self.boton_de_login, "primary")
         self.boton_de_login.setGeometry(140, 170, 120, 30)
         self.boton_de_login.clicked.connect(self.iniciar_sesion)
 
         self.boton_de_login_google = QPushButton("Entrar con Google", self.ventana)
+        aplicar_rol_de_boton(self.boton_de_login_google, "secondary")
         self.boton_de_login_google.setGeometry(270, 170, 170, 30)
         self.boton_de_login_google.clicked.connect(self.iniciar_sesion_con_google)
 
         self.indicador_de_google = QLabel("", self.ventana)
+        self.indicador_de_google.setObjectName("statusLabel")
         self.indicador_de_google.setGeometry(140, 215, 300, 30)
         self.indicador_de_google.hide()
 
