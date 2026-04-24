@@ -1,10 +1,12 @@
 import os
+from datetime import datetime
 from pathlib import Path
+from types import SimpleNamespace
 import sys
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
-from PyQt6.QtWidgets import QApplication, QSizePolicy
+from PyQt6.QtWidgets import QApplication, QSizePolicy, QWidget
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
@@ -20,13 +22,31 @@ class FakeBuscador:
 
 
 class FakeSistema:
-    def __init__(self):
-        self.buscador = FakeBuscador()
+    def __init__(self, resultados_por_asunto=None, resultados_por_cuerpo=None):
+        self.buscador_por_asunto = FakeBuscador()
+        self.buscador_por_cuerpo = FakeBuscador()
+        self.buscador = self.buscador_por_asunto
         self.mails_del_breakdown = []
         self.mails_encontrados = []
+        self.resultados_por_asunto = list(resultados_por_asunto or [])
+        self.resultados_por_cuerpo = list(resultados_por_cuerpo or [])
+        self.llamadas_por_asunto = []
+        self.llamadas_por_cuerpo = []
 
     def ver_todos_los_mails_encontrados(self):
         return list(self.mails_encontrados)
+
+    def cambiar_carpeta_de_busqueda(self, carpeta):
+        self.buscador_por_asunto.cambiar_carpeta(carpeta)
+        self.buscador_por_cuerpo.cambiar_carpeta(carpeta)
+
+    def buscar_de_a_partes_por_asunto(self, texto):
+        self.llamadas_por_asunto.append(texto)
+        return iter(self.resultados_por_asunto)
+
+    def buscar_de_a_partes_por_cuerpo(self, texto):
+        self.llamadas_por_cuerpo.append(texto)
+        return iter(self.resultados_por_cuerpo)
 
     def limpiar_condiciones(self):
         pass
@@ -52,12 +72,49 @@ class FakeSistema:
     def agregar_mails_encontrados(self, mails):
         self.mails_encontrados.extend(mails)
 
+    def agregar_mail_encontrado(self, mail):
+        self.mails_del_breakdown.append(mail)
+        self.mails_encontrados.remove(mail)
+
+    def quitar_mail_del_breakdown(self, mail):
+        self.mails_del_breakdown.remove(mail)
+        self.mails_encontrados.append(mail)
+
+    def cambiar_descripcion_de(self, _mail, _descripcion):
+        pass
+
+    def ver_descripcion_de(self, _mail):
+        return ""
+
+    def cambiar_minutos_de(self, _mail, _minutos):
+        pass
+
+    def ver_minutos_de(self, _mail):
+        return 0
+
     def cantidad_de_encontrados(self):
         return len(self.mails_encontrados)
 
 
+def make_mail(uid, subject="Invoice", body="invoice body"):
+    return SimpleNamespace(
+        uid=uid,
+        subject=subject,
+        from_="lawyer@example.com",
+        date=datetime(2026, 3, 6, 12, 0, 0),
+        text=body,
+    )
+
+
 def get_app():
     return QApplication.instance() or QApplication([])
+
+
+def wait_for_searches_to_finish(app, gui, max_cycles=50):
+    for _ in range(max_cycles):
+        app.processEvents()
+        if not gui.busqueda_en_curso:
+            break
 
 
 def test_gui_inicia_con_filtros_ocultos():
@@ -123,6 +180,83 @@ def test_filtros_conservan_valores_al_ocultarse_y_mostrarse():
     assert gui.mostrador_de_condiciones.barra_de_cuerpo.text() == "invoice"
     assert gui.mostrador_de_condiciones.barra_de_enviado_antes_de.text() == "24/04/2026"
     assert gui.mostrador_de_condiciones.barra_de_enviado_despues_de.text() == "01/04/2026"
+
+    gui.ventana.close()
+    app.quit()
+
+
+def test_busqueda_vacia_no_dispara_busquedas_en_paralelo():
+    app = get_app()
+    sistema = FakeSistema()
+    gui = Gui(sistema)
+
+    gui.barra_de_busqueda.setText("")
+    gui.buscar()
+    app.processEvents()
+
+    assert sistema.llamadas_por_asunto == []
+    assert sistema.llamadas_por_cuerpo == []
+    assert gui.busqueda_en_curso is False
+    assert gui.boton_de_busqueda.text() == "Buscar"
+
+    gui.ventana.close()
+    app.quit()
+
+
+def test_busqueda_no_vacia_dispara_ambas_busquedas():
+    app = get_app()
+    sistema = FakeSistema(
+        resultados_por_asunto=[make_mail("1", subject="Invoice")],
+        resultados_por_cuerpo=[make_mail("2", subject="Body hit")],
+    )
+    gui = Gui(sistema)
+
+    gui.barra_de_busqueda.setText("invoice")
+    gui.buscar()
+    wait_for_searches_to_finish(app, gui)
+    app.processEvents()
+
+    assert sistema.llamadas_por_asunto == ["invoice"]
+    assert sistema.llamadas_por_cuerpo == ["invoice"]
+    assert gui.busqueda_en_curso is False
+    assert gui.sistema.cantidad_de_encontrados() == 2
+
+    gui.ventana.close()
+    app.quit()
+
+
+def test_mail_de_cuerpo_que_luego_llega_por_asunto_se_actualiza_sin_duplicarse_y_conserva_color():
+    app = get_app()
+    gui = Gui(FakeSistema())
+    mail_por_cuerpo = make_mail("42", subject="Invoice", body="invoice body")
+    mail_por_asunto = make_mail("42", subject="Invoice", body="different instance")
+
+    gui.al_recibir_lote_de_cuerpo([mail_por_cuerpo])
+    gui.al_recibir_lote_de_asunto([mail_por_asunto])
+    app.processEvents()
+
+    tarjetas_encontradas = gui.mostrador_de_mails_encontrados.contenedor_de_mails.findChildren(
+        QWidget, "mailCard"
+    )
+
+    assert len(tarjetas_encontradas) == 1
+    assert tarjetas_encontradas[0].property("matchRole") == "subject"
+    assert gui.sistema.cantidad_de_encontrados() == 1
+
+    gui.agregar_mail(mail_por_cuerpo)
+    gui.quitar_mail(mail_por_cuerpo)
+    app.processEvents()
+
+    tarjetas_encontradas = gui.mostrador_de_mails_encontrados.contenedor_de_mails.findChildren(
+        QWidget, "mailCard"
+    )
+    tarjetas_break = gui.mostrador_de_mails_del_break.contenedor_de_mails.findChildren(
+        QWidget, "mailCard"
+    )
+
+    assert len(tarjetas_break) == 0
+    assert len(tarjetas_encontradas) == 1
+    assert tarjetas_encontradas[0].property("matchRole") == "subject"
 
     gui.ventana.close()
     app.quit()

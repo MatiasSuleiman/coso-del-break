@@ -3,7 +3,7 @@ import time
 import imaplib
 from functools import reduce
 
-from imap_tools import MailBox, OR
+from imap_tools import AND, MailBox
 from imap_tools.errors import UnexpectedCommandStatusError
 
 try:
@@ -152,9 +152,21 @@ class Buscador_adapter:
 
         raise ultimo_error
 
-    def encontrar_de_a_partes(self, asunto, condiciones):
+    def encontrar_de_a_partes_por_asunto(self, asunto, condiciones):
         asunto = asunto.strip()
-        criterio = OR(subject=asunto, text=asunto)
+        if not asunto:
+            return
+        criterio = AND(subject=asunto)
+        for mail in self.mailbox.fetch(criterio, bulk=10, reverse=True):
+            normalizar_fecha_del_mail(mail)
+            if cumple_todo(mail, condiciones):
+                yield mail
+
+    def encontrar_de_a_partes_por_cuerpo(self, cuerpo, condiciones):
+        cuerpo = cuerpo.strip()
+        if not cuerpo:
+            return
+        criterio = AND(body=cuerpo)
         for mail in self.mailbox.fetch(criterio, bulk=10, reverse=True):
             normalizar_fecha_del_mail(mail)
             if cumple_todo(mail, condiciones):

@@ -23,26 +23,58 @@ class System_Facade:
 
     @classmethod
     def login(cls, user, password):
-        buscador = Buscador_adapter.login(user, password)
-        return cls.build(user, buscador)
+        buscador_por_asunto = Buscador_adapter.login(user, password)
+        buscador_por_cuerpo = Buscador_adapter.login(user, password)
+        return cls.build(user, buscador_por_asunto, buscador_por_cuerpo)
 
     @classmethod
-    def build(cls, user, buscador):
-        return cls(user, buscador)
+    def build(cls, user, buscador, buscador_por_cuerpo=None):
+       return cls(user, buscador, buscador_por_cuerpo)
 
     builde = build
 
-    def __init__(self, user, buscador):
+    def __init__(self, user, buscador_por_asunto, buscador_por_cuerpo):
         self.abogado_a_cargo = user
         self.mails_encontrados = []
         self.mails_del_breakdown = []
         self.descripcion_por_mail = {}
         self.minutos_por_mail = {}
-        self.buscador = buscador
+        self.buscador_por_asunto = buscador_por_asunto
+        self.buscador_por_cuerpo = buscador_por_cuerpo
+        self.buscador = buscador_por_asunto
         self.condiciones = []
 
-    def buscar_de_a_partes(self, asunto):
-        return self.buscador.encontrar_de_a_partes(asunto, self.condiciones)
+    def buscar_de_a_partes_por_asunto(self, asunto):
+        return self.buscador_por_asunto.encontrar_de_a_partes_por_asunto(asunto, self.condiciones)
+
+    def buscar_de_a_partes_por_cuerpo(self, cuerpo):
+        return self.buscador_por_cuerpo.encontrar_de_a_partes_por_cuerpo(cuerpo, self.condiciones)
+
+    def cambiar_carpeta_de_busqueda(self, carpeta):
+        buscadores = self._buscadores_activos()
+        carpetas_previas = {id(buscador): buscador.carpeta_actual for buscador in buscadores}
+
+        try:
+            for buscador in buscadores:
+                buscador.cambiar_carpeta(carpeta)
+        except Exception:
+            for buscador in buscadores:
+                carpeta_previa = carpetas_previas[id(buscador)]
+                try:
+                    buscador.cambiar_carpeta(carpeta_previa)
+                except Exception:
+                    pass
+            raise
+
+    def _buscadores_activos(self):
+        buscadores = []
+        vistos = set()
+        for buscador in (self.buscador_por_asunto, self.buscador_por_cuerpo):
+            if id(buscador) in vistos:
+                continue
+            vistos.add(id(buscador))
+            buscadores.append(buscador)
+        return buscadores
 
     def agregar_mail_encontrado(self, mail):
         self.mails_del_breakdown.append(mail)

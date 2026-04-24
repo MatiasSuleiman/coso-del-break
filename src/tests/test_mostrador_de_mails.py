@@ -41,6 +41,7 @@ class FakeUi:
 
 class FakeMail:
     def __init__(self):
+        self.uid = "mail-1"
         self.subject = "Invoice"
         self.from_ = "lawyer@example.com"
         self.date = datetime(2026, 3, 6, 12, 0, 0)
@@ -101,4 +102,21 @@ def test_barra_de_minutos_actualiza_el_valor_del_mail():
 
     assert ui.ver_minutos_de(mail) == 1234
     assert barra.maxLength() == 4
+    app.quit()
+
+
+def test_mostrador_puede_actualizar_un_mail_a_match_por_asunto():
+    app = get_app()
+    master = QWidget()
+    ui = FakeUi()
+    mail = make_mail()
+    mostrador = Mostrador_de_mails_buscados.en(master, 700, 610, 20, 180, ui)
+
+    mostrador.agregar_mail_por_cuerpo(mail)
+    mostrador.actualizar_mail_a_asunto(mail)
+
+    tarjetas = mostrador.contenedor_de_mails.findChildren(QWidget, "mailCard")
+
+    assert len(tarjetas) == 1
+    assert tarjetas[0].property("matchRole") == "subject"
     app.quit()

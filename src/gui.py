@@ -33,9 +33,9 @@ class Senales_de_busqueda(QObject):
 
 
 class Batcher_de_busqueda:
-    def __init__(self, sistema, asunto, tamanio_de_lote=5):
+    def __init__(self, sistema, texto, tamanio_de_lote=5):
         self.sistema = sistema
-        self.asunto = asunto
+        self.texto = texto
         self.tamanio_de_lote = tamanio_de_lote
         self.senales = Senales_de_busqueda()
         self.cancelada = False
@@ -43,10 +43,13 @@ class Batcher_de_busqueda:
     def cancelar(self):
         self.cancelada = True
 
+    def buscar_mails(self):
+        raise NotImplementedError("subclass should implement buscar_mails")
+
     def ejecutar(self):
         lote = []
         try:
-            for mail in self.sistema.buscar_de_a_partes(self.asunto):
+            for mail in self.buscar_mails():
                 if self.cancelada:
                     break
                 lote.append(mail)
@@ -59,6 +62,16 @@ class Batcher_de_busqueda:
             self.senales.error.emit(str(error))
         finally:
             self.senales.finalizado.emit()
+
+
+class Batcher_de_busqueda_por_asunto(Batcher_de_busqueda):
+    def buscar_mails(self):
+        return self.sistema.buscar_de_a_partes_por_asunto(self.texto)
+
+
+class Batcher_de_busqueda_por_cuerpo(Batcher_de_busqueda):
+    def buscar_mails(self):
+        return self.sistema.buscar_de_a_partes_por_cuerpo(self.texto)
 
 
 class Hilo_de_busqueda(QThread):
@@ -78,6 +91,12 @@ class Gui:
         self.sistema = sistema
         self.al_volver_al_login = al_volver_al_login
         self.busqueda_en_curso = False
+        self.batchers_de_busqueda = {}
+        self.hilos_de_busqueda = {}
+        self.busquedas_activas = set()
+        self.busquedas_finalizadas = set()
+        self.mails_encontrados_por_asunto = {}
+        self.mails_encontrados_por_cuerpo = {}
 
         aplicar_tema_compartido()
 
@@ -163,7 +182,7 @@ class Gui:
         fila_de_busqueda.addWidget(self.boton_de_busqueda)
 
         self.barra_de_busqueda = QLineEdit(self.panel_de_controles)
-        self.barra_de_busqueda.setPlaceholderText("Buscar por asunto")
+        self.barra_de_busqueda.setPlaceholderText("Buscar por asunto o cuerpo")
         self.barra_de_busqueda.returnPressed.connect(self.buscar)
         fila_de_busqueda.addWidget(self.barra_de_busqueda, 1)
 
@@ -197,7 +216,7 @@ class Gui:
         self.indicador_de_busqueda.setObjectName("statusLabel")
         self.indicador_de_busqueda.hide()
         fila_de_estado.addWidget(self.indicador_de_busqueda)
-        
+
         self.cantidad_de_encontrados = QLabel("", self.panel_de_controles)
         self.cantidad_de_encontrados.setObjectName("resultCountLabel")
         self.cantidad_de_encontrados.hide()
@@ -227,6 +246,22 @@ class Gui:
         self.seleccionar_recibidos()
         self.ventana.show()
 
+    def clave_de_mail(self, mail):
+        return getattr(mail, "uid", id(mail))
+
+    def mail_fue_encontrado_por_asunto(self, mail):
+        return self.clave_de_mail(mail) in self.mails_encontrados_por_asunto
+
+    def reiniciar_estado_de_busqueda(self):
+        self.batchers_de_busqueda = {}
+        self.hilos_de_busqueda = {}
+        self.busquedas_activas = set()
+        self.busquedas_finalizadas = set()
+
+    def reiniciar_origenes_de_resultados(self):
+        self.mails_encontrados_por_asunto = {}
+        self.mails_encontrados_por_cuerpo = {}
+
     def alternar_filtros(self, texto_actual):
         filtros_estan_ocultos = texto_actual == self.TEXTO_BOTON_FILTROS_COLAPSADO
         self.cuerpo_de_filtros.setVisible(filtros_estan_ocultos)
@@ -244,41 +279,85 @@ class Gui:
             return
 
         self.limpiar_buscados()
-        asunto = self.barra_de_busqueda.text().strip()
+        texto = self.barra_de_busqueda.text().strip()
         self.mostrador_de_condiciones.aplicar_condiciones_a(self.sistema)
         self.sistema.limpiar_encontrados()
+        self.reiniciar_origenes_de_resultados()
+
+        if not texto:
+            self.restaurar_estado_visual_de_busqueda()
+            return
 
         self.busqueda_en_curso = True
         self.boton_de_busqueda.setText("Cancelar")
         self.indicador_de_busqueda.setText("Buscando...")
         self.indicador_de_busqueda.show()
+        self.reiniciar_estado_de_busqueda()
 
-        self.batcher_de_busqueda = Batcher_de_busqueda(self.sistema, asunto, tamanio_de_lote=5)
-        self.hilo_de_busqueda = Hilo_de_busqueda(self.batcher_de_busqueda)
-
-        self.batcher_de_busqueda.senales.lote_listo.connect(
-            self.al_recibir_lote, Qt.ConnectionType.QueuedConnection
+        self.iniciar_busqueda(
+            "asunto",
+            Batcher_de_busqueda_por_asunto(self.sistema, texto, tamanio_de_lote=5),
+            self.al_recibir_lote_de_asunto,
         )
-        self.batcher_de_busqueda.senales.error.connect(
+        self.iniciar_busqueda(
+            "cuerpo",
+            Batcher_de_busqueda_por_cuerpo(self.sistema, texto, tamanio_de_lote=5),
+            self.al_recibir_lote_de_cuerpo,
+        )
+
+    def iniciar_busqueda(self, tipo, batcher, receptor_de_lotes):
+        hilo = Hilo_de_busqueda(batcher)
+        self.batchers_de_busqueda[tipo] = batcher
+        self.hilos_de_busqueda[tipo] = hilo
+        self.busquedas_activas.add(tipo)
+
+        batcher.senales.lote_listo.connect(receptor_de_lotes, Qt.ConnectionType.QueuedConnection)
+        batcher.senales.error.connect(
             self.al_error_en_busqueda, Qt.ConnectionType.QueuedConnection
         )
-        self.batcher_de_busqueda.senales.finalizado.connect(
-            self.al_finalizar_busqueda, Qt.ConnectionType.QueuedConnection
+        batcher.senales.finalizado.connect(
+            lambda tipo=tipo: self.al_finalizar_busqueda_de(tipo),
+            Qt.ConnectionType.QueuedConnection,
         )
-        self.hilo_de_busqueda.finished.connect(self.limpiar_estado_de_busqueda)
-        self.hilo_de_busqueda.start()
+        hilo.finished.connect(lambda tipo=tipo: self.limpiar_estado_de_busqueda(tipo))
+        hilo.start()
 
-    def al_recibir_lote(self, mails):
-        self.sistema.agregar_mails_encontrados(mails)
-        self.mostrador_de_mails_encontrados.agregar_mails(mails)
+    def al_recibir_lote_de_asunto(self, mails):
+        for mail in mails:
+            clave = self.clave_de_mail(mail)
+            if clave in self.mails_encontrados_por_asunto:
+                continue
+
+            self.mails_encontrados_por_asunto[clave] = mail
+            if clave in self.mails_encontrados_por_cuerpo:
+                self.mostrador_de_mails_encontrados.actualizar_mail_a_asunto(mail)
+                continue
+
+            self.sistema.agregar_mails_encontrados([mail])
+            self.mostrador_de_mails_encontrados.agregar_mail_por_asunto(mail)
+
+        self.actualizar_cantidad_de_entcontrados()
+
+    def al_recibir_lote_de_cuerpo(self, mails):
+        for mail in mails:
+            clave = self.clave_de_mail(mail)
+            if clave in self.mails_encontrados_por_asunto or clave in self.mails_encontrados_por_cuerpo:
+                continue
+
+            self.mails_encontrados_por_cuerpo[clave] = mail
+            self.sistema.agregar_mails_encontrados([mail])
+            self.mostrador_de_mails_encontrados.agregar_mail_por_cuerpo(mail)
+
         self.actualizar_cantidad_de_entcontrados()
 
     def al_error_en_busqueda(self, mensaje):
         QMessageBox.critical(self.ventana, "Error de busqueda", mensaje)
 
-    def al_finalizar_busqueda(self):
-        self.busqueda_en_curso = False
-        self.restaurar_estado_visual_de_busqueda()
+    def al_finalizar_busqueda_de(self, tipo):
+        self.busquedas_finalizadas.add(tipo)
+        if self.busquedas_activas and self.busquedas_finalizadas == self.busquedas_activas:
+            self.busqueda_en_curso = False
+            self.restaurar_estado_visual_de_busqueda()
 
     def restaurar_estado_visual_de_busqueda(self):
         self.boton_de_busqueda.setText("Buscar")
@@ -288,14 +367,14 @@ class Gui:
     def cancelar_busqueda(self):
         if not self.busqueda_en_curso:
             return
-        self.batcher_de_busqueda.cancelar()
-        self.restaurar_estado_visual_de_busqueda()
+        for batcher in self.batchers_de_busqueda.values():
+            batcher.cancelar()
+        self.indicador_de_busqueda.setText("Cancelando...")
+        self.indicador_de_busqueda.show()
 
-    def limpiar_estado_de_busqueda(self):
-        if hasattr(self, "hilo_de_busqueda"):
-            del self.hilo_de_busqueda
-        if hasattr(self, "batcher_de_busqueda"):
-            del self.batcher_de_busqueda
+    def limpiar_estado_de_busqueda(self, tipo):
+        self.hilos_de_busqueda.pop(tipo, None)
+        self.batchers_de_busqueda.pop(tipo, None)
 
     def seleccionar_recibidos(self):
         self.cambiar_carpeta_de_busqueda("INBOX")
@@ -305,7 +384,6 @@ class Gui:
 
     def seleccionar_todos(self):
         self.cambiar_carpeta_de_busqueda("[Gmail]/All Mail")
-
 
     def cambiar_carpeta_de_busqueda(self, carpeta):
         carpeta_previa = self.sistema.buscador.carpeta_actual
@@ -320,7 +398,7 @@ class Gui:
             return
 
         try:
-            self.sistema.buscador.cambiar_carpeta(carpeta)
+            self.sistema.cambiar_carpeta_de_busqueda(carpeta)
         except Exception as error:
             self.restaurar_selector_de_carpeta(carpeta_previa)
             QMessageBox.critical(
@@ -373,17 +451,28 @@ class Gui:
 
     def agregar_mail(self, mail):
         self.sistema.agregar_mail_encontrado(mail)
-        self.mostrador_de_mails_del_break.mostrar(self.sistema.mails_del_breakdown)
-        self.mostrador_de_mails_encontrados.mostrar(self.sistema.ver_todos_los_mails_encontrados())
+        self.mostrador_de_mails_del_break.mostrar(
+            self.sistema.mails_del_breakdown,
+            self.mail_fue_encontrado_por_asunto,
+        )
+        self.mostrador_de_mails_encontrados.mostrar(
+            self.sistema.ver_todos_los_mails_encontrados(),
+            self.mail_fue_encontrado_por_asunto,
+        )
 
     def quitar_mail(self, mail):
         self.sistema.quitar_mail_del_breakdown(mail)
-        self.mostrador_de_mails_del_break.mostrar(self.sistema.mails_del_breakdown)
-        self.mostrador_de_mails_encontrados.mostrar(self.sistema.ver_todos_los_mails_encontrados())
+        self.mostrador_de_mails_del_break.mostrar(
+            self.sistema.mails_del_breakdown,
+            self.mail_fue_encontrado_por_asunto,
+        )
+        self.mostrador_de_mails_encontrados.mostrar(
+            self.sistema.ver_todos_los_mails_encontrados(),
+            self.mail_fue_encontrado_por_asunto,
+        )
 
     def limpiar_buscados(self):
         self.mostrador_de_mails_encontrados.limpiar_mostrador()
-
 
     def actualizar_cantidad_de_entcontrados(self):
         self.cantidad_de_encontrados.setText(f"{self.sistema.cantidad_de_encontrados()} resultados")

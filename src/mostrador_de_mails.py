@@ -23,17 +23,17 @@ except ModuleNotFoundError:
     from ui_theme import aplicar_rol_de_boton, aplicar_rol_visual
 
 
-class Mostrador_de_mails():
+class Mostrador_de_mails:
 
     @classmethod
-    def en(self, master ,altura, anchura, x, y, user_interface):
-        return self(master ,altura, anchura, x, y, user_interface)
+    def en(self, master, altura, anchura, x, y, user_interface):
+        return self(master, altura, anchura, x, y, user_interface)
 
-
-    def __init__(self, master ,altura, anchura, x, y, user_interface):
-
+    def __init__(self, master, altura, anchura, x, y, user_interface):
         self.user_interface = user_interface
         self.mails = []
+        self.mails_por_clave = {}
+        self.es_mail_por_asunto = {}
 
         self.area = QScrollArea(master)
         self.area.setObjectName("mailPanelArea")
@@ -59,16 +59,23 @@ class Mostrador_de_mails():
     def panel_role(self):
         raise NotImplementedError("subclass should have overriden panel_role")
 
+    def clave_de_mail(self, mail):
+        return getattr(mail, "uid", id(mail))
 
     def limpiar_mostrador(self):
-
-        while self.layout.count() > 0: 
-            item = self.layout.takeAt(0)  
-            widget = item.widget()  
-            
-            if widget:  
-                widget.deleteLater()
+        self._limpiar_widgets()
         self.mails = []
+        self.mails_por_clave = {}
+        self.es_mail_por_asunto = {}
+
+    def _limpiar_widgets(self):
+        while self.layout.count() > 0:
+            item = self.layout.takeAt(0)
+            widget = item.widget()
+
+            if widget:
+                widget.setParent(None)
+                widget.deleteLater()
 
     def ordenar_por_mas_recientes(self, mails):
         return sorted(mails, key=lambda mail: normalizar_datetime_naive(mail.date), reverse=True)
@@ -88,6 +95,30 @@ class Mostrador_de_mails():
         texto_del_mail.setWordWrap(True)
         texto_del_mail.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.MinimumExpanding)
         return texto_del_mail
+
+    def crear_tarjeta_base(self, mail, es_por_asunto):
+        rol_de_match = "subject" if es_por_asunto else "body"
+
+        frame = QFrame()
+        frame.setObjectName("mailCard")
+        aplicar_rol_visual(frame, "panelRole", self.panel_role())
+        aplicar_rol_visual(frame, "matchRole", rol_de_match)
+        frame.setFrameShape(QFrame.Shape.StyledPanel)
+        frame.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
+
+        layout_externo = QHBoxLayout(frame)
+        layout_externo.setContentsMargins(0, 0, 0, 0)
+        layout_externo.setSpacing(0)
+
+        layout_del_frame = QVBoxLayout()
+        layout_del_frame.setSizeConstraint(QVBoxLayout.SizeConstraint.SetMinimumSize)
+        layout_del_frame.setContentsMargins(16, 14, 16, 14)
+        layout_del_frame.setSpacing(10)
+        layout_externo.addLayout(layout_del_frame, 1)
+
+        texto_del_mail = self.crear_texto_del_mail(frame, mail)
+        layout_del_frame.addWidget(texto_del_mail)
+        return frame, layout_del_frame
 
     def cambiar_descripcion_de(self, mail):
         ventana_de_descripcion = QDialog(self.contenedor_de_mails)
@@ -128,6 +159,56 @@ class Mostrador_de_mails():
         )
         return barra_de_minutos
 
+    def agregar_mail_por_asunto(self, mail):
+        self._registrar_mail(mail, True)
+
+    def agregar_mail_por_cuerpo(self, mail):
+        self._registrar_mail(mail, False)
+
+    def actualizar_mail_a_asunto(self, mail):
+        self._registrar_mail(mail, True)
+
+    def _registrar_mail(self, mail, es_por_asunto):
+        clave = self.clave_de_mail(mail)
+        if clave not in self.mails_por_clave:
+            self.mails_por_clave[clave] = mail
+        if es_por_asunto or clave not in self.es_mail_por_asunto:
+            self.es_mail_por_asunto[clave] = es_por_asunto
+        self._renderizar_desde_estado()
+
+    def _renderizar_desde_estado(self):
+        valor_actual_del_scroll = self.valor_actual_del_scroll_vertical()
+        self._limpiar_widgets()
+
+        self.mails = self.ordenar_por_mas_recientes(self.mails_por_clave.values())
+        for mail in self.mails:
+            self.agregar_mail_renderizado(
+                mail,
+                self.es_mail_por_asunto.get(self.clave_de_mail(mail), False),
+            )
+        self.restaurar_scroll_vertical(valor_actual_del_scroll)
+
+    def mostrar(self, mails, es_mail_por_asunto=None):
+        self._limpiar_widgets()
+        self.mails_por_clave = {}
+        self.es_mail_por_asunto = {}
+
+        for mail in mails:
+            clave = self.clave_de_mail(mail)
+            self.mails_por_clave[clave] = mail
+            self.es_mail_por_asunto[clave] = (
+                es_mail_por_asunto(mail) if es_mail_por_asunto is not None else False
+            )
+
+        self.mails = self.ordenar_por_mas_recientes(self.mails_por_clave.values())
+        for mail in self.mails:
+            self.agregar_mail_renderizado(
+                mail,
+                self.es_mail_por_asunto.get(self.clave_de_mail(mail), False),
+            )
+
+    def agregar_mail_renderizado(self, mail, es_por_asunto):
+        raise NotImplementedError("subclass should implement agregar_mail_renderizado")
 
 
 class Mostrador_de_mails_buscados(Mostrador_de_mails):
@@ -135,20 +216,8 @@ class Mostrador_de_mails_buscados(Mostrador_de_mails):
     def panel_role(self):
         return "found"
 
-
-    def agregar_mail(self, mail):
-        frame = QFrame()
-        frame.setObjectName("mailCard")
-        aplicar_rol_visual(frame, "panelRole", self.panel_role())
-        frame.setFrameShape(QFrame.Shape.StyledPanel)
-        frame.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
-
-        layout_del_frame = QVBoxLayout(frame)
-        layout_del_frame.setSizeConstraint(QVBoxLayout.SizeConstraint.SetMinimumSize)
-        layout_del_frame.setContentsMargins(16, 14, 16, 14)
-        layout_del_frame.setSpacing(10)
-        texto_del_mail = self.crear_texto_del_mail(frame, mail)
-        layout_del_frame.addWidget(texto_del_mail)
+    def agregar_mail_renderizado(self, mail, es_por_asunto):
+        frame, layout_del_frame = self.crear_tarjeta_base(mail, es_por_asunto)
 
         layout_de_botones = QHBoxLayout()
         layout_de_botones.setSpacing(8)
@@ -167,48 +236,14 @@ class Mostrador_de_mails_buscados(Mostrador_de_mails):
 
         self.layout.addWidget(frame)
 
-    def agregar_mails(self, mails):
-        valor_actual_del_scroll = self.valor_actual_del_scroll_vertical()
-
-        for mail in mails:
-            if mail not in self.mails:
-                self.mails.append(mail)
-
-        mails_ordenados = self.ordenar_por_mas_recientes(self.mails)
-        self.limpiar_mostrador()
-        self.mails = list(mails_ordenados)
-        for mail in self.mails:
-            self.agregar_mail(mail)
-        self.restaurar_scroll_vertical(valor_actual_del_scroll)
-
-    def mostrar(self, mails):
-        mails_ordenados = self.ordenar_por_mas_recientes(mails)
-        self.limpiar_mostrador()
-        self.mails = list(mails_ordenados)
-        for mail in self.mails:
-            self.agregar_mail(mail)
-
-
-
 
 class Mostrador_de_mails_del_break(Mostrador_de_mails):
 
     def panel_role(self):
         return "breakdown"
 
-    def agregar_mail(self, mail):
-        frame = QFrame()
-        frame.setObjectName("mailCard")
-        aplicar_rol_visual(frame, "panelRole", self.panel_role())
-        frame.setFrameShape(QFrame.Shape.StyledPanel)
-        frame.setSizePolicy(QSizePolicy.Policy.Preferred, QSizePolicy.Policy.Fixed)
-
-        layout_del_frame = QVBoxLayout(frame)
-        layout_del_frame.setSizeConstraint(QVBoxLayout.SizeConstraint.SetMinimumSize)
-        layout_del_frame.setContentsMargins(16, 14, 16, 14)
-        layout_del_frame.setSpacing(10)
-        texto_del_mail = self.crear_texto_del_mail(frame, mail)
-        layout_del_frame.addWidget(texto_del_mail)
+    def agregar_mail_renderizado(self, mail, es_por_asunto):
+        frame, layout_del_frame = self.crear_tarjeta_base(mail, es_por_asunto)
 
         layout_de_botones = QHBoxLayout()
         layout_de_botones.setSpacing(8)
@@ -236,11 +271,3 @@ class Mostrador_de_mails_del_break(Mostrador_de_mails):
         layout_del_frame.addLayout(layout_de_botones)
 
         self.layout.addWidget(frame)
-
-
-    def mostrar(self, mails):
-        mails_ordenados = self.ordenar_por_mas_recientes(mails)
-        self.limpiar_mostrador()
-        self.mails = list(mails_ordenados)
-        for mail in self.mails:
-            self.agregar_mail(mail)

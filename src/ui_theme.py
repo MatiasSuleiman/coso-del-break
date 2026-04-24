@@ -204,6 +204,10 @@ QFrame#mailCard[panelRole="found"] {
     background: #fbfdff;
 }
 
+QFrame#mailCard[matchRole="subject"] {
+    border: 2px solid #22a06b;
+}
+
 QLabel#mailText {
     color: #24384d;
     line-height: 1.35;

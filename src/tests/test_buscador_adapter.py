@@ -31,7 +31,21 @@ class FakeMailbox:
         self.last_fetch_criteria = None
         self.fetch_calls = []
 
-    def fetch(self, criteria, bulk=None, reverse=False, headers_only=False, limit=None):
+    def fetch(
+        self,
+        criteria=None,
+        *,
+        subject=None,
+        body=None,
+        bulk=None,
+        reverse=False,
+        headers_only=False,
+        limit=None,
+    ):
+        if subject is not None:
+            criteria = f'(SUBJECT "{subject}")'
+        if body is not None:
+            criteria = f'(BODY "{body}")'
         self.last_fetch_criteria = str(criteria)
         self.fetch_calls.append(
             {
@@ -48,6 +62,9 @@ class FakeMailbox:
         if criterio_str.startswith('(SUBJECT "') and criterio_str.endswith('")'):
             asunto = criterio_str[len('(SUBJECT "'):-2]
             mails = [mail for mail in mails if asunto.lower() in (mail.subject or "").lower()]
+        if criterio_str.startswith('(BODY "') and criterio_str.endswith('")'):
+            cuerpo = criterio_str[len('(BODY "'):-2]
+            mails = [mail for mail in mails if cuerpo.lower() in (mail.text or "").lower()]
         if reverse:
             mails.reverse()
         if isinstance(limit, int):
@@ -83,7 +100,7 @@ class FakeSesionGoogle:
         self.refresh_calls += 1
 
 
-def test_encontrar_de_a_partes_busca_en_la_carpeta_actual():
+def test_encontrar_de_a_partes_por_asunto_busca_en_la_carpeta_actual():
     mailbox = FakeMailbox(
         {
             "INBOX": [
@@ -100,7 +117,7 @@ def test_encontrar_de_a_partes_busca_en_la_carpeta_actual():
     buscador.cambiar_carpeta("[Gmail]/Sent Mail")
 
     encontrados = list(
-        buscador.encontrar_de_a_partes(
+        buscador.encontrar_de_a_partes_por_asunto(
             "invoice",
             [],
         )
@@ -120,7 +137,44 @@ def test_encontrar_de_a_partes_busca_en_la_carpeta_actual():
     ]
 
 
-def test_encontrar_de_a_partes_filtra_por_cuerpo_sin_refetch():
+def test_encontrar_de_a_partes_por_cuerpo_busca_en_la_carpeta_actual():
+    mailbox = FakeMailbox(
+        {
+            "INBOX": [
+                make_mail("1", "Other thread", body="no relevant text"),
+                make_mail("2", "Invoice 123", body="Please review the invoice"),
+            ],
+            "[Gmail]/Sent Mail": [
+                make_mail("3", "Draft follow-up", body="pending"),
+                make_mail("4", "Re: invoice details", body="The invoice is attached"),
+            ],
+        }
+    )
+    buscador = Buscador_adapter(mailbox, "user@gmail.com", "secret")
+    buscador.cambiar_carpeta("[Gmail]/Sent Mail")
+
+    encontrados = list(
+        buscador.encontrar_de_a_partes_por_cuerpo(
+            "invoice",
+            [],
+        )
+    )
+
+    assert [mail.subject for mail in encontrados] == ["Re: invoice details"]
+    assert mailbox.last_fetch_criteria == '(BODY "invoice")'
+    assert mailbox.fetch_calls == [
+        {
+            "criteria": '(BODY "invoice")',
+            "bulk": 10,
+            "reverse": True,
+            "headers_only": False,
+            "limit": None,
+            "folder": "[Gmail]/Sent Mail",
+        }
+    ]
+
+
+def test_encontrar_de_a_partes_por_asunto_filtra_por_condiciones_sin_refetch():
     mailbox = FakeMailbox(
         {
             "INBOX": [make_mail("1", "Invoice 123", body="Please review the invoice")],
@@ -130,8 +184,8 @@ def test_encontrar_de_a_partes_filtra_por_cuerpo_sin_refetch():
     buscador = Buscador_adapter(mailbox, "user@gmail.com", "secret")
 
     encontrados = list(
-        buscador.encontrar_de_a_partes(
-            "",
+        buscador.encontrar_de_a_partes_por_asunto(
+            "invoice",
             [Condicion_de_cuerpo.con_cuerpo("invoice")],
         )
     )
@@ -139,7 +193,7 @@ def test_encontrar_de_a_partes_filtra_por_cuerpo_sin_refetch():
     assert [mail.subject for mail in encontrados] == ["Invoice 123"]
     assert mailbox.fetch_calls == [
         {
-            "criteria": '(SUBJECT "")',
+            "criteria": '(SUBJECT "invoice")',
             "bulk": 10,
             "reverse": True,
             "headers_only": False,
@@ -159,7 +213,7 @@ def test_cambiar_carpeta_hace_que_busque_en_enviados():
     buscador = Buscador_adapter(mailbox, "user@gmail.com", "secret")
     buscador.cambiar_carpeta("[Gmail]/Sent Mail")
 
-    encontrados = list(buscador.encontrar_de_a_partes("", []))
+    encontrados = list(buscador.encontrar_de_a_partes_por_asunto("Sent", []))
 
     assert [mail.uid for mail in encontrados] == ["9"]
 
@@ -174,12 +228,12 @@ def test_enviados_tiene_fallback_a_carpeta_en_espanol():
     buscador = Buscador_adapter(mailbox, "user@gmail.com", "secret")
     buscador.cambiar_carpeta("[Gmail]/Sent Mail")
 
-    encontrados = list(buscador.encontrar_de_a_partes("", []))
+    encontrados = list(buscador.encontrar_de_a_partes_por_asunto("Sent", []))
 
     assert [mail.uid for mail in encontrados] == ["9"]
     assert mailbox.fetch_calls == [
         {
-            "criteria": '(SUBJECT "")',
+            "criteria": '(SUBJECT "Sent")',
             "bulk": 10,
             "reverse": True,
             "headers_only": False,

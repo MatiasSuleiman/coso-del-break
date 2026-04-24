@@ -279,10 +279,11 @@ class Ventana_de_login(QObject):
             lambda error: self.al_error_al_iniciar_login_imap_google(error, sesion_google),
             "Conectando Gmail...",
         )
-
+    
     def obtener_sistema_desde_sesion_google(self, sesion_google):
-        buscador = Buscador_adapter.login_con_oauth2(sesion_google)
-        sistema = System_Facade.build(sesion_google.user, buscador)
+        buscador_por_asunto = Buscador_adapter.login_con_oauth2(sesion_google)
+        buscador_por_cuerpo = Buscador_adapter.login_con_oauth2(sesion_google)
+        sistema = System_Facade.build(sesion_google.user, buscador_por_asunto, buscador_por_cuerpo)
         return sesion_google, sistema
 
     def al_iniciar_login_imap_google_exitoso(self, resultado):
