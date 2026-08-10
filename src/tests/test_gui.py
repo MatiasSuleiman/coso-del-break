@@ -211,7 +211,7 @@ def test_selector_de_orden_inicia_sin_ordenar_y_esta_junto_a_las_carpetas():
     app.quit()
 
 
-def test_selector_de_orden_por_fecha_ordena_los_mails_visibles_y_nuevos_lotes():
+def test_selector_de_orden_por_mas_recientes_ordena_los_mails_visibles_y_nuevos_lotes():
     app = get_app()
     gui = Gui(FakeSistema())
     fecha_base = datetime(2026, 3, 6, 12, 0, 0)
@@ -223,7 +223,7 @@ def test_selector_de_orden_por_fecha_ordena_los_mails_visibles_y_nuevos_lotes():
     flush_qt_events(app)
     assert claves_renderizadas(gui.mostrador_de_mails_encontrados) == ["viejo", "reciente"]
 
-    gui.selector_de_orden.setCurrentText(Gui.TEXTO_ORDEN_FECHA)
+    gui.selector_de_orden.setCurrentText(Gui.TEXTO_ORDEN_MAS_RECIENTES)
     gui.cambiar_orden_de_mails()
     assert claves_renderizadas(gui.mostrador_de_mails_encontrados) == ["reciente", "viejo"]
 
@@ -248,7 +248,7 @@ def test_selector_sin_ordenar_vuelve_al_orden_de_llegada():
 
     gui.al_recibir_lote_de_asunto([mail_viejo, mail_reciente])
     flush_qt_events(app)
-    gui.selector_de_orden.setCurrentText(Gui.TEXTO_ORDEN_FECHA)
+    gui.selector_de_orden.setCurrentText(Gui.TEXTO_ORDEN_MAS_RECIENTES)
     gui.cambiar_orden_de_mails()
     gui.selector_de_orden.setCurrentText(Gui.TEXTO_ORDEN_SIN_ORDENAR)
     gui.cambiar_orden_de_mails()

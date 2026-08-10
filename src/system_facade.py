@@ -91,8 +91,11 @@ class System_Facade:
 
 
     def agregar_todos_los_mails_encontrados(self):
-        for mail in list(self.mails_encontrados):
-            self.agregar_mail_encontrado(mail)
+        if not self.mails_encontrados:
+            return
+
+        self.agregar_mail_encontrado(self.mails_encontrados[0])
+        self.agregar_todos_los_mails_encontrados()
     
 
     def ver_mail_encontrado(self, numero):

@@ -126,7 +126,8 @@ class Gui:
     TEXTO_BOTON_FILTROS_COLAPSADO = "Filtros ▾"
     TEXTO_BOTON_FILTROS_EXPANDIDO = "Filtros ▴"
     TEXTO_ORDEN_SIN_ORDENAR = "Sin ordenar ▾"
-    TEXTO_ORDEN_FECHA = "Ordenar por fecha ▾"
+    TEXTO_ORDEN_MAS_RECIENTES = "Ordenar por mas recientes ▾"
+    TEXTO_ORDEN_MENOS_RECIENTES = "Ordenar por menos recientes ▾"
     TEXTO_SELECTOR_DE_ZOOM = "Zoom"
 
     def __init__(self, sistema, al_volver_al_login=None):
@@ -264,8 +265,12 @@ class Gui:
             self.no_ordenar_mails,
         )
         self.selector_de_orden.addItem(
-            self.TEXTO_ORDEN_FECHA,
-            self.ordenar_mails_por_fecha,
+            self.TEXTO_ORDEN_MAS_RECIENTES,
+            self.ordenar_mails_por_mas_recientes,
+        )
+        self.selector_de_orden.addItem(
+            self.TEXTO_ORDEN_MENOS_RECIENTES,
+            self.ordenar_mails_por_menos_recientes,
         )
         self.selector_de_orden.activated.connect(self.cambiar_orden_de_mails)
         fila_de_modos_de_busqueda.addWidget(self.selector_de_orden)
@@ -310,7 +315,30 @@ class Gui:
         fila_mostradores.setSpacing(18)
         layout_principal.addLayout(fila_mostradores, 1)
         fila_mostradores.addWidget(self.mostrador_de_mails_del_break.area, 1)
-        fila_mostradores.addWidget(self.mostrador_de_mails_encontrados.area, 1)
+
+        self.contenedor_de_mails_encontrados = QWidget(self.area_de_contenido)
+        layout_de_mails_encontrados = QVBoxLayout(self.contenedor_de_mails_encontrados)
+        layout_de_mails_encontrados.setContentsMargins(0, 0, 0, 0)
+        layout_de_mails_encontrados.setSpacing(8)
+
+        self.barra_de_acciones_de_encontrados = QWidget(self.contenedor_de_mails_encontrados)
+        fila_de_acciones_de_encontrados = QHBoxLayout(self.barra_de_acciones_de_encontrados)
+        fila_de_acciones_de_encontrados.setContentsMargins(0, 0, 0, 0)
+        fila_de_acciones_de_encontrados.setSpacing(8)
+
+        self.boton_de_agregar_todos = QPushButton(
+            "agregar todos",
+            self.barra_de_acciones_de_encontrados,
+        )
+        aplicar_rol_de_boton(self.boton_de_agregar_todos, "primary")
+        self.boton_de_agregar_todos.clicked.connect(self.agregar_todos_los_mails)
+        fila_de_acciones_de_encontrados.addWidget(self.boton_de_agregar_todos)
+        fila_de_acciones_de_encontrados.addStretch()
+        self.barra_de_acciones_de_encontrados.hide()
+
+        layout_de_mails_encontrados.addWidget(self.barra_de_acciones_de_encontrados)
+        layout_de_mails_encontrados.addWidget(self.mostrador_de_mails_encontrados.area, 1)
+        fila_mostradores.addWidget(self.contenedor_de_mails_encontrados, 1)
 
         fila_inferior = QHBoxLayout()
         fila_inferior.setSpacing(12)
@@ -353,6 +381,13 @@ class Gui:
     def mail_fue_encontrado_por_asunto(self, mail):
         return self.clave_de_mail(mail) in self.mails_encontrados_por_asunto
 
+    def mail_sigue_encontrado(self, mail):
+        clave = self.clave_de_mail(mail)
+        return any(
+            self.clave_de_mail(mail_encontrado) == clave
+            for mail_encontrado in self.sistema.ver_todos_los_mails_encontrados()
+        )
+
     def reiniciar_estado_de_busqueda(self):
         self.batchers_de_busqueda = {}
         self.hilos_de_busqueda = {}
@@ -390,9 +425,11 @@ class Gui:
         self.reiniciar_origenes_de_resultados()
 
         if not texto:
+            self.barra_de_acciones_de_encontrados.hide()
             self.restaurar_estado_visual_de_busqueda()
             return
 
+        self.barra_de_acciones_de_encontrados.show()
         self.busqueda_en_curso = True
         self.boton_de_busqueda.setText("Cancelar")
         self.indicador_de_busqueda.setText("Buscando...")
@@ -484,6 +521,7 @@ class Gui:
                 mails_por_asunto=mails_nuevos_por_asunto,
                 mails_actualizados_a_asunto=mails_actualizados_a_asunto,
             )
+            self.cambiar_orden_de_mails()
             self.actualizar_cantidad_de_entcontrados()
         finally:
            self.procesando_lotes = False
@@ -505,7 +543,8 @@ class Gui:
 
             self.mails_encontrados_por_asunto[clave] = mail
             if clave in self.mails_encontrados_por_cuerpo:
-                mails_actualizados_a_asunto.append(mail)
+                if self.mail_sigue_encontrado(mail):
+                    mails_actualizados_a_asunto.append(mail)
                 continue
 
             self.sistema.agregar_mails_encontrados([mail])
@@ -602,11 +641,16 @@ class Gui:
         self.selector_de_orden.currentData()()
 
     def no_ordenar_mails(self):
-        pass
+        self.mostrador_de_mails_encontrados.no_ordenar()
+        self.mostrador_de_mails_del_break.no_ordenar()
 
-    def ordenar_mails_por_fecha(self):
-        self.mostrador_de_mails_encontrados.ordenar_por_fecha()
-        self.mostrador_de_mails_del_break.ordenar_por_fecha()
+    def ordenar_mails_por_mas_recientes(self):
+        self.mostrador_de_mails_encontrados.ordenar_por_mas_recientes()
+        self.mostrador_de_mails_del_break.ordenar_por_mas_recientes()
+
+    def ordenar_mails_por_menos_recientes(self):
+        self.mostrador_de_mails_encontrados.ordenar_por_menos_recientes()
+        self.mostrador_de_mails_del_break.ordenar_por_menos_recientes()
 
     def restaurar_selector_de_carpeta(self, carpeta):
         botones = (self.boton_de_recibidos, self.boton_de_enviados, self.boton_de_todos)
@@ -663,6 +707,18 @@ class Gui:
             self.mail_fue_encontrado_por_asunto,
         )
         self.mostrador_de_mails_encontrados.cambiar_valor_del_scroll(posicion_previa)
+
+    def agregar_todos_los_mails(self):
+        self.sistema.agregar_todos_los_mails_encontrados()
+        self.mostrador_de_mails_del_break.mostrar(
+            self.sistema.mails_del_breakdown,
+            self.mail_fue_encontrado_por_asunto,
+        )
+        self.mostrador_de_mails_encontrados.mostrar(
+            self.sistema.ver_todos_los_mails_encontrados(),
+            self.mail_fue_encontrado_por_asunto,
+        )
+        self.actualizar_cantidad_de_entcontrados()
 
     def quitar_mail(self, mail):
         self.sistema.quitar_mail_del_breakdown(mail)

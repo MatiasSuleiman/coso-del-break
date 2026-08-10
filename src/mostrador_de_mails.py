@@ -90,11 +90,21 @@ class Mostrador_de_mails:
     def cambiar_valor_del_scroll(self, valor):
         self.area.verticalScrollBar().setValue(valor)
 
-    def ordenar_por_fecha(self):
+    def no_ordenar(self):
+        self._renderizar_desde_estado()
+
+    def ordenar_por_mas_recientes(self):
         mails = sorted(
             self.mails_por_clave.values(),
             key=lambda mail: normalizar_datetime_naive(mail.date),
             reverse=True,
+        )
+        self._renderizar_mails(mails)
+
+    def ordenar_por_menos_recientes(self):
+        mails = sorted(
+            self.mails_por_clave.values(),
+            key=lambda mail: normalizar_datetime_naive(mail.date),
         )
         self._renderizar_mails(mails)
 

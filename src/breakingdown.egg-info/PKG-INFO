@@ -1,6 +1,6 @@
 Metadata-Version: 2.4
 Name: breakingdown
-Version: 0.1.0
+Version: 1.1.1
 Summary: Desktop app for Gmail search and breakdown spreadsheet export.
 Requires-Python: >=3.11
 Description-Content-Type: text/markdown

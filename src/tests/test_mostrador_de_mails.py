@@ -149,7 +149,7 @@ def test_mostrador_sin_ordenar_preserva_el_orden_de_llegada():
     app.quit()
 
 
-def test_mostrador_puede_ordenar_por_fecha_descendente():
+def test_mostrador_puede_ordenar_por_mas_recientes():
     app = get_app()
     master = QWidget()
     ui = FakeUi()
@@ -159,7 +159,7 @@ def test_mostrador_puede_ordenar_por_fecha_descendente():
     mostrador = Mostrador_de_mails_buscados.en(master, 700, 610, 20, 180, ui)
 
     mostrador.mostrar([mail_viejo, mail_reciente])
-    mostrador.ordenar_por_fecha()
+    mostrador.ordenar_por_mas_recientes()
 
     assert claves_renderizadas(mostrador) == ["reciente", "viejo"]
     app.quit()
